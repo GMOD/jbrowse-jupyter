@@ -1,2 +1,2 @@
 # jbrowse-jupyter
-Creates jupyter extension for JBrowse's embedded Linear Genome View.
+Jupyter and python interface to the JBrowse2 Linear Genome View
