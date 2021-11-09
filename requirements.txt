@@ -1,2 +1,2 @@
 pytest==6.2.5
-git+https://github.com/GMOD/dash_jbrowse.git@remove_api_work
+git+https://github.com/GMOD/dash_jbrowse.git@main
