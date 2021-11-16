@@ -1,10 +1,23 @@
 import dash_jbrowse
 import json
+import re
 
-# defaults = {
-#     "hg19": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz",
-#     "hg38": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz",
-#
+
+def is_URL(filePath):
+    regex = re.compile(r'^https?:\/\/', re.IGNORECASE)
+    return re.match(regex, filePath) is not None
+
+def make_location(location, protocol):
+    if protocol == "uri":
+        return { "uri": location, "locationType": "UriLocation"}
+    elif protocol == "localPath":
+        return { "uri": location, "locationType": "LocalPathLocation"}
+    else:
+        raise TypeError(f"invalid protocol {protocol}")
+
+def guess_file_name(path):
+    return 'test'
+
 def defaults(name):
     if name == "hg19":
         return {
@@ -146,28 +159,17 @@ def defaults(name):
             },
         }
 
+# TODO: refactor create_jbrowse to return JbrowseConfig 
+#  this will allow users to add tracks, modify session, customize etc etc
 def create_jbrowse(viewType, **kwargs):
+    conf = {}
     if viewType == "view":
         if "genome" in kwargs:
             genome = kwargs["genome"]
             if genome == "hg19":
-                hg19 = defaults("hg19")
-                return dash_jbrowse.DashJbrowse(
-                    id="jb2-config-demo",
-                    assembly=hg19["assembly"],
-                    tracks=hg19["tracks"],
-                    defaultSession=hg19["defaultSession"],
-                    location=hg19["location"],
-                )
+                conf = defaults("hg19")
             elif genome == "hg38":
-                hg38 = defaults("hg38")
-                return dash_jbrowse.DashJbrowse(
-                    id="jb2-config-demo",
-                    assembly=hg38["assembly"],
-                    tracks=hg38["tracks"],
-                    defaultSession=hg38["defaultSession"],
-                    location=hg38["location"],
-                )
+                conf = defaults("hg38")
             else:
                 raise NameError(genome, "is not a valid default genome to view")
         else:
@@ -175,25 +177,25 @@ def create_jbrowse(viewType, **kwargs):
     elif viewType == "JB2config":
         with open(kwargs["path"], "r") as file:
             data = json.load(file)
-        my_assembly = data["assembly"]
-        my_tracks = data["tracks"]
-        my_location = data["location"]
-        my_default_session = data["defaultSession"]
-        return dash_jbrowse.DashJbrowse(
-            id="jb2-config-demo",
-            assembly=my_assembly,
-            tracks=my_tracks,
-            defaultSession=my_default_session,
-            location=my_location,
-        )
+            conf = data
     elif viewType == "config":
         conf = kwargs["config"]
-        return dash_jbrowse.DashJbrowse(
+    else:
+        raise TypeError("invalid view type")
+    return dash_jbrowse.DashJbrowse(
             id="config-demo",
             assembly=conf["assembly"],
             tracks=conf["tracks"],
             defaultSession=conf["defaultSession"],
             location=conf["location"],
         )
-    else:
-        raise TypeError("invalid view type")
+
+def create_component(config):
+    # TODO: ensure that we have valid defaults
+    return dash_jbrowse.DashJbrowse(
+            id="jbrowse-component",
+            assembly=conf["assembly"],
+            tracks=conf["tracks"],
+            defaultSession=conf["defaultSession"],
+            location=conf["location"],
+        )

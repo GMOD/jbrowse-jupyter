@@ -3,6 +3,7 @@ import setuptools
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
+# TODO: figure out install requires vs requirements.txt and look up classifiers
 setuptools.setup(
     name="jbrowse-jupyter",
     version="0.0.1",

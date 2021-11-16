@@ -17,14 +17,14 @@ ref_name_aliases = {
 }
 
 jbrowse_conf.set_assembly("https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz", aliases, ref_name_aliases, True)
+jbrowse_conf.set_location("1:30..9876")
+jbrowse_conf.add_track("https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/ncbi_refseq/GCA_000001405.15_GRCh38_full_analysis_set.refseq_annotation.sorted.gff.gz",True)
 config = jbrowse_conf.get_config()
 jb2_config_view = create_jbrowse('config', config=config)
-print(jb2_config_view)
-
 app.layout = html.Div(
     [jb2_config_view],
     id='test'
 )
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(port=3000, debug=True)
