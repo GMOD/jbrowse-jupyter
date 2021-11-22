@@ -23,10 +23,10 @@ class JBrowseConfig:
     def get_tracks(self):
         return self.config["tracks"]
 
-    def add_track(self, data, index='', local=False):
+    def add_track(self, data, index=False, local=False):
         # STEPS
         if is_URL(data):
-            adapter = guessAdapterType(data, 'uri', index)
+            adapter = guessAdapterType(data, 'uri')
             print("ADAPTER", adapter)
             if (adapter["type"] == "UNKNOWN"): 
                 raise TypeError("UNKNOWN adapter type")
@@ -51,6 +51,7 @@ class JBrowseConfig:
             print("new tracks", self.config["tracks"])
             
         else:
+            # TODO: read data from local file path and then 
             raise TypeError("Local files are not currently supported.")
 
     # def add_feature_track(self, data):
