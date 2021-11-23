@@ -1,5 +1,12 @@
 import re
-from jbrowse_jupyter.util import make_location
+
+def make_location(location, protocol):
+    if protocol == "uri":
+        return { "uri": location, "locationType": "UriLocation"}
+    elif protocol == "localPath":
+        return { "uri": location, "locationType": "LocalPathLocation"}
+    else:
+        raise TypeError(f"invalid protocol {protocol}")
 
 # track_alignments(): visualize BAM or CRAM alignment data
 # track_feature(): visualize GFF3 data

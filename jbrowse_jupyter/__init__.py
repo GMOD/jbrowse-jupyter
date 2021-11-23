@@ -1,3 +1,2 @@
-from jbrowse_jupyter.jbrowse_config import JBrowseConfig
-from jbrowse_jupyter.util import create_jbrowse, is_URL
-# from utils import create_jbrowse
+from jbrowse_jupyter.jbrowse_config import JBrowseConfig, create_jbrowse2
+from jbrowse_jupyter.util import is_URL, create_component

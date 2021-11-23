@@ -1,7 +1,37 @@
-from jbrowse_jupyter.util import is_URL
+from jbrowse_jupyter.util import is_URL,defaults
 from jbrowse_jupyter.tracks import guessAdapterType, guessTrackType
+
+def create_jbrowse2(viewType, **kwargs):
+    # TODO: maybe add aliases of hg19 and hg38
+    available_genomes = {"hg19", "hg38"}
+    conf = {}
+    if viewType == "view":
+        if "genome" in kwargs:
+            genome = kwargs["genome"]
+            if genome in available_genomes:
+                conf = defaults(genome)
+            else:
+                raise NameError(genome, "is not a valid default genome to view")
+        else:
+            raise TypeError("genome is required arg for viewType=view")
+    elif viewType == "JB2config":
+        # TODO: adapt it to be like a react LGV view state
+        if "path" in kwargs:
+            with open(kwargs["path"], "r") as file:
+                data = json.load(file)
+                conf = data
+        else:
+            raise TypeError("path is required arg for viewType=JB2config")
+    elif viewType == "config":
+        if "conf" in kwargs:
+            conf = kwargs["conf"]
+        else:
+            raise TypeError("conf is required arg for viewType=config")
+    else:
+        raise TypeError(f'Invalid view type {viewType}, please chose from "view", "JB2config", or "config"')
+    return JBrowseConfig(conf=conf)
 class JBrowseConfig:
-    def __init__(self):
+    def __init__(self, conf=None):
         self.config = {
             "assembly": {},
             "tracks": [],
@@ -14,7 +44,7 @@ class JBrowseConfig:
                 }
             },
             "location": "",
-        }
+        } if conf is None else conf
         self.tracks_ids_map = {}
 
     def get_config(self):
@@ -23,10 +53,10 @@ class JBrowseConfig:
     def get_tracks(self):
         return self.config["tracks"]
 
-    def add_track(self, data, index=False, local=False):
+    def add_track(self, data, index='', local=False):
         # STEPS
         if is_URL(data):
-            adapter = guessAdapterType(data, 'uri')
+            adapter = guessAdapterType(data, 'uri', index)
             print("ADAPTER", adapter)
             if (adapter["type"] == "UNKNOWN"): 
                 raise TypeError("UNKNOWN adapter type")
@@ -51,10 +81,7 @@ class JBrowseConfig:
             print("new tracks", self.config["tracks"])
             
         else:
-            # TODO: read data from local file path and then 
             raise TypeError("Local files are not currently supported.")
-
-    # def add_feature_track(self, data):
         
     def set_location(self, location):
         self.config["location"] = location
