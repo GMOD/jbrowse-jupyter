@@ -35,7 +35,7 @@ config = jbrowse_conf.get_config()
 # ======= jb2 config ===========
 # ========= create a dash component ==============
 component = create_component(config)
-# component2 = create_component(config2)
+component2 = create_component(config2)
 # ========== launch the component ===========
 app.layout = html.Div(
     [component],
