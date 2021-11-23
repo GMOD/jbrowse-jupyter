@@ -1,5 +1,5 @@
-from jbrowse_jupyter.util import is_URL,defaults
-from jbrowse_jupyter.tracks import guess_adapter_type, guess_track_type, guess_track_name
+from jbrowse_jupyter.util import is_URL,defaults, guess_file_name
+from jbrowse_jupyter.tracks import guess_adapter_type, guess_track_type
 
 def create_jbrowse2(viewType, **kwargs):
     # TODO: maybe add aliases of hg19 and hg38
@@ -191,14 +191,18 @@ class JBrowseConfig:
             print("ADAPTER", adapter)
             # Error if adapter is unknown or unsupported
             if (adapter["type"] == "UNKNOWN"): 
-                raise TypeError("Track type is not recognized")
+                raise TypeError("Adapter type is not recognized")
             if (adapter["type"] == "UNSUPPORTED"): 
-                raise TypeError("Track type is not supported")
+                raise TypeError("Adapter type is not supported")
 
             # ==== set up track information =========
             trackType = guess_track_type(adapter["type"])
+            supported = []
+            print("============== type: ", trackType)
+            if trackType not in {'AlignmentsTrack', 'QuantitativeTrack', 'VariantTrack', 'FeatureTrack', 'ReferenceSequenceTrack'}:
+                raise TypeError("Track type is not supported")
             # uses filename as trackId
-            trackId = guess_track_name(data)
+            trackId = guess_file_name(data)
             trackName = trackId if name is None else name
 
             # print("======\n")

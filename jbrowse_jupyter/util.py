@@ -1,9 +1,10 @@
-import dash_jbrowse
 import json
 import re
 import os
-from pathlib import Path
+import dash_jbrowse
 import dash_html_components as html
+from pathlib import Path
+from urllib.parse import urlparse
 from jupyter_dash import JupyterDash
 
 
@@ -11,9 +12,9 @@ def is_URL(filePath):
     regex = re.compile(r'^https?:\/\/', re.IGNORECASE)
     return re.match(regex, filePath) is not None
 
-def guess_file_name(path):
-    # TODO: implement guess file name for adding tracks
-    return 'test'
+def guess_file_name(data):
+    url = urlparse(data)
+    return os.path.basename(url.path)
 
 def defaults(name):
     os.getcwd()
