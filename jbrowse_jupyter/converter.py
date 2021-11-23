@@ -1,4 +1,4 @@
-def parse_jb2_config(jb2_config):
+def parser(jb2_config):
     # attributes = ["assemblies", "tracks","configuration", "aggregateTextSearchAdapters", "defaultSession"]
     # jb2Config = [jb2_config[k] if k in jb2_config else None for k in attributes]
     return {
