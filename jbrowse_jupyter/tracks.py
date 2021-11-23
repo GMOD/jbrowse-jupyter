@@ -58,7 +58,7 @@ def guess_adapter_type(fileName, protocol, index="defaultIndex"):
       "type": "BamAdapter",
       "bamLocation": make_location(fileName, protocol),
       "index": {
-        "location": make_location(index or f'{fileName}.bai', protocol),
+        "location": make_location(f'{fileName}.bai', protocol),
         "indexType": 'CSI' if (index != "defaultIndex" and index.upper().endswith("CSI")) else "BAI",
       },
     }

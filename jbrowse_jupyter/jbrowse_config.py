@@ -171,6 +171,8 @@ class JBrowseConfig:
             list of tracks (default False)
         :raises TypeError: if track type is not supported
         """
+        if not data:
+            raise TypeError("A path to the track data is required. None was provided.")
         local = kwargs.get('local', False) 
         name = kwargs.get('name', None) 
         index = kwargs.get('index', None)
