@@ -1,4 +1,5 @@
 {
+    "configuration": {},
     "assembly": {
         "name": "hg19",
         "aliases": [

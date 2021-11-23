@@ -32,6 +32,7 @@ def create_jbrowse2(viewType, **kwargs):
     return JBrowseConfig(conf=conf)
 class JBrowseConfig:
     def __init__(self, conf=None):
+        # TODO make sure if a conf is passed, that is mapped to all the defaults
         self.config = {
             "assembly": {},
             "tracks": [],
@@ -44,6 +45,7 @@ class JBrowseConfig:
                 }
             },
             "location": "",
+            "configuration": {}
         } if conf is None else conf
         self.tracks_ids_map = set()
 
@@ -204,7 +206,6 @@ class JBrowseConfig:
                 print("NEW ADAPTER", adapter)
             # ==== set up track information =========
             trackType = guess_track_type(adapter["type"])
-            supported = []
             print("============== type: ", trackType)
             if trackType not in {'AlignmentsTrack', 'QuantitativeTrack', 'VariantTrack', 'FeatureTrack', 'ReferenceSequenceTrack'}:
                 raise TypeError("Track type is not supported")
@@ -258,5 +259,29 @@ class JBrowseConfig:
                 "id": "LinearGenomeView",
                 "type": "LinearGenomeView",
                 "tracks": reference_track
+            }
+        }
+
+    def set_theme(self,primary, secondary=None, tertiary=None, quaternary=None):
+        palette = {
+           "primary": {
+                "main": primary
+            } 
+        }
+        if secondary:
+            palette["secondary"] = {
+                "main": secondary
+            }
+        if tertiary:
+            palette["tertiary"] = {
+                "main": tertiary
+            }
+        if quaternary:
+            palette["quaternary"] = {
+                "main": quaternary
+            }
+        self.config["configuration"] = {
+            "theme": {
+                "palette": palette
             }
         }

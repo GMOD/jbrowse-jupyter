@@ -1,4 +1,5 @@
 {
+    "configuration": {},
     "assembly": {
         "name": "GRCh38",
         "sequence": {

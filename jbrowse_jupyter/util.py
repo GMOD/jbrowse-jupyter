@@ -31,6 +31,7 @@ def create_component(conf):
         tracks=conf["tracks"],
         defaultSession=conf["defaultSession"],
         location=conf["location"],
+        configuration=conf["configuration"],
     )
 
 def launch(conf):
