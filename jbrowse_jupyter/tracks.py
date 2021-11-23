@@ -1,18 +1,20 @@
 import re
-
+import os
+# import pathlib
+from urllib.parse import urlparse
+# elif protocol == "localPath":
+# return { "uri": location, "locationType": "LocalPathLocation"}
 def make_location(location, protocol):
     if protocol == "uri":
         return { "uri": location, "locationType": "UriLocation"}
-    elif protocol == "localPath":
-        return { "uri": location, "locationType": "LocalPathLocation"}
     else:
         raise TypeError(f"invalid protocol {protocol}")
 
-# track_alignments(): visualize BAM or CRAM alignment data
-# track_feature(): visualize GFF3 data
-# track_variant(): visualize VCF data
-# track_wiggle(): visualize bigWig data (quantitative is wiggle)
-def guessTrackType(adapterType):
+def guess_track_name(data):
+  url = urlparse(data)
+  return os.path.basename(url.path)
+
+def guess_track_type(adapterType):
   print("adapter type in guess track", adapterType)
   known =  {
     "BamAdapter": "AlignmentsTrack",
@@ -30,7 +32,7 @@ def guessTrackType(adapterType):
   else:
     return "FeatureTrack"
 
-def guessAdapterType(fileName, protocol, index="defaultIndex"):
+def guess_adapter_type(fileName, protocol, index="defaultIndex"):
   bam = re.compile(r'\.bam$', re.IGNORECASE) 
   cram = re.compile(r'\.cram$', re.IGNORECASE)
   vcf = re.compile(r'\.vcf$', re.IGNORECASE)
@@ -96,5 +98,5 @@ def guessAdapterType(fileName, protocol, index="defaultIndex"):
   }
     
     
-def supportedTrackType(trackType):
+def supported_track_type(trackType):
     return trackType in {'AlignmentsTrack', 'ReferenceSequenceTrack', 'VariantTrack', 'FeatureTrack'}

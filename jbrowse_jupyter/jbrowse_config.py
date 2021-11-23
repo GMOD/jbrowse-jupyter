@@ -1,5 +1,5 @@
 from jbrowse_jupyter.util import is_URL,defaults
-from jbrowse_jupyter.tracks import guessAdapterType, guessTrackType
+from jbrowse_jupyter.tracks import guess_adapter_type, guess_track_type, guess_track_name
 
 def create_jbrowse2(viewType, **kwargs):
     # TODO: maybe add aliases of hg19 and hg38
@@ -45,7 +45,7 @@ class JBrowseConfig:
             },
             "location": "",
         } if conf is None else conf
-        self.tracks_ids_map = {}
+        self.tracks_ids_map = set()
 
     def get_config(self):
         return self.config
@@ -132,8 +132,11 @@ class JBrowseConfig:
                 break
 
         return assembly_file[name_start:name_end]
+
     # ============ Tracks =============
+
     def get_reference_track(self, assembly, display_assembly):
+        # TODO: what is the config assembly, same as param?
         assembly_name = self.config[assembly]["name"]
         configuration = assembly_name + "-ReferenceSequenceTrack"
         ref = {}
@@ -152,40 +155,85 @@ class JBrowseConfig:
         return 
 
     def get_tracks(self):
+        """returns list of tracks in the configuration"""
         return self.config["tracks"]
 
-    def add_track(self, data, index='', local=False):
-        # STEPS
-        if is_URL(data):
-            adapter = guessAdapterType(data, 'uri', index)
-            # print("ADAPTER", adapter)
-            if (adapter["type"] == "UNKNOWN"): 
-                raise TypeError("UNKNOWN adapter type")
-            trackType = guessTrackType(adapter["type"])
-            name = 'test name'
-            assemblyNames = [self.get_assembly_name()]
-            # TODO: check if track id in trackIds, if yes replace else add to list
-            # print("TRACKS", self.get_tracks())
-            newTracks = self.get_tracks()
+    def add_track(self, data, **kwargs):
+        """
+        Adds a track subconfiguration to the list of tracks
+        in the config.
 
-            newTracks.append(
-                {
-                    "type": trackType,
-                    "trackId": "trackId-test",
-                    "name": name,
-                    "assemblyNames": assemblyNames,
-                    "adapter": adapter
-                }
-            )
+        :param str data: Track file or URL (currently only supporting URL)
+        :param str name: Optional name for the track (defaults to data filename)
+        :param str index: Optional index file for the track (default None)
+        :param boolean local: is the track data a local file (default False)
+        :param boolean overwrite: Overwrites existing track if it exists in 
+            list of tracks (default False)
+        :raises TypeError: if track type is not supported
+        """
+        local = kwargs.get('local', False) 
+        name = kwargs.get('name', None) 
+        index = kwargs.get('index', None)
+        overwrite = kwargs.get('overwrite', False)
+        # check that the assembly is configured
+        if not self.get_assembly:
+            raise Exception("Please set the assembly before adding a track.")
+        assemblyNames = [self.get_assembly_name()]
+        
+        # TODO: local file support for track data and track index using local files
+        # useIndex = is_URL(index) if index is not None else False
+        # argsTrack = location = path/data
+        # TODO: get effective and working locations for track data and track index when
+        # local file support is added
+        if is_URL(data):
+            # we are defaulting to uri protocol since we have not added local file support
+            adapter = guess_adapter_type(data, 'uri', "defaultIndex")
+            print("ADAPTER", adapter)
+            # Error if adapter is unknown or unsupported
+            if (adapter["type"] == "UNKNOWN"): 
+                raise TypeError("Track type is not recognized")
+            if (adapter["type"] == "UNSUPPORTED"): 
+                raise TypeError("Track type is not supported")
+
+            # ==== set up track information =========
+            trackType = guess_track_type(adapter["type"])
+            # uses filename as trackId
+            trackId = guess_track_name(data)
+            trackName = trackId if name is None else name
+
+            # print("======\n")
+            # print("tracks", self.get_tracks())
+            if trackId in self.tracks_ids_map and not overwrite:
+                print("hello")
+                raise TypeError(f'track with trackId: "{trackId}" already exists in config, set overwrite to True if you want to overwrite it.')
+            elif trackId in self.tracks_ids_map and overwrite:
+                # delete track and overwrite it
+                oldTracks = self.get_tracks()
+                self.config["tracks"] = [track for track in oldTracks if track["trackId"] != trackId]
+            else:
+                self.tracks_ids_map.add(trackName)
             
-            self.config["tracks"] = newTracks
-            # print("new tracks", self.config["tracks"])
-            
+            # print('===== Debugging ======\n')
+            # print(f'Name is: {trackName}')
+            # print(f'Type is: {trackType}')
+            # print(f'TrackId is: {trackId}')
+            # print(f'Assembly name(s) is: {assemblyNames}')
+            track_config = {
+                "type": trackType,
+                "trackId": trackId,
+                "name": trackName,
+                "assemblyNames": assemblyNames,
+                "adapter": adapter
+            }
+            newTracks = self.get_tracks()
+            newTracks.append(track_config)
+            self.config["tracks"] = newTracks       
         else:
             raise TypeError("Local files are not currently supported.")
 
     # ======= location ===========  
     def set_location(self, location):
+        """ returns location subconfiguration"""
         self.config["location"] = location
 
 
