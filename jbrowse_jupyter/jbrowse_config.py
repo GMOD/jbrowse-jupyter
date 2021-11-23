@@ -197,6 +197,11 @@ class JBrowseConfig:
             if (adapter["type"] == "UNSUPPORTED"): 
                 raise TypeError("Adapter type is not supported")
 
+            if adapter["type"] == "CramAdapter":
+                # get sequence adapter
+                extra_config = self.get_assembly()["sequence"]["adapter"]
+                adapter["sequenceAdapter"] = extra_config
+                print("NEW ADAPTER", adapter)
             # ==== set up track information =========
             trackType = guess_track_type(adapter["type"])
             supported = []
