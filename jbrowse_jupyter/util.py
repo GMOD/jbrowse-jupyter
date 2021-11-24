@@ -1,9 +1,9 @@
 import json
 import re
 import os
-import dash_jbrowse
 import dash_html_components as html
 from pathlib import Path
+from dash_jbrowse import LinearGenomeView
 from urllib.parse import urlparse
 from jupyter_dash import JupyterDash
 
@@ -25,7 +25,7 @@ def defaults(name):
         return conf
 
 def create_component(conf):
-    return dash_jbrowse.DashJbrowse(
+    return LinearGenomeView(
         id="jbrowse-component",
         assembly=conf["assembly"],
         tracks=conf["tracks"],
@@ -36,7 +36,8 @@ def create_component(conf):
 
 def launch(conf):
     app = JupyterDash(__name__)
-    app.layout = html.Div([dash_jbrowse.DashJbrowse(
+    # TODO: verify correct div height
+    app.layout = html.Div([LinearGenomeView(
             id="jbrowse-component",
             assembly=conf["assembly"],
             tracks=conf["tracks"],

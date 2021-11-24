@@ -15,10 +15,7 @@ def create_jbrowse2(viewType, **kwargs):
         else:
             raise TypeError("genome is required arg for viewType=view")
     elif viewType == "JB2config":
-        # if "path" in kwargs:
-        #     # TODO call parser
-        # else:
-        #     raise TypeError("path is required arg for viewType=JB2config")
+        # TODO: add converter.py call here
         raise TypeError("currently not supporting JB2 web configs to React JBrowse LGV")
     elif viewType == "config":
         if "conf" in kwargs:

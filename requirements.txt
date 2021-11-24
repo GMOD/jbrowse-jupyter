@@ -5,7 +5,7 @@ click==8.0.3
 dash==2.0.0
 dash-core-components==2.0.0
 dash-html-components==2.0.0
-dash-jbrowse==0.0.1
+# dash-jbrowse==0.0.1
 dash-table==5.0.0
 Flask==2.0.2
 Flask-Compress==1.10.1
@@ -23,3 +23,4 @@ six==1.16.0
 tenacity==8.0.1
 toml==0.10.2
 Werkzeug==2.0.2
+git+https://github.com/GMOD/dash_jbrowse.git@rename_component
