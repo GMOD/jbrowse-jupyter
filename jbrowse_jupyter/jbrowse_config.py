@@ -1,7 +1,7 @@
 from jbrowse_jupyter.util import is_URL,defaults, guess_file_name
 from jbrowse_jupyter.tracks import guess_adapter_type, guess_track_type
 
-def create_jbrowse2(viewType, **kwargs):
+def create(viewType, **kwargs):
     # TODO: maybe add aliases of hg19 and hg38
     available_genomes = {"hg19", "hg38"}
     conf = {}
@@ -25,7 +25,7 @@ def create_jbrowse2(viewType, **kwargs):
             # default empty configuration object
             return JBrowseConfig()
     else:
-        raise TypeError(f'Invalid view type {viewType}, please chose from "view", "JB2config", or "config"')
+        raise TypeError(f'Invalid view type {viewType}, please chose from "view" or "config"')
     return JBrowseConfig(conf=conf)
 class JBrowseConfig:
     def __init__(self, conf=None):
@@ -154,8 +154,24 @@ class JBrowseConfig:
         return 
 
     def get_tracks(self):
+        # TODO: add param here to specify which tracks we want to get
+        # such as feature, alignments, variant, or wiggle
         """returns list of tracks in the configuration"""
         return self.config["tracks"]
+
+    def add_df_track(self, data_frame, name):
+        # TODO: implement it
+        """
+        Adds a track from a data frame
+
+        :param data_frame: the data frame with track data. Must have cols 
+            chrom, start, end, name. The column additional can optionally be 
+            include with more feature information. If a score column is 
+            present, it will be used and the track will be rendered to display 
+            quantitative features.
+        :param str name: name for the track
+        """
+        return 
 
     def add_track(self, data, **kwargs):
         """

@@ -44,4 +44,4 @@ def launch(conf):
             defaultSession=conf["defaultSession"],
             location=conf["location"],
         )])
-    app.run_server(port=3000, mode="inline")        
+    app.run_server(port=3000, height=300, mode="inline")        

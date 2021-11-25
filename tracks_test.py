@@ -1,12 +1,12 @@
 import dash
 import dash_jbrowse
 import dash_html_components as html
-from jbrowse_jupyter import create_jbrowse2, create_component
+from jbrowse_jupyter import create, create_component
 
 app = dash.Dash(__name__)
 
 # ======== default view =========
-jbrowse_conf = create_jbrowse2('view', genome="hg19")
+jbrowse_conf = create('view', genome="hg19")
 # Add Wiggle Track
 jbrowse_conf.add_track("https://jbrowse.org/genomes/hg19/COLO829/colo_normal.bw", name="wiggle track example")
 # # Add Feature Track
