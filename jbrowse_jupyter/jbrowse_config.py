@@ -114,10 +114,11 @@ class JBrowseConfig:
         Adds a track from a data frame
 
         :param df: the data frame with track data. Must have cols 
-            refName, start, end, name. The column additional can optionally be 
-            include with more feature information. If a score column is 
-            present, it will be used and the track will be rendered to display 
-            quantitative features.
+            refName, start, end, name. The refName and name column values must
+            be strings while the start and end must be integers.
+            The column additional can optionally be include with more feature information.
+            If a score column is present, it will be used and the track will be rendered 
+            to display quantitative features. Scores must also be integers.
         :param str name: name for the track
         """
         overwrite = kwargs.get('overwrite', False)
@@ -150,8 +151,6 @@ class JBrowseConfig:
             "assemblyNames": [assembly_name],
             "adapter": adapter
         }
-        print("=====================")
-        print('conf ', df_track_config)
         newTracks = self.get_tracks()
         newTracks.append(df_track_config)
         self.config["tracks"] = newTracks
