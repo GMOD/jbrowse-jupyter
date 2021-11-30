@@ -16,7 +16,7 @@ setuptools.setup(
     project_urls={
         "Bug Tracker": "https://github.com/teresam856/jbrowse-jupyter/issues",
     },
-    packages=setuptools.find_packages(exclude['tests*']),
+    packages=['jbrowse_jupyter'],
     python_requires=">=3.6",
     classifiers=[
         "Development Status :: 1 - Planning",
