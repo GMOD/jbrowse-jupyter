@@ -1,4 +1,5 @@
 import re
+import pandas as pd
 # elif protocol == "localPath":
 # return { "uri": location, "locationType": "LocalPathLocation"}
 def make_location(location, protocol):
@@ -207,3 +208,41 @@ def guess_adapter_type(fileName, protocol, index="defaultIndex"):
     "type": 'UNKNOWN',
   }
 
+def check_track_data(df):
+  """
+  Checks that the track data data frame is a valid data frame with
+  the required columns.
+
+  :param df: the data frame with track data. Must have cols 
+      chrom, start, end, name. The column additional can optionally be 
+      include with more feature information. If a score column is 
+      present, it will be used and the track will be rendered to display 
+      quantitative features.
+  """
+  if not isinstance(df, pd.DataFrame):
+    raise TypeError("Track data must be a DataFrame")
+  if not check_columns(df):
+    raise TypeError("DataFrame must contain columns: chrom, start, end, name.")
+
+def check_columns(df):
+  """
+  Checks wether dataframe contains the required columns.
+  Required columns include: chrom, start, end, and name. 
+  The score column is optional.
+  
+  :param df: DataFrame containing track data
+  """
+  required = ["chrom", "start", "end", "name"]
+  return all(col in df for col in required)
+
+
+def get_from_config_adapter(df):
+  features = get_track_data(df)
+  return {
+    "type": 'FromConfigAdapter',
+    "features": features  
+  }
+
+def get_track_data(df):
+  # TODO: return list of features from dataframe
+  return []
