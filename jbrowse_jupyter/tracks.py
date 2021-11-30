@@ -1,5 +1,8 @@
 import re
+import uuid
 import pandas as pd
+
+
 # elif protocol == "localPath":
 # return { "uri": location, "locationType": "LocalPathLocation"}
 def make_location(location, protocol):
@@ -153,16 +156,17 @@ def guess_adapter_type(fileName, protocol, index="defaultIndex"):
     return {
       "type": "IndexedFastaAdapter",
       "fastaLocation": make_location(fileName, protocol),
-      "faiLocation": makeLocation(f'{fileName}.fai', protocol)
+      "faiLocation": make_location(f'{fileName}.fai', protocol)
     }
 
   # Bgzipped fasta 
   if bool(re.search(fastaGz, fileName)):
+
     return {
-      "type": "IndexedFastaAdapter",
+      "type": "BgzipFastaAdapter",
       "fastaLocation": make_location(fileName, protocol),
-      "faiLocation": makeLocation(f'{fileName}.fai', protocol),
-      "gziLocation": makeLocation(f'{fileName}.gzi', protocol)
+      "faiLocation": make_location(f'{fileName}.fai', protocol),
+      "gziLocation": make_location(f'{fileName}.gzi', protocol)
     }
 
   # twobit
@@ -208,13 +212,14 @@ def guess_adapter_type(fileName, protocol, index="defaultIndex"):
     "type": 'UNKNOWN',
   }
 
+# ================== DataFrame Track =================
 def check_track_data(df):
   """
   Checks that the track data data frame is a valid data frame with
   the required columns.
 
   :param df: the data frame with track data. Must have cols 
-      chrom, start, end, name. The column additional can optionally be 
+      refName, start, end, name. The column additional can optionally be 
       include with more feature information. If a score column is 
       present, it will be used and the track will be rendered to display 
       quantitative features.
@@ -222,17 +227,17 @@ def check_track_data(df):
   if not isinstance(df, pd.DataFrame):
     raise TypeError("Track data must be a DataFrame")
   if not check_columns(df):
-    raise TypeError("DataFrame must contain columns: chrom, start, end, name.")
+    raise TypeError("DataFrame must contain columns: refName, start, end, name.")
 
 def check_columns(df):
   """
   Checks wether dataframe contains the required columns.
-  Required columns include: chrom, start, end, and name. 
+  Required columns include: refName, start, end, and name. 
   The score column is optional.
   
   :param df: DataFrame containing track data
   """
-  required = ["chrom", "start", "end", "name"]
+  required = ["refName", "start", "end", "name"]
   return all(col in df for col in required)
 
 
@@ -243,6 +248,34 @@ def get_from_config_adapter(df):
     "features": features  
   }
 
+def format_feature(feature):
+  uniqueId = str(uuid.uuid4().hex)
+  feature["uniqueId"] = uniqueId
+
 def get_track_data(df):
-  # TODO: return list of features from dataframe
-  return []
+  # iterate over every row in the datafram
+  # each row should represent a feature
+  # add additional data to dataframe
+  required = ['refName','start', 'end', 'name', 'additional', 'type']
+  df["type"] = ''
+  if "additional" not in df:
+    df["additional"] = ''
+  if "score" in df:
+    required.append('score')
+  filtered = df[required]
+  # add extra params
+  rows = filtered.to_dict('records')
+  # features = map(format_feature, rows)
+  features = []
+  for r in rows:
+      newFeature = r
+      newFeature['uniqueId'] = str(uuid.uuid4().hex)
+      features.append(newFeature)
+  print('features ====> ', features)
+  # features = filtered.to_dict('records').map(lambda f: {
+  #   "refName": f["chrom"],
+  #   "start": f["start"],
+  #   "end": f["end"],
+  #   "unique"
+  # })
+  return features
