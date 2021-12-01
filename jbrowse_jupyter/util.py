@@ -65,8 +65,8 @@ def launch(conf, **kwargs):
         comp_id = kwargs["component_id"]
     if "port" in kwargs:
         comp_port = kwargs["port"]
-    if "height" in kwargs:
-        comp_height = kwargs["height"]
+    if "component_height" in kwargs:
+        comp_height = kwargs["component_height"]
 
     app = JupyterDash(__name__)
     app.layout = html.Div([LinearGenomeView(

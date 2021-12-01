@@ -7,7 +7,6 @@ import os
 # elif protocol == "localPath":
 # return { "uri": location, "locationType": "LocalPathLocation"}
 def make_location(location, protocol):
-    print("-----------------> ", os.getcwd())
     if protocol == "uri":
         return { "uri": location, "locationType": "UriLocation"}
     else:
@@ -15,6 +14,19 @@ def make_location(location, protocol):
 
 def supported_track_type(trackType):
     return trackType in {'AlignmentsTrack', 'QuantitativeTrack', 'VariantTrack', 'FeatureTrack'}
+
+def guess_display_type(trackType):
+  displays = {
+    "AlignmentsTrack": "LinearAlignmentsDisplay",
+    "VariantTrack": "LinearVariantDisplay",
+    "ReferenceSequenceTrack": "LinearReferenceSequenceDisplay",
+    "QuantitativeTrack": "LinearBasicDisplay",
+    "FeatureTrack": "LinearBasicDisplay"
+  }
+  if trackType in displays:
+    return displays[trackType]
+  else:
+    return "LinearBasicDisplay"
 
 def guess_track_type(adapterType):
   known =  {
@@ -273,7 +285,6 @@ def get_track_data(df):
       newFeature = r
       newFeature['uniqueId'] = str(uuid.uuid4().hex)
       features.append(newFeature)
-  print('features ====> ', features)
   # features = filtered.to_dict('records').map(lambda f: {
   #   "refName": f["chrom"],
   #   "start": f["start"],

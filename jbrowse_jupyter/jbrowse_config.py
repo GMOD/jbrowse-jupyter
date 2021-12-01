@@ -1,6 +1,6 @@
 import os
 from jbrowse_jupyter.util import is_URL,defaults, guess_file_name, get_name
-from jbrowse_jupyter.tracks import guess_adapter_type, guess_track_type, check_track_data, get_from_config_adapter
+from jbrowse_jupyter.tracks import guess_adapter_type, guess_track_type, check_track_data, get_from_config_adapter, guess_display_type
 
 def create(viewType, **kwargs):
     available_genomes = {"hg19", "hg38"}
@@ -44,7 +44,11 @@ class JBrowseConfig:
             "location": "",
             "configuration": {}
         } if conf is None else conf
-        self.tracks_ids_map = set()
+        if conf is not None:
+            ids = {x["trackId"]: x for x in conf["tracks"]}
+            self.tracks_ids_map = ids
+        self.tracks_ids_map = {}
+        # print("trackIds map", self.tracks_ids_map.keys())
 
     def get_config(self):
         return self.config
@@ -86,16 +90,31 @@ class JBrowseConfig:
         Returns the reference track for a default session
         """
         assembly_name = self.get_assembly_name()
-        configuration = assembly_name + "-ReferenceSequenceTrack"
+        configuration = f'{assembly_name}-ReferenceSequenceTrack'
         return {
             "type": "ReferenceSequenceTrack",
             "configuration": configuration,
             "displays": [
                 {
-                    "type": "LinearBasicDisplay",
-                    "configuration": configuration + "-LinearBasicDisplay"
+                    "type": "LinearReferenceSequenceDisplay",
+                    "configuration": f'{configuration}-LinearReferenceSequenceDisplay',
                 }
             ],
+        }
+
+    def get_track_display(self, track):
+        track_type = track["type"]
+        track_id = track["trackId"]
+        display_type = guess_display_type(track_type)
+        return {
+            "type": track_type,
+            "configuration": track_id,
+            "displays": [
+                {
+                    "type": display_type,
+                    "configuration": f'{track_id}-{display_type}'
+                }
+            ]
         }
 
     def get_tracks(self):
@@ -129,16 +148,6 @@ class JBrowseConfig:
         if "score" in track_data:
             trackType = "QuantitativeTrack"
         adapter = get_from_config_adapter(track_data)
-        # check that the trackId does not exist yet
-        if trackId in self.tracks_ids_map and not overwrite:
-            # print("hello")
-            raise TypeError(f'track with trackId: "{trackId}" already exists in config. Set overwrite to True if you want to overwrite it.')
-        elif trackId in self.tracks_ids_map and overwrite:
-            # delete track and overwrite it
-            oldTracks = self.get_tracks()
-            self.config["tracks"] = [track for track in oldTracks if track["trackId"] != trackId]
-        else:
-            self.tracks_ids_map.add(name)
         df_track_config = {
             "type": trackType,
             "trackId": trackId,
@@ -146,10 +155,19 @@ class JBrowseConfig:
             "assemblyNames": [assembly_name],
             "adapter": adapter
         }
+        # check that the trackId does not exist yet
+        if trackId in self.tracks_ids_map.keys() and not overwrite:
+            # print("hello")
+            raise TypeError(f'track with trackId: "{trackId}" already exists in config. Set overwrite to True if you want to overwrite it.')
+        if trackId in self.tracks_ids_map.keys() and overwrite:
+            # delete track and overwrite it
+            oldTracks = self.get_tracks()
+            self.config["tracks"] = [track for track in oldTracks if track["trackId"] != trackId]
+       
         newTracks = self.get_tracks()
         newTracks.append(df_track_config)
         self.config["tracks"] = newTracks
-        
+        self.tracks_ids_map[trackId] = df_track_config
 
     def add_track(self, data, **kwargs):
         """
@@ -198,24 +216,6 @@ class JBrowseConfig:
             # uses filename as trackId
             trackId = guess_file_name(data)
             trackName = trackId if name is None else name
-
-            # print("======\n")
-            # print("tracks", self.get_tracks())
-            if trackId in self.tracks_ids_map and not overwrite:
-                # print("hello")
-                raise TypeError(f'track with trackId: "{trackId}" already exists in config, set overwrite to True if you want to overwrite it.')
-            elif trackId in self.tracks_ids_map and overwrite:
-                # delete track and overwrite it
-                oldTracks = self.get_tracks()
-                self.config["tracks"] = [track for track in oldTracks if track["trackId"] != trackId]
-            else:
-                self.tracks_ids_map.add(trackName)
-            
-            # print('===== Debugging ======\n')
-            # print(f'Name is: {trackName}')
-            # print(f'Type is: {trackType}')
-            # print(f'TrackId is: {trackId}')
-            # print(f'Assembly name(s) is: {assemblyNames}')
             track_config = {
                 "type": trackType,
                 "trackId": trackId,
@@ -223,9 +223,26 @@ class JBrowseConfig:
                 "assemblyNames": assemblyNames,
                 "adapter": adapter
             }
+            # print("======\n")
+            # print("tracks", self.get_tracks())
+            if trackId in self.tracks_ids_map.keys() and not overwrite:
+                # print("hello")
+                raise TypeError(f'track with trackId: "{trackId}" already exists in config, set overwrite to True if you want to overwrite it.')
+            if trackId in self.tracks_ids_map.keys() and overwrite:
+                # delete track and overwrite it
+                oldTracks = self.get_tracks()
+                self.config["tracks"] = [track for track in oldTracks if track["trackId"] != trackId]
+            
+            # print('===== Debugging ======\n')
+            # print(f'Name is: {trackName}')
+            # print(f'Type is: {trackType}')
+            # print(f'TrackId is: {trackId}')
+            # print(f'Assembly name(s) is: {assemblyNames}')
+
             newTracks = self.get_tracks()
             newTracks.append(track_config)
-            self.config["tracks"] = newTracks       
+            self.config["tracks"] = newTracks
+            self.tracks_ids_map[trackId] = track_config       
         else:
             raise TypeError("Local files are not currently supported.")
 
@@ -236,17 +253,30 @@ class JBrowseConfig:
 
 
     # ======= default session ========
-    # def set_default_session(self, assembly, displayed_tracks, display_assembly=True):
-    #     reference_track = self.get_reference_track(assembly)
-    #     #tracks = self.get_tracks(assembly, displayed_tracks, display_assembly)
-    #     self.config["defaultSession"] = {
-    #         "name": "my session",
-    #         "view": {
-    #             "id": "LinearGenomeView",
-    #             "type": "LinearGenomeView",
-    #             "tracks": [reference_track]
-    #         }
-    #     }
+    def set_default_session(self,displayed_tracks,display_assembly=True):
+        reference_track = {}
+        tracks_configs = []
+        if (display_assembly):
+            reference_track = self.get_reference_track()
+            tracks_configs.append(reference_track)
+        
+        # make sure all displayed_track names
+        # print(self.tracks_ids_map)
+        tracks_to_display = [track for track in self.get_tracks() if track["name"] in displayed_tracks]
+        # print(tracks_to_display)
+        for t in tracks_to_display:
+            tracks_configs.append(self.get_track_display(t))   
+            # print(self.get_track_display(t))
+        # for track_name in self.tracks_ids_map  
+        #tracks = self.get_tracks(assembly, displayed_tracks, display_assembly)
+        self.config["defaultSession"] = {
+            "name": "my session",
+            "view": {
+                "id": "LinearGenomeView",
+                "type": "LinearGenomeView",
+                "tracks": tracks_configs
+            }
+        }
 
     # ====== theme ===============
     def set_theme(self,primary, secondary=None, tertiary=None, quaternary=None):
