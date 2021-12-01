@@ -7,7 +7,7 @@
         ],
         "sequence": {
             "type": "ReferenceSequenceTrack",
-            "trackId": "Pd8Wh30ei9R",
+            "trackId": "hg19-ReferenceSequenceTrack",
             "adapter": {
                 "type": "BgzipFastaAdapter",
                 "fastaLocation": {
