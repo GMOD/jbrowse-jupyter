@@ -1,6 +1,7 @@
-import json
 import re
 import os
+import json
+import dash
 import dash_html_components as html
 from pathlib import Path
 from dash_jbrowse import LinearGenomeView
@@ -42,9 +43,12 @@ def defaults(name):
         conf = data
         return conf
 
-def create_component(conf):
+def create_component(conf, **kwargs):
+    comp_id = "jbrowse-component"
+    if "component_id" in kwargs:
+        comp_id = kwargs["component_id"]
     return LinearGenomeView(
-        id="jbrowse-component",
+        id=comp_id,
         assembly=conf["assembly"],
         tracks=conf["tracks"],
         defaultSession=conf["defaultSession"],
@@ -52,14 +56,27 @@ def create_component(conf):
         configuration=conf["configuration"],
     )
 
-def launch(conf):
+def launch(conf, **kwargs):
+    # TODO: add setting custom text search adapters
+    comp_id = "jbrowse-component"
+    comp_port = 3000
+    comp_height = 300
+    if "component_id" in kwargs:
+        comp_id = kwargs["component_id"]
+    if "port" in kwargs:
+        comp_port = kwargs["port"]
+    if "height" in kwargs:
+        comp_height = kwargs["height"]
+
     app = JupyterDash(__name__)
-    # TODO: verify correct div height
     app.layout = html.Div([LinearGenomeView(
-            id="jbrowse-component",
+            id=comp_id,
             assembly=conf["assembly"],
             tracks=conf["tracks"],
             defaultSession=conf["defaultSession"],
             location=conf["location"],
+            configuration=conf["configuration"]
         )])
-    app.run_server(port=3000, height=300, mode="inline")        
+    app.run_server(port=comp_port, height=comp_height, mode="inline", use_reloader=False)
+
+

@@ -3,7 +3,6 @@ from jbrowse_jupyter.util import is_URL,defaults, guess_file_name, get_name
 from jbrowse_jupyter.tracks import guess_adapter_type, guess_track_type, check_track_data, get_from_config_adapter
 
 def create(viewType, **kwargs):
-    # TODO: maybe add aliases of hg19 and hg38
     available_genomes = {"hg19", "hg38"}
     conf = {}
     if viewType == "view":
@@ -16,7 +15,6 @@ def create(viewType, **kwargs):
         else:
             raise TypeError("genome is required arg for viewType=view")
     elif viewType == "JB2config":
-        # TODO: add converter.py call here
         raise TypeError("currently not supporting JB2 configs files")
     elif viewType == "config":
         if "conf" in kwargs:
@@ -28,9 +26,9 @@ def create(viewType, **kwargs):
     else:
         raise TypeError(f'Invalid view type {viewType}, please chose from "view" or "config"')
     return JBrowseConfig(conf=conf)
+
 class JBrowseConfig:
     def __init__(self, conf=None):
-        # TODO make sure if a conf is passed, that is mapped to all the defaults
         self.config = {
             "assembly": {},
             "tracks": [],
@@ -42,6 +40,7 @@ class JBrowseConfig:
                     "tracks":[]
                 }
             },
+            "aggregateTextSearchAdapters": [],
             "location": "",
             "configuration": {}
         } if conf is None else conf
@@ -61,12 +60,9 @@ class JBrowseConfig:
         else:
             raise Exception("Can not get assembly name. Please configure the assembly first.")
 
-    # TODO infer the type of the adapter based on file name
-    # TODO infer name of the assembly based on the file name
-    # TODO check if the assembly data is a url
+    # TODO: test two bit adapter and other supported assembly types
     def set_assembly(self, assembly_data, aliases, refname_aliases):
         if (is_URL(assembly_data)):
-            # get name
             name = get_name(assembly_data)
             assembly_adapter = guess_adapter_type(assembly_data, 'uri')
             assembly_config = {
@@ -133,7 +129,6 @@ class JBrowseConfig:
         if "score" in track_data:
             trackType = "QuantitativeTrack"
         adapter = get_from_config_adapter(track_data)
-        print('from config', adapter)
         # check that the trackId does not exist yet
         if trackId in self.tracks_ids_map and not overwrite:
             # print("hello")
@@ -188,8 +183,6 @@ class JBrowseConfig:
         if is_URL(data):
             # we are defaulting to uri protocol since we have not added local file support
             adapter = guess_adapter_type(data, 'uri', "defaultIndex")
-            # print("ADAPTER", adapter)
-            # Error if adapter is unknown or unsupported
             if (adapter["type"] == "UNKNOWN"): 
                 raise TypeError("Adapter type is not recognized")
             if (adapter["type"] == "UNSUPPORTED"): 
@@ -199,10 +192,7 @@ class JBrowseConfig:
                 # get sequence adapter
                 extra_config = self.get_assembly()["sequence"]["adapter"]
                 adapter["sequenceAdapter"] = extra_config
-                # print("NEW ADAPTER", adapter)
-            # ==== set up track information =========
             trackType = guess_track_type(adapter["type"])
-            # print("============== type: ", trackType)
             if trackType not in {'AlignmentsTrack', 'QuantitativeTrack', 'VariantTrack', 'FeatureTrack', 'ReferenceSequenceTrack'}:
                 raise TypeError("Track type is not supported")
             # uses filename as trackId

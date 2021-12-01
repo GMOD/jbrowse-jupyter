@@ -1,11 +1,13 @@
 import re
 import uuid
 import pandas as pd
+import os
 
 
 # elif protocol == "localPath":
 # return { "uri": location, "locationType": "LocalPathLocation"}
 def make_location(location, protocol):
+    print("-----------------> ", os.getcwd())
     if protocol == "uri":
         return { "uri": location, "locationType": "UriLocation"}
     else:
