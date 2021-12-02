@@ -167,9 +167,11 @@ class JBrowseConfig:
         newTracks = self.get_tracks()
         newTracks.append(df_track_config)
         self.config["tracks"] = newTracks
+        print(df_track_config)
         self.tracks_ids_map[trackId] = df_track_config
 
     def add_track(self, data, **kwargs):
+        # TODO: have the ability to choose a track
         """
         Adds a track subconfiguration to the list of tracks
         in the config.
