@@ -30,7 +30,22 @@
             }
         }
     },
-    "tracks": [],
+    "tracks": [
+        {
+            "type": "FeatureTrack",
+            "trackId": "repeats_hg19",
+            "name": "Repeats",
+            "assemblyNames": ["hg19"],
+            "category": ["Annotation"],
+            "adapter": {
+              "type": "BigBedAdapter",
+              "bigBedLocation": {
+                "uri": "https://jbrowse.org/genomes/hg19/repeats.bb",
+                "locationType": "UriLocation"
+              }
+            }
+          }
+    ],
     "defaultSession": {
         "name": "test",
         "view": {
