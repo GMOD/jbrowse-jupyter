@@ -1,4 +1,5 @@
 import re
+import numpy as np
 import uuid
 import pandas as pd
 import os
@@ -242,6 +243,10 @@ def check_track_data(df):
     raise TypeError("Track data must be a DataFrame")
   if not check_columns(df):
     raise TypeError("DataFrame must contain columns: refName, start, end, name.")
+  correct_string = df.dtypes['refName'] == np.object and df.dtypes['name'] == np.object
+  correct_numners = df.dtypes['start'] == np.int64 and df.dtypes['end'] == np.int64
+  if not (correct_numners and correct_string):
+    raise TypeError("One or more columns do not have the correct data type.")
   if df.empty:
     raise TypeError("DataFrame must not be empty.")
 
@@ -282,7 +287,10 @@ def get_track_data(df):
   if "additional" not in df:
     df["additional"] = ''
   if "score" in df:
-    required.append('score')
+    required.append("score")
+    if df.dtypes['score'] != np.int64:
+      raise TypeError("Score column must be an integer")
+
   filtered = df[required]
   # add extra params
   rows = filtered.to_dict('records')
@@ -290,7 +298,7 @@ def get_track_data(df):
   features = []
   for r in rows:
       newFeature = r
-      newFeature['uniqueId'] = str(uuid.uuid4().hex)
+      newFeature["uniqueId"] = str(uuid.uuid4().hex)
       features.append(newFeature)
   # features = filtered.to_dict('records').map(lambda f: {
   #   "refName": f["chrom"],
