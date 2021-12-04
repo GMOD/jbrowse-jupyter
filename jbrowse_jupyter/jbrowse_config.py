@@ -121,7 +121,7 @@ class JBrowseConfig:
     
     def get_track(self, track_name):
         tracks =  [track for track in self.get_tracks() if track["name"] == track_name]
-        print(tracks)
+        # print(tracks)
         return tracks
 
     def get_tracks(self):
@@ -174,7 +174,7 @@ class JBrowseConfig:
         newTracks = self.get_tracks()
         newTracks.append(df_track_config)
         self.config["tracks"] = newTracks
-        print(df_track_config)
+        # print(df_track_config)
         self.tracks_ids_map[trackId] = df_track_config
 
     def add_track(self, data, **kwargs):
