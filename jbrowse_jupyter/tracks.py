@@ -242,11 +242,18 @@ def check_track_data(df):
     raise TypeError("Track data must be a DataFrame")
   if not check_columns(df):
     raise TypeError("DataFrame must contain columns: refName, start, end, name.")
+  if df.empty:
+    raise TypeError("DataFrame must not be empty.")
 
 def check_columns(df):
   """
   Checks wether dataframe contains the required columns.
   Required columns include: refName, start, end, and name. 
+  refName: string
+  start: number/integer
+  end: number/integer
+  name: string
+  score (optional): number/integer
   The score column is optional.
   
   :param df: DataFrame containing track data

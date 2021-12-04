@@ -125,7 +125,6 @@ class JBrowseConfig:
         return tracks
 
     def get_tracks(self):
-        # TODO: add param here to specify which tracks we want to get
         # such as feature, alignments, variant, or wiggle
         """returns list of tracks in the configuration"""
         return self.config["tracks"]
@@ -290,6 +289,9 @@ class JBrowseConfig:
     def get_default_session(self):
         return self.config["defaultSession"]
     # ====== theme ===============
+    def get_theme(self):
+        return self.config["configuration"]
+
     def set_theme(self,primary, secondary=None, tertiary=None, quaternary=None):
         palette = {
            "primary": {

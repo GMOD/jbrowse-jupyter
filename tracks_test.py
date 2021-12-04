@@ -25,8 +25,11 @@ jbrowse_conf.set_location("chr17:41195312..41276764")
 
 # Add dataframe track
 data_without_score = { 'refName': ["1", "1"], 'start': [123, 456], 'end': [780, 101112], 'name': ['feature1', 'feature2']}  
-# data_with_score = {'refName': [1, 2], 'start': [123, 456], 'end': [780, 101112], 'name': ['feature1', 'feature2'], 'score': [1, 2]}
+data_with_score = {'refName': [], 'start': [], 'end': [], 'name': [], 'score': []}
 df = pd.DataFrame(data_without_score) 
+df2 = pd.DataFrame(data_with_score)
+print(df2)
+print("empty", df2.empty)
 jbrowse_conf.add_df_track(df, 'data-frame-test')
 jbrowse_conf.set_default_session(['data-frame-test', 'alignments bam track example'])
 jbrowse_conf.set_location("1:11700..12500")

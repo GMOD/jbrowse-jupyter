@@ -68,7 +68,14 @@ def test_data_frame_track():
     data_frame = { 'refName': ["1", "1"], 'start': [123, 456], 'end': [780, 101112], 'name': ['feature1', 'feature2']}  
     df = pd.DataFrame(data_frame)
     hg38.add_df_track(df, 'data_frame_track_name')
+    data_empty = {'refName': [], 'start': [], 'end': [], 'name': [], 'score': []}
     assert len(hg38.get_tracks()) == 2
+    # throw error if the dataframe is empty
+    df_empty = pd.DataFrame(data_empty)
+    df_error = "DataFrame must not be empty."
+    with pytest.raises(TypeError) as excinfo:
+        hg38.add_df_track(df_empty, 'empty_data_frame_track')
+    assert df_error in str(excinfo)
 
 def test_check_track_data():
     df_error = "Track data must be a DataFrame"
@@ -88,9 +95,9 @@ def test_check_columns():
         check_track_data(df)
     assert column_error in str(excinfo)
 
-def test_add_df_track():
+def test_get_df_features():
      # TODO: test adding correct values types for dataframe
-    data_frame = { 'refName': ["1", "1"], 'start': [123, 456], 'end': [780, 101112], 'name': ['feature1', 'feature2']}  
+    data_frame = { 'refName': ["1", "1"], 'start': [123, 456], 'end': [780, 101112], 'name': ['feature1', 'feature2']}
     df = pd.DataFrame(data_frame)
     features =  get_track_data(df)
     assert len(features) == 2
