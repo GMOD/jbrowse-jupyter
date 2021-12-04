@@ -241,14 +241,14 @@ def check_track_data(df):
   """
   if not isinstance(df, pd.DataFrame):
     raise TypeError("Track data must be a DataFrame")
+  if df.empty:
+    raise TypeError("DataFrame must not be empty.")
   if not check_columns(df):
     raise TypeError("DataFrame must contain columns: refName, start, end, name.")
   correct_string = df.dtypes['refName'] == np.object and df.dtypes['name'] == np.object
   correct_numners = df.dtypes['start'] == np.int64 and df.dtypes['end'] == np.int64
   if not (correct_numners and correct_string):
     raise TypeError("One or more columns do not have the correct data type.")
-  if df.empty:
-    raise TypeError("DataFrame must not be empty.")
 
 def check_columns(df):
   """
