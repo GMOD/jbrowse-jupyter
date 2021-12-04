@@ -1,18 +1,16 @@
 import pytest
 from jbrowse_jupyter.util import is_URL, guess_file_name,get_name
 
-# TODO: test utility functions
 def test_is_url():
-    pass
+    # urls
+    not_secure = "http://path/to/my/file"
+    secure = "http://path/to/my/file"
+    # local paths
+    local = './this/is/a/local/path'
+    assert is_URL(not_secure) == True
+    assert is_URL(secure) == True
+    assert is_URL(local) == False
 
 def test_guess_file_name():
-    pass
-
-def test_assembly_name():
-    pass
-
-def test_launch():
-    pass
-
-def test_create_component():
-    pass
+    url = "http://path/to/my/filename.gff"
+    assert guess_file_name(url) == 'filename.gff'

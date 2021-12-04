@@ -11,7 +11,7 @@ def create(viewType, **kwargs):
             if genome in available_genomes:
                 conf = defaults(genome)
             else:
-                raise NameError(genome, "is not a valid default genome to view")
+                raise TypeError(f'{genome} is not a valid default genome to view')
         else:
             raise TypeError("genome is required arg for viewType=view")
     elif viewType == "JB2config":
@@ -24,11 +24,13 @@ def create(viewType, **kwargs):
             # default empty configuration object
             return JBrowseConfig()
     else:
-        raise TypeError(f'Invalid view type {viewType}, please chose from "view" or "config"')
+        raise TypeError(f'{viewType} is an invalid view type, please chose from "view" or "config"')
     return JBrowseConfig(conf=conf)
 
 class JBrowseConfig:
     def __init__(self, conf=None):
+        # TODO: make sure all fields are passed to conf
+        # if conf is not None
         self.config = {
             "assembly": {},
             "tracks": [],
@@ -116,6 +118,11 @@ class JBrowseConfig:
                 }
             ]
         }
+    
+    def get_track(self, track_name):
+        tracks =  [track for track in self.get_tracks() if track["name"] == track_name]
+        print(tracks)
+        return tracks
 
     def get_tracks(self):
         # TODO: add param here to specify which tracks we want to get
@@ -124,7 +131,7 @@ class JBrowseConfig:
         return self.config["tracks"]
 
     def add_df_track(self, track_data, name, **kwargs):
-        # TODO: implement it
+        # TODO: test adding correct values types for dataframe
         """
         Adds a track from a data frame
 
@@ -280,6 +287,8 @@ class JBrowseConfig:
             }
         }
 
+    def get_default_session(self):
+        return self.config["defaultSession"]
     # ====== theme ===============
     def set_theme(self,primary, secondary=None, tertiary=None, quaternary=None):
         palette = {

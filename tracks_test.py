@@ -8,14 +8,16 @@ app = dash.Dash(__name__)
 
 # ======== default view =========
 jbrowse_conf = create('view', genome="hg19")
-# Add Wiggle Track
+# Add Quantitative Track
 jbrowse_conf.add_track("https://jbrowse.org/genomes/hg19/COLO829/colo_normal.bw", name="wiggle track example")
+
 # # Add Feature Track
 jbrowse_conf.add_track("https://jbrowse.org/genomes/hg19/repeats.bb", name="BigBed track example")
 jbrowse_conf.add_track("https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/ncbi_refseq/GCA_000001405.15_GRCh38_full_analysis_set.refseq_annotation.sorted.gff.gz", name="Gff Gz track example")
 
 # Add Variant Track 
 jbrowse_conf.add_track("https://s3.amazonaws.com/jbrowse.org/genomes/hg19/NA12878/NA12878_high_quality_variant.vcf.gz", name="variant track example")
+
 # Add Alignments Track
 jbrowse_conf.add_track("https://s3.amazonaws.com/jbrowse.org/genomes/hg19/skbr3/reads_lr_skbr3.fa_ngmlr-0.2.3_mapped.down.cram", name="alignments cram track example")
 jbrowse_conf.add_track("https://s3.amazonaws.com/jbrowse.org/genomes/hg19/amplicon_deep_seq/out.marked.bam", name="alignments bam track example")
