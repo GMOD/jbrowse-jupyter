@@ -16,7 +16,6 @@ ref_name_aliases = {
         },
     },
 }
-# print(ref_name_aliases["adapter"]["location"])
 
 # ============= setting the assembly ==============
 assembly_data = "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz"

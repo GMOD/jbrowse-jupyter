@@ -10,7 +10,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 # TODO: figure out install requires vs requirements.txt and look up classifiers
 setuptools.setup(
     name="jbrowse-jupyter",
-    version="0.0.1",
+    version="0.0.2",
     author="Teresa De Jesus Martinez",
     author_email="tere486martinez@gmail.com",
     maintainer="Teresa De Jesus Martinez; JBrowse Team",
