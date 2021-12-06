@@ -3,10 +3,11 @@ import setuptools
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
+# TODO: figure out install requires vs requirements.txt and look up classifiers
 setuptools.setup(
     name="jbrowse-jupyter",
     version="0.0.1",
-    author="Teresa De Jesus Martinez",
+    author="Teresa De Jesus Martinez; JBrowse Team",
     author_email="tere486martinez@gmail.com",
     description="Jupyter and python interface to the JBrowse2 Linear Genome View",
     long_description=long_description,

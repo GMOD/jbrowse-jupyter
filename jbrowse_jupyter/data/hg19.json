@@ -1,0 +1,74 @@
+{
+    "configuration": {},
+    "assembly": {
+        "name": "hg19",
+        "aliases": [
+            "GRCh37"
+        ],
+        "sequence": {
+            "type": "ReferenceSequenceTrack",
+            "trackId": "hg19-ReferenceSequenceTrack",
+            "adapter": {
+                "type": "BgzipFastaAdapter",
+                "fastaLocation": {
+                    "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz"
+                },
+                "faiLocation": {
+                    "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.fai"
+                },
+                "gziLocation": {
+                    "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.gzi"
+                }
+            }
+        },
+        "refNameAliases": {
+            "adapter": {
+                "type": "RefNameAliasAdapter",
+                "location": {
+                    "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/hg19/hg19_aliases.txt"
+                }
+            }
+        }
+    },
+    "tracks": [
+        {
+            "type": "FeatureTrack",
+            "trackId": "repeats_hg19",
+            "name": "Repeats",
+            "assemblyNames": ["hg19"],
+            "category": ["Annotation"],
+            "adapter": {
+              "type": "BigBedAdapter",
+              "bigBedLocation": {
+                "uri": "https://jbrowse.org/genomes/hg19/repeats.bb",
+                "locationType": "UriLocation"
+              }
+            }
+          }
+    ],
+    "defaultSession": {
+        "name": "test",
+        "view": {
+            "id": "aU9Nqje1U",
+            "type": "LinearGenomeView",
+            "offsetPx": 22654,
+            "bpPerPx": 108.93300653594771,
+            "displayedRegions": [
+                {
+                    "refName": "1",
+                    "start": 0,
+                    "end": 249250621,
+                    "reversed": false,
+                    "assemblyName": "hg19"
+                }
+            ],
+            "tracks": [],
+            "hideHeader": false,
+            "hideHeaderOverview": false,
+            "trackSelectorType": "hierarchical",
+            "trackLabels": "overlapping",
+            "showCenterLine": false
+        }
+    },
+    "location": "1:2,467,681..2,667,681"
+}
