@@ -106,6 +106,9 @@ def test_create_view_from_conf():
     fai_loc = "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.fai"
     gz_loc = "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.gzi"
     rloc = "https://s3.amazonaws.com/jbrowse.org/genomes/hg19/hg19_aliases.txt"
+    ix = "https://jbrowse.org/genomes/hg19/trix/hg19.ix"
+    ixx = "https://jbrowse.org/genomes/hg19/trix/hg19.ixx"
+    meta = "https://jbrowse.org/genomes/hg19/trix/meta.json"
     config1 = {
         "assembly": {
             "name": "hg19",
@@ -135,18 +138,6 @@ def test_create_view_from_conf():
                 }
             },
         },
-        "tracks": [],
-        "defaultSession": {
-            "name": "default-session",
-            "view": {
-                "id": "linearGenomeView",
-                "type": "LinearGenomeView",
-                "tracks": [],
-            },
-        },
-        "aggregateTextSearchAdapters": [],
-        "location": "",
-        "configuration": {},
     }
     hg19_from_config = create("config", conf=config1)
     assert hg19_from_config.get_config()
@@ -159,6 +150,31 @@ def test_create_view_from_conf():
     hg19_from_config.set_default_session(["wiggle track example"])
     assert hg19_from_config.get_default_session()
 
+    # can set text search adapter
+    index_error = 'Local files are not currently supported.'
+    with pytest.raises(TypeError) as excinfo:
+        hg19_from_config.add_text_search_adapter(
+            './path/to/ixname.ix',
+            "https://path/to/ixxname.ixx",
+            "https://path/to/meta.json"
+        )
+    assert index_error in str(excinfo)
+    hg19_from_config.add_text_search_adapter(ix, ixx, meta)
+
+    adapter_list = hg19_from_config.get_text_search_adapters()
+    assert len(adapter_list) == 1
+
+    same_adapter = "Adapter already exists for given adapterId: " \
+        "hg19-hg19.ix-index.Provide a different adapter_id"
+    with pytest.raises(Exception) as excinfo:
+        hg19_from_config.add_text_search_adapter(ix, ixx, meta)
+    assert same_adapter in str(excinfo)
+    hg19_from_config.add_text_search_adapter(ix, ixx, meta, "diff-adapter")
+    adapter_after = hg19_from_config.get_text_search_adapters()
+    assert len(adapter_after) == 2
+
+
+def test_empty_config():
     # === empty config ===
     empty_conf = create("config")
     assert empty_conf.get_config()

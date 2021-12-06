@@ -76,6 +76,7 @@ def create_component(conf, **kwargs):
         defaultSession=conf["defaultSession"],
         location=conf["location"],
         configuration=conf["configuration"],
+        aggregateTextSearchAdapters=conf["aggregateTextSearchAdapters"]
     )
 
 
@@ -110,7 +111,8 @@ def launch(conf, **kwargs):
         tracks=conf["tracks"],
         defaultSession=conf["defaultSession"],
         location=conf["location"],
-        configuration=conf["configuration"]
+        configuration=conf["configuration"],
+        aggregateTextSearchAdapters=conf["aggregateTextSearchAdapters"],
     )])
     app.run_server(port=comp_port, height=comp_height,
                    mode="inline", use_reloader=False)

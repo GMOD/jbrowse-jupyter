@@ -53,7 +53,7 @@ def create(view_type, **kwargs):
 class JBrowseConfig:
     def __init__(self, conf=None):
         # TODO: make sure all fields are passed to conf if conf is not None
-        self.config = {
+        default = {
             "assembly": {},
             "tracks": [],
             "defaultSession": {
@@ -69,7 +69,12 @@ class JBrowseConfig:
             "configuration": {
                 "theme": {}
             }
-        } if conf is None else conf
+        }
+        if conf is not None:
+            for r in default.keys():
+                if r not in conf:
+                    conf[r] = default[r]
+        self.config = default if conf is None else conf
         if conf is not None:
             ids = {x["trackId"]: x for x in conf["tracks"]}
             self.tracks_ids_map = ids
@@ -362,6 +367,45 @@ class JBrowseConfig:
         return self.config["defaultSession"]
 
     # ====== Advanced Customization ===============
+    def get_text_search_adapters(self):
+        """ Returns the aggregateTextSearchAdapters in the config. """
+        return self.config["aggregateTextSearchAdapters"]
+
+    def add_text_search_adapter(self, ix_path,
+                                ixx_path, meta_path, adapter_id=None):
+        """ Adds a trix text search adapter to the root level config. """
+        if not self.get_assembly():
+            raise Exception("Please set the assembly before adding a track.")
+        if (not (is_url(ix_path) and is_url(ixx_path) and is_url(meta_path))):
+            raise TypeError("Local files are not currently supported.")
+        assembly_name = self.get_assembly_name()
+        default_id = f'{assembly_name}-{guess_file_name(ix_path)}-index'
+        text_id = default_id if adapter_id is None else adapter_id
+        text_search_adapter = {
+            "type": "TrixTextSearchAdapter",
+            "textSearchAdapterId": text_id,
+            "ixFilePath": {
+                "uri": ix_path,
+                "locationType": "UriLocation"
+            },
+            "ixxFilePath": {
+                "uri": ixx_path,
+                "locationType": "UriLocation"
+            },
+            "metaFilePath": {
+                "uri": meta_path,
+                "locationType": "UriLocation"
+            },
+            "assemblyNames": [assembly_name]
+        }
+        adapters = self.get_text_search_adapters()
+        exists = [a for a in adapters if a["textSearchAdapterId"] == text_id]
+        if len(exists) > 0:
+            raise Exception("Adapter already exists for given adapterId: "
+                            f'{text_id}.Provide a different adapter_id'
+                            )
+        adapters.append(text_search_adapter)
+        self.config["aggregateTextSearchAdapters"] = adapters
 
     def get_theme(self):
         """ Returns the theme subconfiguration. """
