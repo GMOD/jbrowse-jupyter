@@ -9,7 +9,7 @@ from urllib.parse import urlparse
 from jupyter_dash import JupyterDash
 
 
-def is_URL(filePath):
+def is_url(filePath):
     """
     Checks wether or not the file path
     is a valid url.
@@ -50,7 +50,7 @@ def get_name(assembly_file):
 
     return assembly_file[name_start:name_end]
 
-def defaults(name):
+def get_default(name):
     """Returns the configuration oject given a genome name."""
     os.getcwd()
     fileName = Path(f'jbrowse_jupyter/data/{name}.json').resolve()
