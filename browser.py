@@ -1,5 +1,4 @@
 import dash
-import dash_jbrowse
 import dash_html_components as html
 from jbrowse_jupyter import create, create_component
 
@@ -12,18 +11,22 @@ ref_name_aliases = {
     "adapter": {
         "type": "RefNameAliasAdapter",
         "location": {
-            "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/hg38_aliases.txt",
+            "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/"
+            "GRCh38/hg38_aliases.txt",
         },
     },
 }
+# print(ref_name_aliases["adapter"]["location"])
 
 # ============= setting the assembly ==============
-
-jbrowse_conf.set_assembly("https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz", aliases, ref_name_aliases)
+assembly_data = "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz"
+jbrowse_conf.set_assembly(assembly_data, aliases, ref_name_aliases)
 
 # ============== adding a track ===============
-
-jbrowse_conf.add_track("https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/ncbi_refseq/GCA_000001405.15_GRCh38_full_analysis_set.refseq_annotation.sorted.gff.gz",name="test-demo")
+track_data = "https://s3.amazonaws.com/jbrowse.org/genomes/" \
+              "GRCh38/ncbi_refseq/GCA_000001405.15_GRCh38_full" \
+              "_analysis_set.refseq_annotation.sorted.gff.gz"
+jbrowse_conf.add_track(track_data, name="test-demo")
 
 # ============== set location ===============
 

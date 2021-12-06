@@ -9,7 +9,7 @@ setuptools.setup(
     version="0.0.1",
     author="Teresa De Jesus Martinez; JBrowse Team",
     author_email="tere486martinez@gmail.com",
-    description="Jupyter and python interface to the JBrowse2 Linear Genome View",
+    description="Jupyter interface to the JBrowse's Linear Genome View",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/teresam856/jbrowse-jupyter",
