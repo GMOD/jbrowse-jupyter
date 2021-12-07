@@ -54,9 +54,10 @@ def get_name(assembly_file):
 
 def get_default(name):
     """Returns the configuration oject given a genome name."""
-    base = os.path.abspath(os.path.dirname(__file__))
-    fileName = os.path.join(base, f'data/{name}.json')
-    file_name = f'{pkg_resources.resource_filename("jbrowse_jupyter", "data")}/{name}.json'
+    # base = os.path.abspath(os.path.dirname(__file__))
+    # fileName = os.path.join(base, f'data/{name}.json')
+    base = pkg_resources.resource_filename("jbrowse_jupyter", "data")
+    file_name = f'{base}/{name}.json'
     with open(file_name) as json_data:
         data = json.load(json_data)
         conf = data
