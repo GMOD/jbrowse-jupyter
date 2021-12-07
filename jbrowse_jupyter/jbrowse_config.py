@@ -200,7 +200,8 @@ class JBrowseConfig:
 
         overwrite = kwargs.get('overwrite', False)
         assembly_name = self.get_assembly_name()
-        track_id = f'{assembly_name}-{name}'
+        # track_id = f'{assembly_name}-{name}'
+        track_id = kwargs.get('track_id', f'{assembly_name}-{name}')
         current_tracks = self.config["tracks"]
         # if score column is present => QuantitativeTrack, else FeatureTrack
         track_type = "FeatureTrack"
@@ -291,8 +292,9 @@ class JBrowseConfig:
             })
             if t_type not in supported_track_types:
                 raise TypeError(f'Track type: "{t_type}" is not supported.')
-
-            track_id = f'{self.get_assembly_name()}-{name}'
+            default_track_id = f'{self.get_assembly_name()}-{name}'
+            track_id = kwargs.get('track_id', default_track_id)
+            # track_id = f'{self.get_assembly_name()}-{name}'
             # track_name = name
             track_config = {
                 "type": t_type,
@@ -323,11 +325,11 @@ class JBrowseConfig:
         self.config["location"] = location
 
     # ======= default session ========
-    def set_default_session(self, tracks_names, display_assembly=True):
+    def set_default_session(self, tracks_ids, display_assembly=True):
         """
         Sets the default session given a list of tracks to display.
 
-        :param tracks_names: list[str] list of track names to display
+        :param tracks_ids: list[str] list of track ids to display
         :param boolean display_assembly: display the assembly reference
             sequence track. Defaults to True
         """
@@ -337,8 +339,8 @@ class JBrowseConfig:
             reference_track = self.get_reference_track()
             tracks_configs.append(reference_track)
         tracks_to_display = [
-            t for t in self.get_tracks() if t["name"] in tracks_names]
-        # TODO: check if track configs work instead of the displays
+            t for t in self.get_tracks() if t["trackId"] in tracks_ids]
+        # guess the display of the tracks
         for t in tracks_to_display:
             tracks_configs.append(self.get_track_display(t))
         self.config["defaultSession"] = {
