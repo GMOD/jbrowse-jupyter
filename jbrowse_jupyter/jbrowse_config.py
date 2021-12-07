@@ -116,7 +116,6 @@ class JBrowseConfig:
         :rtype: str
         :raises TypeError: if assembly_data is a local file
         """
-        # TODO: test two bit adapter and other supported assembly types
         if (is_url(assembly_data)):
             name = get_name(assembly_data)
             assembly_adapter = guess_adapter_type(assembly_data, 'uri')
@@ -251,7 +250,6 @@ class JBrowseConfig:
         :raises TypeError: if track data is not provided or track type
             not supported
         """
-        # TODO: have the ability to choose a track
         # TODO: local file support
         # TODO: get effective/working locations for track data
         # and track index when
