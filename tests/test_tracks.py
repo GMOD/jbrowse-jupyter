@@ -20,6 +20,7 @@ vcfGz = "https://ftp.ncbi.nlm.nih.gov/pub/" \
     "clinvar/vcf_GRCh38/clinvar.vcf.gz"
 bigWig = "http://hgdownload.cse.ucsc.edu/goldenpath/hg38/" \
     "phyloP100way/hg38.phyloP100way.bw"
+gff3_tabix_index = gff3Tabix + ".tbi"
 
 
 def test_make_location():
@@ -48,7 +49,7 @@ def test_alignments():
 
 
 def test_feature():
-    conf = create("view", genome="hg19")
+    conf = create("view", genome="hg38")
     track_error = "Adapter type is not recognized"
     # gff is not supported
     with pytest.raises(TypeError) as excinfo:
@@ -58,6 +59,41 @@ def test_feature():
     conf.add_track(gff3Tabix, name="gff3 feature")
     gff3_track = conf.get_track("gff3 feature")
     assert gff3_track[0]["type"] == "FeatureTrack"
+
+
+def test_add_track_type_fail():
+    conf = create("view", genome="hg19")
+    track_type_error = 'Track type: "InvalidTrackType" is not supported.'
+    with pytest.raises(Exception) as excinfo:
+        conf.add_track(gff3Tabix, track_type="InvalidTrackType")
+    assert track_type_error in str(excinfo)
+
+
+def test_add_track_overwrite():
+    conf = create("view", genome="hg38")
+    overwrite_err = "track with trackId: " \
+        '"GRCh38-test" already exists inconfig.' \
+        ' Set overwrite to True to overwrite it.'
+    conf.add_track(gff3Tabix, name='test')
+    with pytest.raises(TypeError) as excinfo:
+        conf.add_track(gff3Tabix, name='test')
+    assert overwrite_err in str(excinfo)
+    conf.add_track(gff3Tabix, name='test', overwrite=True)
+    tracks = conf.get_tracks()
+    # should have one track from hg38 conf + test track == 2
+    assert len(tracks) == 2
+
+
+def test_add_track_with_index():
+    conf = create("view", genome="hg38")
+    conf.add_track(gff3Tabix, name="test")
+    conf2 = create("view", genome="hg38")
+    conf2.add_track(gff3Tabix, name="test", index=gff3_tabix_index)
+    index_one = conf.get_track("test")
+    idx = index_one[0]['adapter']['index']['location']['uri']
+    index_two = conf2.get_track("test")
+    idx2 = index_two[0]['adapter']['index']['location']['uri']
+    assert idx == idx2
 
 
 def test_variant():

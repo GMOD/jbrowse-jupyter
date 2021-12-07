@@ -240,21 +240,18 @@ class JBrowseConfig:
         Adds a track subconfiguration to the list of tracks
         in the config.
 
-        :param str data: Track file or URL
-            (currently only supporting URL)
+        :param str data: track file or url
+            (currently only supporting url)
         :param str name: (optional) name for the track
             (defaults to data filename)
         :param str index: (optional) index file for the track
-            (default None)
-        :param boolean local: (optional) is the track data a local file
-            (default False)
+        :param str track_type: (optional) track type
         :param boolean overwrite: (optional) overwrites existing track
             if it exists in list of tracks (default False)
         :raises TypeError: if track data is not provided or track type
             not supported
         """
         # TODO: have the ability to choose a track
-        # TODO: have ability to provide path to index file
         # TODO: local file support
         # TODO: get effective/working locations for track data
         # and track index when
@@ -266,27 +263,27 @@ class JBrowseConfig:
             raise Exception("Please set the assembly before adding a track.")
 
         assembly_names = [self.get_assembly_name()]
-        # local = kwargs.get('local', False)
-        name = kwargs.get('name', None)
-        # index = kwargs.get('index', None)
+        name = kwargs.get('name', guess_file_name(data))
+        index = kwargs.get('index', "defaultIndex")
         overwrite = kwargs.get('overwrite', False)
         current_tracks = self.get_tracks()
-        # useIndex = is_url(index) if index is not None else False
-        # argsTrack = location = path/data
         if is_url(data):
             # default to uri protocol until local files enabled
-            adapter = guess_adapter_type(data, 'uri', "defaultIndex")
+            if not is_url(index) and index != "defaultIndex":
+                raise TypeError("Local files are not currently supported."
+                                "Provide a url for your index file.")
+            adapter = guess_adapter_type(data, 'uri', index)
             if (adapter["type"] == "UNKNOWN"):
                 raise TypeError("Adapter type is not recognized")
             if (adapter["type"] == "UNSUPPORTED"):
                 raise TypeError("Adapter type is not supported")
-
+            # get sequence adapter for cram adapter track
             if adapter["type"] == "CramAdapter":
-                # get sequence adapter for cram adapter track
                 extra_config = self.get_assembly()["sequence"]["adapter"]
                 adapter["sequenceAdapter"] = extra_config
             # make sure track type is one of the supported track types
-            track_type = guess_track_type(adapter["type"])
+            t_type = kwargs.get('track_type',
+                                guess_track_type(adapter["type"]))
             supported_track_types = set({
                 'AlignmentsTrack',
                 'QuantitativeTrack',
@@ -294,15 +291,15 @@ class JBrowseConfig:
                 'FeatureTrack',
                 'ReferenceSequenceTrack'
             })
-            if track_type not in supported_track_types:
-                raise TypeError("Track type is not supported")
+            if t_type not in supported_track_types:
+                raise TypeError(f'Track type: "{t_type}" is not supported.')
 
-            track_id = f'{self.get_assembly_name()}-{guess_file_name(data)}'
-            track_name = track_id if name is None else name
+            track_id = f'{self.get_assembly_name()}-{name}'
+            # track_name = name
             track_config = {
-                "type": track_type,
+                "type": t_type,
                 "trackId": track_id,
-                "name": track_name,
+                "name": name,
                 "assemblyNames": assembly_names,
                 "adapter": adapter
             }
@@ -316,14 +313,7 @@ class JBrowseConfig:
                 current_tracks = [
                     t for t in current_tracks if t["trackId"] != track_id]
 
-            # print('===== Debugging ======\n')
-            # print(f'Name is: {trackName}')
-            # print(f'Type is: {trackType}')
-            # print(f'TrackId is: {trackId}')
-            # print(f'Assembly name(s) is: {assemblyNames}')
-
             current_tracks.append(track_config)
-            # self.config["tracks"] = newTracks
             self.config["tracks"] = current_tracks
             self.tracks_ids_map[track_id] = track_config
         else:
