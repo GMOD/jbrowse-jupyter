@@ -2,6 +2,7 @@ import re
 import os
 import json
 import dash_html_components as html
+import pkg_resources
 from dash_jbrowse import LinearGenomeView
 from urllib.parse import urlparse
 from jupyter_dash import JupyterDash
@@ -55,7 +56,8 @@ def get_default(name):
     """Returns the configuration oject given a genome name."""
     base = os.path.abspath(os.path.dirname(__file__))
     fileName = os.path.join(base, f'data/{name}.json')
-    with open(fileName) as json_data:
+    file_name = f'{pkg_resources.resource_filename("jbrowse_jupyter", "data")}/{name}.json'
+    with open(file_name) as json_data:
         data = json.load(json_data)
         conf = data
         return conf
