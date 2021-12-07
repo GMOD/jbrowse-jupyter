@@ -86,7 +86,10 @@ def launch(conf, **kwargs):
     :param int port: (optional) port to utilize when running the JupyterDash app server
     :param int height: (optional) the height to utilize for the JupyterDash app
     """
-    # TODO: add setting custom text search adapters
+    app = JupyterDash(__name__)
+    # could add circular view in the future
+    supported = set({"LGV"})
+    dash_comp = kwargs.get("dash_comp", "LGV")
     comp_id = "jbrowse-component"
     comp_port = 3000
     comp_height = 300
@@ -97,15 +100,19 @@ def launch(conf, **kwargs):
     if "height" in kwargs:
         comp_height = kwargs["height"]
 
-    app = JupyterDash(__name__)
-    app.layout = html.Div([LinearGenomeView(
-            id=comp_id,
-            assembly=conf["assembly"],
-            tracks=conf["tracks"],
-            defaultSession=conf["defaultSession"],
-            location=conf["location"],
-            configuration=conf["configuration"]
-        )])
+    if dash_comp in supported:
+        if dash_comp == "LGV":
+            # create jupyter dash app layout
+            app.layout = html.Div([LinearGenomeView(
+                    id=comp_id,
+                    assembly=conf["assembly"],
+                    tracks=conf["tracks"],
+                    defaultSession=conf["defaultSession"],
+                    location=conf["location"],
+                    configuration=conf["configuration"]
+                )])
+    else:
+        raise TypeError(f'The {dash_comp} component is not supported.')
     app.run_server(port=comp_port, height=comp_height, mode="inline", use_reloader=False)
 
 
