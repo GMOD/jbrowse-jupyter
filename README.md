@@ -1,8 +1,8 @@
 # JBrowse Jupyter
 
-JBrowse Jupyter is a python package that provides an interface to JBrowse 2 React Linear Genome View.
+JBrowse Jupyter is a python package that provides a python interface to JBrowse views.
 
-The package provides us with an API that facilitates the creation of JBrowse 2 React Linear Genome View's state configuration object and a way to embed it in Dash python applications and jupyter notebooks.
+The package provides a JBrowseConfig API to enable the creation of JBrowse views state configuration objects. It also provides utility functions to create and embed Dash JBrowse components in jupyter notebooks and python applications.
 
 
 ![Launching hg38 LGV in python notebook](./images/notebook.png)
