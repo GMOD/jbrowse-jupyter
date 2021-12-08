@@ -4,6 +4,7 @@ JBrowse Jupyter is a python package that provides a python interface to JBrowse 
 
 The package provides a JBrowseConfig API to enable the creation of JBrowse state configuration objects. It also provides utility functions to create and embed Dash JBrowse components in jupyter notebooks and python applications.
 
+![demo-gif](https://user-images.githubusercontent.com/45598764/144863573-2bcd982b-1d18-4dc8-aa2f-fd8adf4985a2.gif)
 ## Dash JBrowse
 Dash JBrowse is a collection of dash components for JBrowse's embeddable components.
 
@@ -46,6 +47,7 @@ if __name__ == "__main__":
 ```
 ![Dash JBrowse LGV in python app](./images/python_app.png)
 You can customize the Linear Genome View by modifying the `jbrowse_conf`. The `jbrowse_conf` is an instance of our `JBrowseConfig`, and can be modified to set an assembly, add tracks, set custom color palettes and more.
+
 
 
 ## Installation
