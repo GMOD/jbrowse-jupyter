@@ -8,9 +8,11 @@ Welcome to JBrowse Jupyter's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
+   installation
+   quickstart
    modules
+   tutorial
 
 Indices and tables
 ==================

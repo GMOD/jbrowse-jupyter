@@ -51,7 +51,12 @@ def create(view_type, **kwargs):
 
 
 class JBrowseConfig:
+    """ Creates a state configuration for JBrowse embeddable components"""
     def __init__(self, conf=None):
+        """
+        Initializes class
+        :param obj conf: optional conf obj
+        """
         default = {
             "assembly": {},
             "tracks": [],
@@ -86,7 +91,11 @@ class JBrowseConfig:
     # ========== Assembly ===========
 
     def get_assembly(self):
-        """ Returns the JBrowseConfig assembly subconfiguration object. """
+        """
+        Returns the JBrowseConfig assembly subconfiguration object.
+
+        :meta private:
+        """
         return self.config["assembly"]
 
     def get_assembly_name(self):
@@ -95,6 +104,7 @@ class JBrowseConfig:
         :return: assembly name
         :rtype: str
         :raises Exception: if assembly has not been configured.
+        :meta private:
         """
         assembly_error = "Can not get assembly name. " \
             "Please configure the assembly first."
@@ -136,6 +146,7 @@ class JBrowseConfig:
     def get_reference_track(self):
         """
         Returns the reference track for the configured assembly.
+        :meta private:
         """
         assembly_name = self.get_assembly_name()
         configuration = f'{assembly_name}-ReferenceSequenceTrack'
@@ -152,7 +163,11 @@ class JBrowseConfig:
         }
 
     def get_track_display(self, track):
-        """ Returns the track display subconfiguration"""
+        """
+        Returns the track display subconfiguration.
+
+        :meta private:
+        """
         track_type = track["type"]
         track_id = track["trackId"]
         display_type = guess_display_type(track_type)
@@ -168,13 +183,19 @@ class JBrowseConfig:
         }
 
     def get_track(self, track_name):
-        """ Return the list of track configurations with that name. """
+        """
+        Return the list of track configurations with that name.
+        :meta private:
+        """
         tracks = [track for track in self.get_tracks() if track["name"]
                   == track_name]
         return tracks
 
     def get_tracks(self):
-        """ Returns list of tracks in the configuration. """
+        """
+        Returns list of tracks in the configuration.
+        :meta private:
+        """
         return self.config["tracks"]
 
     def add_df_track(self, track_data, name, **kwargs):
