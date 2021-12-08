@@ -54,14 +54,12 @@ def get_name(assembly_file):
 
 def get_default(name):
     """Returns the configuration oject given a genome name."""
-    # base = os.path.abspath(os.path.dirname(__file__))
-    # fileName = os.path.join(base, f'data/{name}.json')
     base = pkg_resources.resource_filename("jbrowse_jupyter", "data")
     file_name = f'{base}/{name}.json'
+    conf = {}
     with open(file_name) as json_data:
-        data = json.load(json_data)
-        conf = data
-        return conf
+        conf = json.load(json_data)
+    return conf
 
 
 def create_component(conf, **kwargs):
@@ -104,7 +102,7 @@ def launch(conf, **kwargs):
         the JupyterDash app
     """
     app = JupyterDash(__name__)
-    # TODO: add other JBrowse view types e.g Circular, Dotplot
+    # could add other JBrowse view types e.g Circular, Dotplot
     supported = set({"LGV"})
     dash_comp = kwargs.get("dash_comp", "LGV")
     comp_id = "jbrowse-component"

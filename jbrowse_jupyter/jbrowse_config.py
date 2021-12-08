@@ -52,7 +52,6 @@ def create(view_type, **kwargs):
 
 class JBrowseConfig:
     def __init__(self, conf=None):
-        # TODO: make sure all fields are passed to conf if conf is not None
         default = {
             "assembly": {},
             "tracks": [],
@@ -79,7 +78,6 @@ class JBrowseConfig:
             ids = {x["trackId"]: x for x in conf["tracks"]}
             self.tracks_ids_map = ids
         self.tracks_ids_map = {}
-        # print("trackIds map", self.tracks_ids_map.keys())
 
     def get_config(self):
         """ Returns the JBrowseConfig configuration object."""
@@ -193,14 +191,12 @@ class JBrowseConfig:
             if track data is invalid
             if track with that trackId already exists in the configuration
         """
-        # TODO: test adding correct values types for dataframe
         if not self.get_assembly():
             raise Exception("Please set the assembly before adding a track.")
         check_track_data(track_data)
 
         overwrite = kwargs.get('overwrite', False)
         assembly_name = self.get_assembly_name()
-        # track_id = f'{assembly_name}-{name}'
         track_id = kwargs.get('track_id', f'{assembly_name}-{name}')
         current_tracks = self.config["tracks"]
         # if score column is present => QuantitativeTrack, else FeatureTrack
@@ -223,16 +219,12 @@ class JBrowseConfig:
         if track_id in self.tracks_ids_map.keys() and not overwrite:
             raise TypeError(err)
         if track_id in self.tracks_ids_map.keys() and overwrite:
-            # old_tracks = self.get_tracks()
             # delete track and overwrite it
             current_tracks = [
                 t for t in current_tracks if t["trackId"] != track_id]
 
-        # new_tracks = self.get_tracks()
-        # new_tracks.append(df_track_config)
         current_tracks.append(df_track_config)
         self.config["tracks"] = current_tracks
-        # set new config in dictionary of tracks
         self.tracks_ids_map[track_id] = df_track_config
 
     def add_track(self, data, **kwargs):
@@ -257,7 +249,6 @@ class JBrowseConfig:
         if not data:
             raise TypeError(
                 "A path to the track data is required. None was provided.")
-        # check that the assembly is configured
         if not self.get_assembly():
             raise Exception("Please set the assembly before adding a track.")
 
@@ -280,7 +271,6 @@ class JBrowseConfig:
             if adapter["type"] == "CramAdapter":
                 extra_config = self.get_assembly()["sequence"]["adapter"]
                 adapter["sequenceAdapter"] = extra_config
-            # make sure track type is one of the supported track types
             t_type = kwargs.get('track_type',
                                 guess_track_type(adapter["type"]))
             supported_track_types = set({
@@ -294,8 +284,6 @@ class JBrowseConfig:
                 raise TypeError(f'Track type: "{t_type}" is not supported.')
             default_track_id = f'{self.get_assembly_name()}-{name}'
             track_id = kwargs.get('track_id', default_track_id)
-            # track_id = f'{self.get_assembly_name()}-{name}'
-            # track_name = name
             track_config = {
                 "type": t_type,
                 "trackId": track_id,
@@ -340,7 +328,7 @@ class JBrowseConfig:
             tracks_configs.append(reference_track)
         tracks_to_display = [
             t for t in self.get_tracks() if t["trackId"] in tracks_ids]
-        # guess the display of the tracks
+        # guess the display type
         for t in tracks_to_display:
             tracks_configs.append(self.get_track_display(t))
         self.config["defaultSession"] = {
