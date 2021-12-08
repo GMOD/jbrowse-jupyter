@@ -1,2 +1,0 @@
-Create Dash JBrowse components
----------------------------------------
