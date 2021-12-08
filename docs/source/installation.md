@@ -1,1 +1,46 @@
 ## Installation
+
+### PyPI
+
+```
+$ pip install jbrowse-jupyter
+```
+
+### Install with conda
+
+Clone this repository and [install conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html). Once you have conda installed, follow the steps found below 
+to create a conda envirnment and install the dependecies.
+```
+$ cd jbrowse-jupyter
+$ conda create -n myenv python=3.8
+$ conda activate myenv
+$ pip install -r requirements.txt
+```
+You can find two examples in the root of the directory. 
+`browser.py` or the `browser.ipynb`
+
+`browser.py` uses the Dash library to create a python application with the Dash JBrowse LinearGenomeView component and configured with the help of this package. `browser.ipynb` is jupyter notebook using the JupyterDash library to embed a Dash JBrowse LinearGenomeView component in a cell.
+
+To run the Python Dash application
+```
+$ python browser.py
+```
+
+To run the jupyter notebook
+Make sure you have jupyter notebook or jupyterlab.
+
+Within the myenv conda environment
+```
+$ pip install jupyterlab
+```
+More information on using a specific [environment in 
+a jupyter notebook](https://softwarejargon.com/jupyterlab-and-conda-environment-installation-and-setup/)
+
+
+For more information about Dash and Dash applications check out these articles.
+
+### Resources
+* [Dash Applications](https://dash.plotly.com/layout) how to get started to custumize Dash applications.
+* [Dash HTML components](https://dash.plotly.com/dash-html-components) Dash html components to build the Dash aplication layout.
+* [DashJupyter](https://github.com/plotly/jupyter-dash) library to enable embedding Dash components in jupyter notebooks.
+* [DashJbrowse](https://github.com/GMOD/dash_jbrowse) suite of Dash components for JBrowse views. (JBrowse Linear Genome View)

@@ -13,6 +13,7 @@ Welcome to JBrowse Jupyter's documentation!
    quickstart
    modules
    tutorial
+   contact
 
 Indices and tables
 ==================

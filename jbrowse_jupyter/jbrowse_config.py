@@ -10,18 +10,18 @@ from jbrowse_jupyter.tracks import (
 
 def create(view_type, **kwargs):
     """
-    Creates a JBrowseConfig configuration object given a view type.
+    Creates a JBrowseConfig given a view type.
 
     Note: currently not supporting view type JB2config
 
-    :param str view_type: the type of view (view, conf)
-    :param str genome: genome to choose for view type `view`
+    :param str view_type: the type of view ('view' or 'conf')
+    :param str genome: genome ('hg19' or 'hg38')
+        for view type `view`
     :return: JBrowseConfig configuration object
     :rtype: obj
-    :raises TypeError:
-        if genome passed is not hg19 or hg38
-        if genome is not passed when choosing view type `view`
-        if view type is not `view` or `conf`
+    :raises TypeError: if genome passed is not hg19 or hg38
+    :raises TypeError: if genome is not passed when choosing view_type `view`
+    :raises TypeError: if view type is not `view` or `conf`
     """
     available_genomes = {"hg19", "hg38"}
     conf = {}
@@ -54,7 +54,8 @@ class JBrowseConfig:
     """ Creates a state configuration for JBrowse embeddable components"""
     def __init__(self, conf=None):
         """
-        Initializes class
+        Initializes class.
+
         :param obj conf: optional conf obj
         """
         default = {
@@ -85,7 +86,7 @@ class JBrowseConfig:
         self.tracks_ids_map = {}
 
     def get_config(self):
-        """ Returns the JBrowseConfig configuration object."""
+        """ Returns the configuration object. """
         return self.config
 
     # ========== Assembly ===========
@@ -93,18 +94,16 @@ class JBrowseConfig:
     def get_assembly(self):
         """
         Returns the JBrowseConfig assembly subconfiguration object.
-
-        :meta private:
         """
         return self.config["assembly"]
 
     def get_assembly_name(self):
         """
         Returns the assembly name.
+
         :return: assembly name
         :rtype: str
         :raises Exception: if assembly has not been configured.
-        :meta private:
         """
         assembly_error = "Can not get assembly name. " \
             "Please configure the assembly first."
@@ -146,7 +145,6 @@ class JBrowseConfig:
     def get_reference_track(self):
         """
         Returns the reference track for the configured assembly.
-        :meta private:
         """
         assembly_name = self.get_assembly_name()
         configuration = f'{assembly_name}-ReferenceSequenceTrack'
@@ -166,7 +164,6 @@ class JBrowseConfig:
         """
         Returns the track display subconfiguration.
 
-        :meta private:
         """
         track_type = track["type"]
         track_id = track["trackId"]
@@ -185,7 +182,6 @@ class JBrowseConfig:
     def get_track(self, track_name):
         """
         Return the list of track configurations with that name.
-        :meta private:
         """
         tracks = [track for track in self.get_tracks() if track["name"]
                   == track_name]
@@ -194,23 +190,32 @@ class JBrowseConfig:
     def get_tracks(self):
         """
         Returns list of tracks in the configuration.
-        :meta private:
         """
         return self.config["tracks"]
 
     def add_df_track(self, track_data, name, **kwargs):
         """
-        Adds a track from a data frame. If the score column is present,
-        it will creaet a Quantitative track else it will create a Feature
-        track.
+        Adds track from a pandas DataFrame. If the score column
+        is present, it will create a Quantitative track else it
+        will create a Feature track.
+
+        Requires DataFrame to have columns named 'refName',
+        'start', 'end', and 'name'
+
+        refName - str
+        start - int
+        end - int
+        name - str
+        score - (optional) int
 
         :param df: panda DataFrame with the track data.
         :param str name: name for the track.
+        :param str track_id: (optional) trackId for the track
         :param str overwrite: flag wether or not to overwrite existing track.
         :raises Exception: if assembly has not been configured.
-        :raises TypeError:
-            if track data is invalid
-            if track with that trackId already exists in the configuration
+        :raises TypeError: if track data is invalid
+        :raises TypeError: if track with that trackId already exists
+            list of tracks
         """
         if not self.get_assembly():
             raise Exception("Please set the assembly before adding a track.")
@@ -257,12 +262,12 @@ class JBrowseConfig:
             (currently only supporting url)
         :param str name: (optional) name for the track
             (defaults to data filename)
+        :param str track_id: (optional) trackId for the track
         :param str index: (optional) index file for the track
         :param str track_type: (optional) track type
-        :param boolean overwrite: (optional) overwrites existing track
-            if it exists in list of tracks (default False)
-        :raises TypeError: if track data is not provided or track type
-            not supported
+        :param boolean overwrite: (optional) defaults to False
+        :raises TypeError: if track data is not provided
+        :raises TypeError: if track type is not supported
         """
         # TODO: local file support
         # TODO: get effective/working locations for track data
@@ -330,13 +335,17 @@ class JBrowseConfig:
 
     # ======= location ===========
     def set_location(self, location):
-        """ Returns the location subconfiguration. """
+        """
+        Sets initial location for when the browser first loads.
+
+        :param str location: location, syntax 'refName:start-end'
+        """
         self.config["location"] = location
 
     # ======= default session ========
     def set_default_session(self, tracks_ids, display_assembly=True):
         """
-        Sets the default session given a list of tracks to display.
+        Sets the default session given a list of track ids
 
         :param tracks_ids: list[str] list of track ids to display
         :param boolean display_assembly: display the assembly reference
@@ -372,7 +381,7 @@ class JBrowseConfig:
 
     def add_text_search_adapter(self, ix_path,
                                 ixx_path, meta_path, adapter_id=None):
-        """ Adds a trix text search adapter to the root level config. """
+        """ Adds a trix text search adapter. """
         if not self.get_assembly():
             raise Exception("Please set the assembly before adding a track.")
         if (not (is_url(ix_path) and is_url(ixx_path) and is_url(meta_path))):
@@ -414,7 +423,8 @@ class JBrowseConfig:
     def set_theme(self, primary,
                   secondary=None, tertiary=None, quaternary=None):
         """
-        Sets the theme in the configuration given up to 4 hexadecimal colors.
+        Sets the theme in the configuration. Accepts up to 4
+        hexadecimal colors.
 
         :param str primary: primary color of custom palette
         :param str secondary: (optional) secondary color

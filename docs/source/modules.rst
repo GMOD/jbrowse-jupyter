@@ -6,6 +6,3 @@ Reference
    :caption: Reference
 
    jbrowse_jupyter
-   create
-   create_component
-   launch
