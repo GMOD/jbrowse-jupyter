@@ -15,6 +15,7 @@
 # sys.path.insert(0, os.path.abspath('.'))
 import os
 import sys
+import sphinx_rtd_theme
 sys.path.insert(0, os.path.abspath('../..'))
 # -- Project information -----------------------------------------------------
 
@@ -37,6 +38,7 @@ release = '0.0.3'
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.napoleon',
+    'sphinx_rtd_theme',
     'recommonmark',
     'sphinx_markdown_tables',
     'nbsphinx'
