@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JbrowseConfig &mdash; JBrowse Jupyter</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tutorials" href="tutorial.html" />
+    <link rel="prev" title="Reference" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> JBrowse Jupyter
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#pypi">PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#install-with-conda">Install with conda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#resources">Resources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#jupyter-notebook">Jupyter Notebook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#python-dash-application">Python Dash Application</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">JbrowseConfig</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebook.html">Jupyter Notebook Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact us</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">JBrowse Jupyter</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">Reference</a> &raquo;</li>
+      <li>JbrowseConfig</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/jbrowse_jupyter.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="module-jbrowse_jupyter.jbrowse_config">
+<span id="jbrowseconfig"></span><h1>JbrowseConfig<a class="headerlink" href="#module-jbrowse_jupyter.jbrowse_config" title="Permalink to this headline"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.JBrowseConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">jbrowse_jupyter.jbrowse_config.</span></span><span class="sig-name descname"><span class="pre">JBrowseConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a state configuration for JBrowse embeddable components</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.JBrowseConfig.add_df_track">
+<span class="sig-name descname"><span class="pre">add_df_track</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">track_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.add_df_track" title="Permalink to this definition"></a></dt>
+<dd><p>Adds track from a pandas DataFrame. If the score column
+is present, it will create a Quantitative track else it
+will create a Feature track.</p>
+<p>Requires DataFrame to have columns named ‘refName’,
+‘start’, ‘end’, and ‘name’</p>
+<p>refName - str
+start - int
+end - int
+name - str
+score - (optional) int</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> – panda DataFrame with the track data.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – name for the track.</p></li>
+<li><p><strong>track_id</strong> (<em>str</em>) – (optional) trackId for the track</p></li>
+<li><p><strong>overwrite</strong> (<em>str</em>) – flag wether or not to overwrite existing track.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>Exception</strong> – if assembly has not been configured.</p></li>
+<li><p><strong>TypeError</strong> – if track data is invalid</p></li>
+<li><p><strong>TypeError</strong> – if track with that trackId already exists
+list of tracks</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.JBrowseConfig.add_text_search_adapter">
+<span class="sig-name descname"><span class="pre">add_text_search_adapter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ix_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ixx_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adapter_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.add_text_search_adapter" title="Permalink to this definition"></a></dt>
+<dd><p>Adds a trix text search adapter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.JBrowseConfig.add_track">
+<span class="sig-name descname"><span class="pre">add_track</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.add_track" title="Permalink to this definition"></a></dt>
+<dd><p>Adds a track subconfiguration to the list of tracks
+in the config.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>str</em>) – track file or url
+(currently only supporting url)</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – (optional) name for the track
+(defaults to data filename)</p></li>
+<li><p><strong>track_id</strong> (<em>str</em>) – (optional) trackId for the track</p></li>
+<li><p><strong>index</strong> (<em>str</em>) – (optional) index file for the track</p></li>
+<li><p><strong>track_type</strong> (<em>str</em>) – (optional) track type</p></li>
+<li><p><strong>overwrite</strong> (<em>boolean</em>) – (optional) defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – if track data is not provided</p></li>
+<li><p><strong>TypeError</strong> – if track type is not supported</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.JBrowseConfig.get_assembly">
+<span class="sig-name descname"><span class="pre">get_assembly</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.get_assembly" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the JBrowseConfig assembly subconfiguration object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.JBrowseConfig.get_assembly_name">
+<span class="sig-name descname"><span class="pre">get_assembly_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.get_assembly_name" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the assembly name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>assembly name</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>Exception</strong> – if assembly has not been configured.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.JBrowseConfig.get_config">
+<span class="sig-name descname"><span class="pre">get_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.get_config" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the configuration object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.JBrowseConfig.get_default_session">
+<span class="sig-name descname"><span class="pre">get_default_session</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.get_default_session" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the defaultSession subconfiguration.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.JBrowseConfig.get_reference_track">
+<span class="sig-name descname"><span class="pre">get_reference_track</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.get_reference_track" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the reference track for the configured assembly.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.JBrowseConfig.get_text_search_adapters">
+<span class="sig-name descname"><span class="pre">get_text_search_adapters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.get_text_search_adapters" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the aggregateTextSearchAdapters in the config.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.JBrowseConfig.get_theme">
+<span class="sig-name descname"><span class="pre">get_theme</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.get_theme" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the theme subconfiguration.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.JBrowseConfig.get_track">
+<span class="sig-name descname"><span class="pre">get_track</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">track_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.get_track" title="Permalink to this definition"></a></dt>
+<dd><p>Return the list of track configurations with that name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.JBrowseConfig.get_track_display">
+<span class="sig-name descname"><span class="pre">get_track_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">track</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.get_track_display" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the track display subconfiguration.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.JBrowseConfig.get_tracks">
+<span class="sig-name descname"><span class="pre">get_tracks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.get_tracks" title="Permalink to this definition"></a></dt>
+<dd><p>Returns list of tracks in the configuration.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.JBrowseConfig.set_assembly">
+<span class="sig-name descname"><span class="pre">set_assembly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">assembly_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aliases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refname_aliases</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.set_assembly" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the assembly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>assembly_data</strong> (<em>str</em>) – path to the assembly data</p></li>
+<li><p><strong>aliases</strong> (<em>list</em>) – list of aliases for the assembly</p></li>
+<li><p><strong>refname_aliases</strong> (<em>obj</em>) – configuration for refname aliases.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>assembly name</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>TypeError</strong> – if assembly_data is a local file</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.JBrowseConfig.set_default_session">
+<span class="sig-name descname"><span class="pre">set_default_session</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tracks_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_assembly</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.set_default_session" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the default session given a list of track ids</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tracks_ids</strong> – list[str] list of track ids to display</p></li>
+<li><p><strong>display_assembly</strong> (<em>boolean</em>) – display the assembly reference
+sequence track. Defaults to True</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.JBrowseConfig.set_location">
+<span class="sig-name descname"><span class="pre">set_location</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">location</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.set_location" title="Permalink to this definition"></a></dt>
+<dd><p>Sets initial location for when the browser first loads.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>location</strong> (<em>str</em>) – location, syntax ‘refName:start-end’</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.JBrowseConfig.set_theme">
+<span class="sig-name descname"><span class="pre">set_theme</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">primary</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">secondary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tertiary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quaternary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.set_theme" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the theme in the configuration. Accepts up to 4
+hexadecimal colors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>primary</strong> (<em>str</em>) – primary color of custom palette</p></li>
+<li><p><strong>secondary</strong> (<em>str</em>) – (optional) secondary color</p></li>
+<li><p><strong>tertiary</strong> (<em>str</em>) – (optional) tertiary color</p></li>
+<li><p><strong>quaternary</strong> (<em>str</em>) – (optional) quaternary color</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.create">
+<span class="sig-prename descclassname"><span class="pre">jbrowse_jupyter.jbrowse_config.</span></span><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">view_type</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.create" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a JBrowseConfig given a view type.</p>
+<p>Note: currently not supporting view type JB2config</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>view_type</strong> (<em>str</em>) – the type of view (‘view’ or ‘conf’)</p></li>
+<li><p><strong>genome</strong> (<em>str</em>) – genome (‘hg19’ or ‘hg38’)
+for view type <cite>view</cite></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>JBrowseConfig configuration object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>obj</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – if genome passed is not hg19 or hg38</p></li>
+<li><p><strong>TypeError</strong> – if genome is not passed when choosing view_type <cite>view</cite></p></li>
+<li><p><strong>TypeError</strong> – if view type is not <cite>view</cite> or <cite>conf</cite></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorial.html" class="btn btn-neutral float-right" title="Tutorials" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Teresa De Jesus Martinez, JBrowse Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script> 
+
+</body>
+</html>
