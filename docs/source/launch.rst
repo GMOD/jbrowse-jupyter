@@ -1,2 +1,0 @@
-Embedding in Jupyter Notebook
----------------------------------------
