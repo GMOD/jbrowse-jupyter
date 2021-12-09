@@ -13,6 +13,12 @@ def test_set_location():
     conf.set_location("1:1..90")
     assert conf.get_config()["location"] == "1:1..90"
 
+    conf.set_location("SL4.0ch00:1..9,643,250")
+    assert conf.get_config()["location"] == "SL4.0ch00:1..9,643,250"
+
+    conf.set_location("ctgA:1105..1221")
+    assert conf.get_config()["location"] == "ctgA:1105..1221"
+
 
 def test_set_theme():
     conf = JBrowseConfig()
@@ -73,6 +79,27 @@ def test_set_assembly_name():
         name="test-demo",
     )
     assert len(conf.get_tracks()) == 1
+
+    ref_name = {
+        "adapter": {
+            "type": "RefNameAliasAdapter",
+            "location": {
+                "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/hg19/hg19_aliases.txt"
+            }
+        }
+    }
+    aliases = [
+        "GRCh37"
+    ]
+
+    conf.set_assembly("https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz", aliases, ref_name)
+    assert conf.get_assembly_name() == 'hg19'
+
+    ref_name = {}
+    aliases = []
+    conf.set_assembly("https://s3.amazonaws.com/jbrowse.org/genomes/tomato/SL4.0/S_lycopersicum_chromosomes.4.00.fa.gz", aliases, ref_name)
+    assert conf.get_assembly_name() == '00' # should be something else
+
 
 
 def test_create_view():

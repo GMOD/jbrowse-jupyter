@@ -32,25 +32,9 @@ def guess_file_name(data):
     url = urlparse(data)
     return os.path.basename(url.path)
 
-
 def get_name(assembly_file):
     """ Returns the name of the assembly based on the assembly data file"""
-    name_end = 0
-    name_start = 0
-    for i in range(0, len(assembly_file)):
-        if (
-            assembly_file[len(assembly_file) - i - 1: len(assembly_file) - i]
-            == "/"
-        ):
-            name_start = len(assembly_file) - i
-            break
-    for i in range(name_start, len(assembly_file)):
-        if assembly_file[i: i + 1] == ".":
-            name_end = i
-            break
-
-    return assembly_file[name_start:name_end]
-
+    return re.search(r'(\w+)\.(?:fa|fasta|fa\.gz)$', assembly_file).group(1)
 
 def get_default(name):
     """Returns the configuration oject given a genome name."""
