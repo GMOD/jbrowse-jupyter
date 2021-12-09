@@ -1,2 +1,0 @@
-Create JBrowse configuration
----------------------------------------
