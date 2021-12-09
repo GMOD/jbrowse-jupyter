@@ -8,6 +8,7 @@ JBrowse Jupyter is a python package that provides a python interface to JBrowse 
 The package provides a JBrowseConfig API to enable the creation of JBrowse state configuration objects. It also provides utility functions to create and embed Dash JBrowse components in jupyter notebooks and python applications.
 
 ![demo-gif](https://user-images.githubusercontent.com/45598764/144863573-2bcd982b-1d18-4dc8-aa2f-fd8adf4985a2.gif)
+
 *You can open this browser.ipynb in colab* [here](https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/browser.ipynb)
 ## Dash JBrowse
 Dash JBrowse is a collection of dash components for JBrowse's embeddable components.
