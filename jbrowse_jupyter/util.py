@@ -2,6 +2,7 @@ import re
 import os
 import json
 import dash_html_components as html
+import pkg_resources
 from dash_jbrowse import LinearGenomeView
 from urllib.parse import urlparse
 from jupyter_dash import JupyterDash
@@ -53,12 +54,12 @@ def get_name(assembly_file):
 
 def get_default(name):
     """Returns the configuration oject given a genome name."""
-    base = os.path.abspath(os.path.dirname(__file__))
-    fileName = os.path.join(base, f'data/{name}.json')
-    with open(fileName) as json_data:
-        data = json.load(json_data)
-        conf = data
-        return conf
+    base = pkg_resources.resource_filename("jbrowse_jupyter", "data")
+    file_name = f'{base}/{name}.json'
+    conf = {}
+    with open(file_name) as json_data:
+        conf = json.load(json_data)
+    return conf
 
 
 def create_component(conf, **kwargs):
@@ -66,18 +67,25 @@ def create_component(conf, **kwargs):
     Creates a Dash JBrowse LinearGenomeView component given a
         configuration object and optionally an id.
     """
+    supported = set({"LGV"})
     comp_id = "jbrowse-component"
+    dash_comp = kwargs.get("dash_comp", "LGV")
     if "component_id" in kwargs:
         comp_id = kwargs["component_id"]
-    return LinearGenomeView(
-        id=comp_id,
-        assembly=conf["assembly"],
-        tracks=conf["tracks"],
-        defaultSession=conf["defaultSession"],
-        location=conf["location"],
-        configuration=conf["configuration"],
-        aggregateTextSearchAdapters=conf["aggregateTextSearchAdapters"]
-    )
+    if dash_comp in supported:
+        if dash_comp == "LGV":
+            return LinearGenomeView(
+                id=comp_id,
+                assembly=conf["assembly"],
+                tracks=conf["tracks"],
+                defaultSession=conf["defaultSession"],
+                location=conf["location"],
+                configuration=conf["configuration"],
+                aggregateTextSearchAdapters=conf["aggregateTextSearchAdapters"]
+            )
+        # here is where we can add another view
+    else:
+        raise TypeError(f'The {dash_comp} component is not supported.')
 
 
 def launch(conf, **kwargs):
@@ -93,7 +101,10 @@ def launch(conf, **kwargs):
     :param int height: (optional) the height to utilize for
         the JupyterDash app
     """
-    # TODO: add setting custom text search adapters
+    app = JupyterDash(__name__)
+    # could add other JBrowse view types e.g Circular, Dotplot
+    supported = set({"LGV"})
+    dash_comp = kwargs.get("dash_comp", "LGV")
     comp_id = "jbrowse-component"
     comp_port = 3000
     comp_height = 300
@@ -104,15 +115,18 @@ def launch(conf, **kwargs):
     if "height" in kwargs:
         comp_height = kwargs["height"]
 
-    app = JupyterDash(__name__)
-    app.layout = html.Div([LinearGenomeView(
-        id=comp_id,
-        assembly=conf["assembly"],
-        tracks=conf["tracks"],
-        defaultSession=conf["defaultSession"],
-        location=conf["location"],
-        configuration=conf["configuration"],
-        aggregateTextSearchAdapters=conf["aggregateTextSearchAdapters"],
-    )])
-    app.run_server(port=comp_port, height=comp_height,
-                   mode="inline", use_reloader=False)
+    if dash_comp in supported:
+        if dash_comp == "LGV":
+            # create jupyter dash app layout
+            app.layout = html.Div([LinearGenomeView(
+                    id=comp_id,
+                    assembly=conf["assembly"],
+                    tracks=conf["tracks"],
+                    defaultSession=conf["defaultSession"],
+                    location=conf["location"],
+                    configuration=conf["configuration"]
+                )])
+    else:
+        raise TypeError(f'The {dash_comp} component is not supported.')
+    app.run_server(port=comp_port,
+                   height=comp_height, mode="inline", use_reloader=False)

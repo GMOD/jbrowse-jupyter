@@ -347,8 +347,6 @@ def get_track_data(df):
     required = ["refName", "start", "end", "name", "additional", "type"]
     df["type"] = ""
     df["additional"] = ""
-    # if "additional" not in df:
-    # 	df["additional"] = ''
     if "score" in df:
         required.append("score")
         if df.dtypes["score"] != int:

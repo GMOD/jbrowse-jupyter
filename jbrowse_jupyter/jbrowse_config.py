@@ -10,18 +10,18 @@ from jbrowse_jupyter.tracks import (
 
 def create(view_type, **kwargs):
     """
-    Creates a JBrowseConfig configuration object given a view type.
+    Creates a JBrowseConfig given a view type.
 
     Note: currently not supporting view type JB2config
 
-    :param str view_type: the type of view (view, conf)
-    :param str genome: genome to choose for view type `view`
+    :param str view_type: the type of view ('view' or 'conf')
+    :param str genome: genome ('hg19' or 'hg38')
+        for view type `view`
     :return: JBrowseConfig configuration object
     :rtype: obj
-    :raises TypeError:
-        if genome passed is not hg19 or hg38
-        if genome is not passed when choosing view type `view`
-        if view type is not `view` or `conf`
+    :raises TypeError: if genome passed is not hg19 or hg38
+    :raises TypeError: if genome is not passed when choosing view_type `view`
+    :raises TypeError: if view type is not `view` or `conf`
     """
     available_genomes = {"hg19", "hg38"}
     conf = {}
@@ -51,8 +51,13 @@ def create(view_type, **kwargs):
 
 
 class JBrowseConfig:
+    """ Creates a state configuration for JBrowse embeddable components"""
     def __init__(self, conf=None):
-        # TODO: make sure all fields are passed to conf if conf is not None
+        """
+        Initializes class.
+
+        :param obj conf: optional conf obj
+        """
         default = {
             "assembly": {},
             "tracks": [],
@@ -79,21 +84,23 @@ class JBrowseConfig:
             ids = {x["trackId"]: x for x in conf["tracks"]}
             self.tracks_ids_map = ids
         self.tracks_ids_map = {}
-        # print("trackIds map", self.tracks_ids_map.keys())
 
     def get_config(self):
-        """ Returns the JBrowseConfig configuration object."""
+        """ Returns the configuration object. """
         return self.config
 
     # ========== Assembly ===========
 
     def get_assembly(self):
-        """ Returns the JBrowseConfig assembly subconfiguration object. """
+        """
+        Returns the JBrowseConfig assembly subconfiguration object.
+        """
         return self.config["assembly"]
 
     def get_assembly_name(self):
         """
         Returns the assembly name.
+
         :return: assembly name
         :rtype: str
         :raises Exception: if assembly has not been configured.
@@ -116,7 +123,6 @@ class JBrowseConfig:
         :rtype: str
         :raises TypeError: if assembly_data is a local file
         """
-        # TODO: test two bit adapter and other supported assembly types
         if (is_url(assembly_data)):
             name = get_name(assembly_data)
             assembly_adapter = guess_adapter_type(assembly_data, 'uri')
@@ -155,7 +161,10 @@ class JBrowseConfig:
         }
 
     def get_track_display(self, track):
-        """ Returns the track display subconfiguration"""
+        """
+        Returns the track display subconfiguration.
+
+        """
         track_type = track["type"]
         track_id = track["trackId"]
         display_type = guess_display_type(track_type)
@@ -171,37 +180,50 @@ class JBrowseConfig:
         }
 
     def get_track(self, track_name):
-        """ Return the list of track configurations with that name. """
+        """
+        Return the list of track configurations with that name.
+        """
         tracks = [track for track in self.get_tracks() if track["name"]
                   == track_name]
         return tracks
 
     def get_tracks(self):
-        """ Returns list of tracks in the configuration. """
+        """
+        Returns list of tracks in the configuration.
+        """
         return self.config["tracks"]
 
     def add_df_track(self, track_data, name, **kwargs):
         """
-        Adds a track from a data frame. If the score column is present,
-        it will creaet a Quantitative track else it will create a Feature
-        track.
+        Adds track from a pandas DataFrame. If the score column
+        is present, it will create a Quantitative track else it
+        will create a Feature track.
+
+        Requires DataFrame to have columns named 'refName',
+        'start', 'end', and 'name'
+
+        refName - str
+        start - int
+        end - int
+        name - str
+        score - (optional) int
 
         :param df: panda DataFrame with the track data.
         :param str name: name for the track.
+        :param str track_id: (optional) trackId for the track
         :param str overwrite: flag wether or not to overwrite existing track.
         :raises Exception: if assembly has not been configured.
-        :raises TypeError:
-            if track data is invalid
-            if track with that trackId already exists in the configuration
+        :raises TypeError: if track data is invalid
+        :raises TypeError: if track with that trackId already exists
+            list of tracks
         """
-        # TODO: test adding correct values types for dataframe
         if not self.get_assembly():
             raise Exception("Please set the assembly before adding a track.")
         check_track_data(track_data)
 
         overwrite = kwargs.get('overwrite', False)
         assembly_name = self.get_assembly_name()
-        track_id = f'{assembly_name}-{name}'
+        track_id = kwargs.get('track_id', f'{assembly_name}-{name}')
         current_tracks = self.config["tracks"]
         # if score column is present => QuantitativeTrack, else FeatureTrack
         track_type = "FeatureTrack"
@@ -223,16 +245,12 @@ class JBrowseConfig:
         if track_id in self.tracks_ids_map.keys() and not overwrite:
             raise TypeError(err)
         if track_id in self.tracks_ids_map.keys() and overwrite:
-            # old_tracks = self.get_tracks()
             # delete track and overwrite it
             current_tracks = [
                 t for t in current_tracks if t["trackId"] != track_id]
 
-        # new_tracks = self.get_tracks()
-        # new_tracks.append(df_track_config)
         current_tracks.append(df_track_config)
         self.config["tracks"] = current_tracks
-        # set new config in dictionary of tracks
         self.tracks_ids_map[track_id] = df_track_config
 
     def add_track(self, data, **kwargs):
@@ -244,21 +262,19 @@ class JBrowseConfig:
             (currently only supporting url)
         :param str name: (optional) name for the track
             (defaults to data filename)
+        :param str track_id: (optional) trackId for the track
         :param str index: (optional) index file for the track
         :param str track_type: (optional) track type
-        :param boolean overwrite: (optional) overwrites existing track
-            if it exists in list of tracks (default False)
-        :raises TypeError: if track data is not provided or track type
-            not supported
+        :param boolean overwrite: (optional) defaults to False
+        :raises TypeError: if track data is not provided
+        :raises TypeError: if track type is not supported
         """
-        # TODO: have the ability to choose a track
         # TODO: local file support
         # TODO: get effective/working locations for track data
         # and track index when
         if not data:
             raise TypeError(
                 "A path to the track data is required. None was provided.")
-        # check that the assembly is configured
         if not self.get_assembly():
             raise Exception("Please set the assembly before adding a track.")
 
@@ -281,7 +297,6 @@ class JBrowseConfig:
             if adapter["type"] == "CramAdapter":
                 extra_config = self.get_assembly()["sequence"]["adapter"]
                 adapter["sequenceAdapter"] = extra_config
-            # make sure track type is one of the supported track types
             t_type = kwargs.get('track_type',
                                 guess_track_type(adapter["type"]))
             supported_track_types = set({
@@ -293,9 +308,8 @@ class JBrowseConfig:
             })
             if t_type not in supported_track_types:
                 raise TypeError(f'Track type: "{t_type}" is not supported.')
-
-            track_id = f'{self.get_assembly_name()}-{name}'
-            # track_name = name
+            default_track_id = f'{self.get_assembly_name()}-{name}'
+            track_id = kwargs.get('track_id', default_track_id)
             track_config = {
                 "type": t_type,
                 "trackId": track_id,
@@ -321,15 +335,19 @@ class JBrowseConfig:
 
     # ======= location ===========
     def set_location(self, location):
-        """ Returns the location subconfiguration. """
+        """
+        Sets initial location for when the browser first loads.
+
+        :param str location: location, syntax 'refName:start-end'
+        """
         self.config["location"] = location
 
     # ======= default session ========
-    def set_default_session(self, tracks_names, display_assembly=True):
+    def set_default_session(self, tracks_ids, display_assembly=True):
         """
-        Sets the default session given a list of tracks to display.
+        Sets the default session given a list of track ids
 
-        :param tracks_names: list[str] list of track names to display
+        :param tracks_ids: list[str] list of track ids to display
         :param boolean display_assembly: display the assembly reference
             sequence track. Defaults to True
         """
@@ -339,8 +357,8 @@ class JBrowseConfig:
             reference_track = self.get_reference_track()
             tracks_configs.append(reference_track)
         tracks_to_display = [
-            t for t in self.get_tracks() if t["name"] in tracks_names]
-        # TODO: check if track configs work instead of the displays
+            t for t in self.get_tracks() if t["trackId"] in tracks_ids]
+        # guess the display type
         for t in tracks_to_display:
             tracks_configs.append(self.get_track_display(t))
         self.config["defaultSession"] = {
@@ -363,7 +381,7 @@ class JBrowseConfig:
 
     def add_text_search_adapter(self, ix_path,
                                 ixx_path, meta_path, adapter_id=None):
-        """ Adds a trix text search adapter to the root level config. """
+        """ Adds a trix text search adapter. """
         if not self.get_assembly():
             raise Exception("Please set the assembly before adding a track.")
         if (not (is_url(ix_path) and is_url(ixx_path) and is_url(meta_path))):
@@ -405,7 +423,8 @@ class JBrowseConfig:
     def set_theme(self, primary,
                   secondary=None, tertiary=None, quaternary=None):
         """
-        Sets the theme in the configuration given up to 4 hexadecimal colors.
+        Sets the theme in the configuration. Accepts up to 4
+        hexadecimal colors.
 
         :param str primary: primary color of custom palette
         :param str secondary: (optional) secondary color
