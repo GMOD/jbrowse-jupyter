@@ -98,7 +98,7 @@ def test_set_assembly_name():
     ref_name = {}
     aliases = []
     conf.set_assembly("https://s3.amazonaws.com/jbrowse.org/genomes/tomato/SL4.0/S_lycopersicum_chromosomes.4.00.fa.gz", aliases, ref_name)
-    assert conf.get_assembly_name() == '00' # should be something else
+    assert conf.get_assembly_name() == 'SL4.0'
 
 
 
