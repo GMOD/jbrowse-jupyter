@@ -50,7 +50,7 @@ templates_path = ['_templates']
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = []
+exclude_patterns = ['_build', '**.ipynb_checkpoints']
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -59,6 +59,7 @@ exclude_patterns = []
 # a list of builtin themes.
 #
 html_theme = 'sphinx_rtd_theme'
+pygments_style = 'default'
 
 html_title = "JBrowse Jupyter"
 # Add any paths that contain custom static files (such as style sheets) here,
@@ -66,15 +67,15 @@ html_title = "JBrowse Jupyter"
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 # html_logo = "_static/color_logomark.png"
-html_theme_options = {
-    'logo_only': True,
-    'display_version': True,
-    'prev_next_buttons_location': 'bottom',
-    'style_external_links': True,
-    # Toc options
-    'collapse_navigation': False,
-    'sticky_navigation': False,
-    'navigation_depth': 3,
-    'includehidden': True,
-    'titles_only': False
-}
+# html_theme_options = {
+#     'logo_only': True,
+#     'display_version': True,
+#     'prev_next_buttons_location': 'bottom',
+#     'style_external_links': True,
+#     # Toc options
+#     'collapse_navigation': False,
+#     'sticky_navigation': False,
+#     'navigation_depth': 3,
+#     'includehidden': True,
+#     'titles_only': False
+# }
