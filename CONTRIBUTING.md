@@ -123,3 +123,23 @@ This will upload to pypi. The command will prompt you for your username. Simply 
 9. Test that it works by pip installing in a new env and running your jupyter notebook.
 10. Add your tar and wheel files to your github release, and link to the new version on pypi.
 11. Publish your github release.
+
+
+## Maintenance
+This package depends on `Dash JBrowse`. The repo can be found [here](https://github.com/GMOD/dash_jbrowse). The [Dash JBrowse] package currently has a dependency on the JBrowse React Linear Genome View npm package. In order to keep up with the dependencies, the version of the Browse React Linear Genome View npm package was set up to allow newer versions. If there are any breaking changes, we will need to update the dependencies
+1. Checkout the [dash_jbrowse repo](https://github.com/GMOD/dash_jbrowse/blob/main/CONTRIBUTING.md)
+2. npm install the dependencies
+3. Update the [JBrowse React Linear Genome View npm package](https://www.npmjs.com/package/@jbrowse/react-linear-genome-view)
+4. Make sure the package.json was updated
+5. Test everything works appropriately by running
+```
+$ npm run build
+$ python usage.py
+```
+Verify the app works appropriately
+Run the tests and make a pr to main.
+We can draft a release  following the contributing docs found [here](https://github.com/GMOD/dash_jbrowse/blob/main/CONTRIBUTING.md)
+
+6. Now you can update this package and upgrade the python dash-jbrowse package to the latest version of dash jbrowse.
+7. Follow the release steps mentioned above for jupyter jbrowse
+8. Test that everything works as expected, and you are done!
