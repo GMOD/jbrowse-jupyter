@@ -26,7 +26,7 @@ setuptools.setup(
         "Bug Tracker": "https://github.com/GMOD/jbrowse-jupyter/issues",
     },
     packages=['jbrowse_jupyter'],
-    python_requires=">=3.8",
+    python_requires=">=3.6",
     classifiers=[
         "Development Status :: 1 - Planning",
         "Programming Language :: Python :: 3",
