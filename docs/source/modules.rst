@@ -3,6 +3,6 @@ Reference
 
 .. toctree::
    :maxdepth: 4
-   :caption: Reference
-
+   
+   util
    jbrowse_jupyter

@@ -1,3 +1,6 @@
+![Pytest and flake8](https://github.com/GMOD/jbrowse-jupyter/actions/workflows/push.yml/badge.svg)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/browser.ipynb)
+
 # JBrowse Jupyter
 
 JBrowse Jupyter is a python package that provides a python interface to JBrowse views.
@@ -5,12 +8,33 @@ JBrowse Jupyter is a python package that provides a python interface to JBrowse 
 The package provides a JBrowseConfig API to enable the creation of JBrowse state configuration objects. It also provides utility functions to create and embed Dash JBrowse components in jupyter notebooks and python applications.
 
 ![demo-gif](https://user-images.githubusercontent.com/45598764/144863573-2bcd982b-1d18-4dc8-aa2f-fd8adf4985a2.gif)
+
+*You can open this browser.ipynb in colab* [here](https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/browser.ipynb)
 ## Dash JBrowse
 Dash JBrowse is a collection of dash components for JBrowse's embeddable components.
 
-We utilize the Dash JBrowse package along with [jupyter-dash](https://github.com/plotly/jupyter-dash) library to embed [Jbrowse React Linear Genome view](https://www.npmjs.com/package/@jbrowse/react-linear-genome-view) in any jupyter notebook.
+We utilize the Dash JBrowse package along with [jupyter-dash](https://github.com/plotly/jupyter-dash) library to embed [JBrowse React Linear Genome view](https://www.npmjs.com/package/@jbrowse/react-linear-genome-view) in any jupyter notebook.
 
 You can find more information about our Dash JBrowse library [here](https://github.com/GMOD/dash_jbrowse).
+
+## Installation
+
+### PyPI
+
+```
+$ pip install jbrowse-jupyter
+```
+
+### Install with conda
+
+Clone this repository and [install conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html). Once you have conda installed, follow the steps found below 
+to create a conda envirnment and install the dependecies.
+```
+$ cd jbrowse-jupyter
+$ conda create -n myenv python=3.6
+$ conda activate myenv
+$ pip install -r requirements.txt
+```
 
 ## Quickstart
 Install the JBrowse Jupyter package using pip
@@ -24,7 +48,6 @@ $ pip install jbrowse-jupyter
 *JBrowse Linear Genome view in python Dash application*
 ```python
 import dash
-import dash_jbrowse
 import dash_html_components as html
 from jbrowse_jupyter import create, create_component
 
@@ -48,38 +71,22 @@ if __name__ == "__main__":
 ![Dash JBrowse LGV in python app](./images/python_app.png)
 You can customize the Linear Genome View by modifying the `jbrowse_conf`. The `jbrowse_conf` is an instance of our `JBrowseConfig`, and can be modified to set an assembly, add tracks, set custom color palettes and more.
 
+Find more information about the JBrowseConfig API [here](https://gmod.github.io/jbrowse-jupyter/docs/html/index.html)
 
+### Other Examples
 
-## Installation
-
-### PyPI
-
-```
-$ pip install jbrowse-jupyter
-```
-
-### Install with conda
-
-Clone this repository and [install conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html). Once you have conda installed, follow the steps found below 
-to create a conda envirnment and install the dependecies.
-```
-$ cd jbrowse-jupyter
-$ conda create -n myenv python=3.8
-$ conda activate myenv
-$ pip install -r requirements.txt
-```
-You can find two examples in the root of the directory. 
+You can find two examples in the root of this repo, 
 `browser.py` or the `browser.ipynb`
 
 `browser.py` uses the Dash library to create a python application with the Dash JBrowse LinearGenomeView component and configured with the help of this package. `browser.ipynb` is jupyter notebook using the JupyterDash library to embed a Dash JBrowse LinearGenomeView component in a cell.
 
-To run the Python Dash application
+#### To run the Python Dash application
 ```
 $ python browser.py
 ```
+#### To run the jupyter notebook
 
-To run the jupyter notebook
-Make sure you have jupyter notebook or jupyterlab.
+Make sure you have [jupyter notebook or jupyterlab](https://jupyter.org/install).
 
 Within the myenv conda environment
 ```
@@ -87,13 +94,10 @@ $ pip install jupyterlab
 ```
 More information on using a specific [environment in 
 a jupyter notebook](https://softwarejargon.com/jupyterlab-and-conda-environment-installation-and-setup/)
-
-
-For more information about Dash and Dash applications check out these articles.
-
 ## Usage
 The `jbrowse-jupyter` package provides several utility functions to create and launch Dash JBrowse components in python applications and jupyter notebooks.
 
+### Configuring Components
 * `create`(view_type, **kwargs)- creates a JBrowseConfig configuration object given a view_type 
     - view : creates a default empty JBrowseConfig. e.g `create`('view', genome='hg19')
     - conf: creates a JBrowseConfig from one of the default genomes, e.g `create`('conf')
@@ -101,7 +105,6 @@ The `jbrowse-jupyter` package provides several utility functions to create and l
     - component can be used as any Dash component in Dash applications
 * `launch`(conf, **kwargs) - launches a LinearGenomeView Dash component in a Jupyter cell
     > **Warning**: Only use `launch` in jupyter notebooks
-
 
 ### JBrowseConfig
 Quick overview of the JBrowseConfig API
@@ -111,6 +114,8 @@ The JBrowseConfig API allows us to set an assembly, add tracks, set default sess
 JBrowseConfig().
 * `set_assembly`(assembly_data, aliases, refname_aliases)
     - Sets the assembly subconfiguration
+    - for the refname_alias subconfiguration check out the
+    JBrowse [refname aliasing docs](https://jbrowse.org/jb2/docs/config_guide/#configuring-reference-name-aliasing) 
 * `add_df_track`(track_data, name, **kwargs)
     - requires DataFrame to have columns ['refName', 'start', 'end', 'name']
     - refName and name columns must be strings, start and end must be int
@@ -149,6 +154,7 @@ JBrowseConfig().
 
 <!-- The JBrowseConfig API allows us to set an assembly, add tracks, set default sessions, set custom color themes, and more. -->
  <!-- For full details please reference the documentation. -->
+[DOCUMENTATION](https://gmod.github.io/jbrowse-jupyter/docs/html/index.html) with more details and tutorials.
 
 ## Resources
 * [JBrowse](https://jbrowse.org/jb2/) - the next generation genome browser
