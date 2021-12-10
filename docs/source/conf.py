@@ -89,3 +89,4 @@ suppress_warnings = ["myst.header"]
 #     'includehidden': True,
 #     'titles_only': False
 # }
+add_module_names = False

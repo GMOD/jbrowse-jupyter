@@ -64,14 +64,23 @@ def get_default(name):
 
 def create_component(conf, **kwargs):
     """
-    Creates a Dash JBrowse LinearGenomeView component given a
-        configuration object and optionally an id.
+    Creates a Dash JBrowse LinearGenomeView component 
+    given a configuration object and optionally an id.
+    
+    create_component(hg38.get_config()) where hg38 is an
+    instance of JBrowseConfig
+    
+    :param obj conf: configuration object from JBrowseConfig
+        instance
+    :param str id: id to use in Dash component
+    :return: Dash JBrowse Linear Genome View component
+    :rtype: Dash JBrowse component
     """
     supported = set({"LGV"})
     comp_id = "jbrowse-component"
     dash_comp = kwargs.get("dash_comp", "LGV")
     if "component_id" in kwargs:
-        comp_id = kwargs["component_id"]
+        comp_id = kwargs["id"]
     if dash_comp in supported:
         if dash_comp == "LGV":
             return LinearGenomeView(
@@ -90,7 +99,8 @@ def create_component(conf, **kwargs):
 
 def launch(conf, **kwargs):
     """
-    Launches a LinearGenomeView Dash component.
+    Launches a LinearGenomeView Dash JBrowse component in a
+    server with the help of JupyterDash.
 
     :param obj conf: JBrowseConfiguration object to pass to
         the Dash JBrowse component

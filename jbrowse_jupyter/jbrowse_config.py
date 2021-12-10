@@ -87,15 +87,12 @@ class JBrowseConfig:
 
     def get_config(self):
         """
-        Returns the configuration object
+        Returns the configuration object of the JBrowseConfig
+        instance. This object can then be passed to launch or
+        create_component to launch or create a Dash JBrowse
+        component (currently only supporting LinearGenomeView)
 
-        object can be passed to launch and create_component
-
-        e.g:
-        conf = JBrowseConfig()
-
-        launch(conf.get_config())
-        create_component(conf.get_config())
+        e.g: create("view", genome="hg19").get_config()
         """
         return self.config
 
@@ -118,7 +115,7 @@ class JBrowseConfig:
         """
         Sets the assembly.
 
-        set_assembly("https://path/to/fasta")
+        set_assembly("url/assembly.fasta")
 
         :param str assembly_data: path to the assembly data
         :param list aliases: list of aliases for the assembly
@@ -258,8 +255,8 @@ class JBrowseConfig:
         track data
 
         e.g:
-        add_track("https://data.org/alignments.bam")
-        assumes "https://data.org/alignments.bam.bai" also exists
+        add_track("url.bam")
+        assumes "url.bam.bai" also exists
 
         :param str data: track file or url
             (currently only supporting url)
@@ -399,11 +396,8 @@ class JBrowseConfig:
         Adds an aggregate trix text search adapter.
 
         e.g:
-        add_text_search_adapter(
-            "https://path/to/ixfile.ix",
-            "https://path/to/ixxfile.ixx",
-            "https://path/to/meta.json"
-        )
+        add_text_search_adapter("url/file.ix", url/file.ixx",
+        "url/meta.json")
 
         :param str ix_path: path to ix file
         :param str ixx_path: path to ixx file
@@ -412,7 +406,7 @@ class JBrowseConfig:
         :raises Exception: if assembly has not been configured
         :raises TypeError: if adapter with same adapter id
                 is already configured
-        :raises TypeError: local files are supported
+        :raises TypeError: local files are not supported
         """
         err = "Please set the assembly before adding a text search adapter."
         if not self.get_assembly():
