@@ -1,7 +1,7 @@
 ![Pytest and flake8](https://github.com/GMOD/jbrowse-jupyter/actions/workflows/push.yml/badge.svg)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/browser.ipynb)
 
-# JBrowse Jupyter
+# [JBrowse Jupyter](https://gmod.github.io/jbrowse-jupyter/)
 
 JBrowse Jupyter is a python package that provides a python interface to JBrowse views.
 
@@ -18,6 +18,12 @@ We utilize the Dash JBrowse package along with [jupyter-dash](https://github.com
 You can find more information about our Dash JBrowse library [here](https://github.com/GMOD/dash_jbrowse).
 
 ## Installation
+
+### Pre-requisites
+* [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) - for virtual environments
+* [pip](https://packaging.python.org/en/latest/guides/installing-using-linux-tools/) - python package manager
+* [Python](https://docs.python-guide.org/starting/installation/#installation) - 3.6 or greater
+* [Jupyter](https://jupyter.org/install) - jupyter lab or jupyter notebook to run .ipynb files
 
 ### PyPI
 

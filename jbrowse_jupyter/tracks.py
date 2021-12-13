@@ -211,10 +211,11 @@ def guess_adapter_type(file_location, protocol, index="defaultIndex"):
 
     # fasta indexed
     if bool(re.search(fasta_idx, file_location)):
+        fai = index if index != "defaultIndex" else f"{file_location}.fai"
         return {
             "type": "IndexedFastaAdapter",
             "fastaLocation": make_location(file_location, protocol),
-            "faiLocation": make_location(f"{file_location}.fai", protocol),
+            "faiLocation": make_location(fai, protocol),
         }
 
     # Bgzipped fasta

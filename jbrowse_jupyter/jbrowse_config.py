@@ -12,13 +12,11 @@ def create(view_type, **kwargs):
     """
     Creates a JBrowseConfig given a view type.
 
-    Note: currently not supporting view type JB2config
-
     :param str view_type: the type of view ('view' or 'conf')
     :param str genome: genome ('hg19' or 'hg38')
         for view type `view`
-    :return: JBrowseConfig configuration object
-    :rtype: obj
+    :return: JBrowseConfig
+    :rtype: JBrowseConfig instance
     :raises TypeError: if genome passed is not hg19 or hg38
     :raises TypeError: if genome is not passed when choosing view_type `view`
     :raises TypeError: if view type is not `view` or `conf`
@@ -51,7 +49,12 @@ def create(view_type, **kwargs):
 
 
 class JBrowseConfig:
-    """ Creates a state configuration for JBrowse embeddable components"""
+    """
+    Creates Browse configuration objects.
+    Currently supporting configuration objects for the
+    React JBrowse Linear Genome View
+    https://jbrowse.org/storybook/lgv/main
+    """
     def __init__(self, conf=None):
         """
         Initializes class.
@@ -93,6 +96,9 @@ class JBrowseConfig:
         component (currently only supporting LinearGenomeView)
 
         e.g: create("view", genome="hg19").get_config()
+
+        :return: returns configuration object
+        :rtype: obj
         """
         return self.config
 
@@ -111,22 +117,52 @@ class JBrowseConfig:
         else:
             raise Exception(assembly_error)
 
-    def set_assembly(self, assembly_data, aliases, refname_aliases):
+    def set_assembly(self, assembly_data, **kwargs):
         """
         Sets the assembly.
 
-        set_assembly("url/assembly.fasta")
+        Assumes assembly_data.fai exists for fasta assembly data
+        that is not bgzipped.
 
-        :param str assembly_data: path to the assembly data
-        :param list aliases: list of aliases for the assembly
-        :param obj refname_aliases: configuration for refname aliases.
-        :return: assembly name
-        :rtype: str
+        Assumes assembly_data.fai and assembly_data.gzi exist for
+        bgzipped assembly data.
+
+        e.g set_assembly("url/assembly.fasta.gz", overwrite=True)
+        assumes
+        "url/assembly.fasta.gz.fai" and
+        "url/assembly.fasta.gz.gzi" also exist
+
+        For configuring assemblies check out our config docs
+        https://jbrowse.org/jb2/docs/config_guide/#assembly-config
+
+        :param str assembly_data: path to the sequence data
+        :param str name: (optional) name for the assembly,
+            defaults to name generated from assembly_data file name
+        :param list aliases: (optional) list of aliases for the assembly
+        :param obj refname_aliases: (optional) config for refname aliases.
+        :param str overwrite: flag wether or not to overwrite
+            existing assembly, default to False.
         :raises TypeError: if assembly_data is a local file
+        :raises TypeError: adapter used for file type is not supported or
+            recognized
         """
+        overwrite = kwargs.get('overwrite', False)
+        indx = kwargs.get('index', "defaultIndex")
+        err = 'assembly is already set, set overwrite to True to overwrite'
+        if self.get_assembly() and not overwrite:
+            raise TypeError(err)
+        aliases = kwargs.get('aliases', [])
+        refname_aliases = kwargs.get('refname_aliases', {})
         if (is_url(assembly_data)):
-            name = get_name(assembly_data)
-            assembly_adapter = guess_adapter_type(assembly_data, 'uri')
+            if (indx != 'defaultIndex'):
+                if not is_url(indx):
+                    raise TypeError("Local files are not currently supported")
+            name = kwargs.get('name', get_name(assembly_data))
+            assembly_adapter = guess_adapter_type(assembly_data, 'uri', indx)
+            if (assembly_adapter["type"] == "UNKNOWN"):
+                raise TypeError("Adapter type is not recognized")
+            if (assembly_adapter["type"] == "UNSUPPORTED"):
+                raise TypeError("Adapter type is not supported")
             assembly_config = {
                 "name": name,
                 "sequence": {
