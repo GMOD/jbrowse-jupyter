@@ -12,13 +12,11 @@ def create(view_type, **kwargs):
     """
     Creates a JBrowseConfig given a view type.
 
-    Note: currently not supporting view type JB2config
-
     :param str view_type: the type of view ('view' or 'conf')
     :param str genome: genome ('hg19' or 'hg38')
         for view type `view`
-    :return: JBrowseConfig configuration object
-    :rtype: obj
+    :return: JBrowseConfig
+    :rtype: JBrowseConfig instance
     :raises TypeError: if genome passed is not hg19 or hg38
     :raises TypeError: if genome is not passed when choosing view_type `view`
     :raises TypeError: if view type is not `view` or `conf`
@@ -51,7 +49,12 @@ def create(view_type, **kwargs):
 
 
 class JBrowseConfig:
-    """ Creates a state configuration for JBrowse embeddable components"""
+    """
+    Creates Browse configuration objects.
+    Currently supporting configuration objects for the
+    React JBrowse Linear Genome View
+    https://jbrowse.org/storybook/lgv/main
+    """
     def __init__(self, conf=None):
         """
         Initializes class.
@@ -93,6 +96,9 @@ class JBrowseConfig:
         component (currently only supporting LinearGenomeView)
 
         e.g: create("view", genome="hg19").get_config()
+
+        :return: returns configuration object
+        :rtype: obj
         """
         return self.config
 
@@ -130,13 +136,15 @@ class JBrowseConfig:
         https://jbrowse.org/jb2/docs/config_guide/#assembly-config
 
         :param str assembly_data: path to the sequence data
-        :param list aliases: list of aliases for the assembly
-        :param obj refname_aliases: config for refname aliases.
+        :param str name: (optional) name for the assembly,
+            defaults to name generated from assembly_data file name
+        :param list aliases: (optional) list of aliases for the assembly
+        :param obj refname_aliases: (optional) config for refname aliases.
         :param str overwrite: flag wether or not to overwrite
             existing assembly, default to False.
-        :return: assembly name
-        :rtype: str
         :raises TypeError: if assembly_data is a local file
+        :raises TypeError: adapter used for file type is not supported or
+            recognized
         """
         overwrite = kwargs.get('overwrite', False)
         indx = kwargs.get('index', "defaultIndex")
