@@ -46,7 +46,7 @@ def test_set_assembly_name():
     assert "Please set the assembly before adding a track." in str(excinfo)
     # raises an error, there is no local file support yet
     with pytest.raises(TypeError) as excinfo:
-        conf.set_assembly("./path/to/local/file", [], {})
+        conf.set_assembly("./path/to/local/file")
     assert "Local files are not currently supported." in str(excinfo)
     aliases = ["hg38"]
     uri = "https://s3.amazonaws.com/jbrowse.org/genomes/" \
@@ -61,9 +61,17 @@ def test_set_assembly_name():
     }
     conf.set_assembly(
         "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz",
-        aliases,
-        ref_name_aliases,
+        aliases=aliases,
+        ref_name_aliases=ref_name_aliases,
     )
+    err = "assembly is already set, set overwrite to True to overwrite"
+    with pytest.raises(TypeError) as excinfo:
+        conf.set_assembly(
+            "https://another/assembly.fa.gz",
+            aliases=aliases,
+            ref_name_aliases=ref_name_aliases,
+        )
+    assert err in str(excinfo)
     assert conf.get_assembly_name() == "hg38"
     track_data = "https://s3.amazonaws.com/jbrowse.org/" \
         "genomes/GRCh38/ncbi_refseq/GCA_000001405.15_" \

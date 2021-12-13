@@ -111,22 +111,50 @@ class JBrowseConfig:
         else:
             raise Exception(assembly_error)
 
-    def set_assembly(self, assembly_data, aliases, refname_aliases):
+    def set_assembly(self, assembly_data, **kwargs):
         """
         Sets the assembly.
 
-        set_assembly("url/assembly.fasta")
+        Assumes assembly_data.fai exists for fasta assembly data
+        that is not bgzipped.
 
-        :param str assembly_data: path to the assembly data
+        Assumes assembly_data.fai and assembly_data.gzi exist for
+        bgzipped assembly data.
+
+        e.g set_assembly("url/assembly.fasta.gz", overwrite=True)
+        assumes
+        "url/assembly.fasta.gz.fai" and
+        "url/assembly.fasta.gz.gzi" also exist
+
+        For configuring assemblies check out our config docs
+        https://jbrowse.org/jb2/docs/config_guide/#assembly-config
+
+        :param str assembly_data: path to the sequence data
         :param list aliases: list of aliases for the assembly
-        :param obj refname_aliases: configuration for refname aliases.
+        :param obj refname_aliases: config for refname aliases.
+        :param str overwrite: flag wether or not to overwrite
+            existing assembly, default to False.
         :return: assembly name
         :rtype: str
         :raises TypeError: if assembly_data is a local file
         """
+        overwrite = kwargs.get('overwrite', False)
+        indx = kwargs.get('index', "defaultIndex")
+        err = 'assembly is already set, set overwrite to True to overwrite'
+        if self.get_assembly() and not overwrite:
+            raise TypeError(err)
+        aliases = kwargs.get('aliases', [])
+        refname_aliases = kwargs.get('refname_aliases', {})
         if (is_url(assembly_data)):
-            name = get_name(assembly_data)
-            assembly_adapter = guess_adapter_type(assembly_data, 'uri')
+            if (indx != 'defaultIndex'):
+                if not is_url(indx):
+                    raise TypeError("Local files are not currently supported")
+            name = kwargs.get('name', get_name(assembly_data))
+            assembly_adapter = guess_adapter_type(assembly_data, 'uri', indx)
+            if (assembly_adapter["type"] == "UNKNOWN"):
+                raise TypeError("Adapter type is not recognized")
+            if (assembly_adapter["type"] == "UNSUPPORTED"):
+                raise TypeError("Adapter type is not supported")
             assembly_config = {
                 "name": name,
                 "sequence": {
