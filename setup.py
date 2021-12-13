@@ -10,7 +10,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 # TODO: figure out install requires vs requirements.txt and look up classifiers
 setuptools.setup(
     name="jbrowse-jupyter",
-    version="0.0.3",
+    version="0.0.4",
     author="Teresa De Jesus Martinez",
     author_email="tere486martinez@gmail.com",
     maintainer="Teresa De Jesus Martinez; JBrowse Team",
@@ -28,8 +28,9 @@ setuptools.setup(
     packages=['jbrowse_jupyter'],
     python_requires=">=3.6",
     classifiers=[
-        "Development Status :: 1 - Planning",
         "Programming Language :: Python :: 3",
         "Topic :: Scientific/Engineering",
+        "Intended Audience :: Science/Research",
+        "Topic :: Scientific/Engineering :: Bio-Informatics",
     ],
 )
