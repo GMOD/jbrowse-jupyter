@@ -19,6 +19,12 @@ You can find more information about our Dash JBrowse library [here](https://gith
 
 ## Installation
 
+### Pre-requisites
+* [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) - for virtual environments
+* [pip](https://packaging.python.org/en/latest/guides/installing-using-linux-tools/) - python package manager
+* [Python](https://docs.python-guide.org/starting/installation/#installation) - 3.6 or greater
+* [Jupyter](https://jupyter.org/install) - jupyter lab or jupyter notebook to run .ipynb files
+
 ### PyPI
 
 ```
