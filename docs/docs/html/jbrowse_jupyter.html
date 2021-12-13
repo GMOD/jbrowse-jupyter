@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JBrowseConfig &mdash; JBrowse Jupyter</title>
+  <title>JBrowseConfig API &mdash; JBrowse Jupyter</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -42,7 +42,7 @@
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="util.html">Creating components</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">JBrowseConfig</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">JBrowseConfig API</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorials</a></li>
@@ -64,7 +64,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="modules.html">Reference</a> &raquo;</li>
-      <li>JBrowseConfig</li>
+      <li>JBrowseConfig API</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/jbrowse_jupyter.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -75,11 +75,14 @@
            <div itemprop="articleBody">
              
   <section id="module-jbrowse_jupyter.jbrowse_config">
-<span id="jbrowseconfig"></span><h1>JBrowseConfig<a class="headerlink" href="#module-jbrowse_jupyter.jbrowse_config" title="Permalink to this headline"></a></h1>
+<span id="jbrowseconfig-api"></span><h1>JBrowseConfig API<a class="headerlink" href="#module-jbrowse_jupyter.jbrowse_config" title="Permalink to this headline"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.JBrowseConfig">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">JBrowseConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig" title="Permalink to this definition"></a></dt>
-<dd><p>Creates a state configuration for JBrowse embeddable components</p>
+<dd><p>Creates Browse configuration objects.
+Currently supporting configuration objects for the
+React JBrowse Linear Genome View
+<a class="reference external" href="https://jbrowse.org/storybook/lgv/main">https://jbrowse.org/storybook/lgv/main</a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.JBrowseConfig.add_df_track">
 <span class="sig-name descname"><span class="pre">add_df_track</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">track_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.add_df_track" title="Permalink to this definition"></a></dt>
@@ -181,29 +184,48 @@ instance. This object can then be passed to launch or
 create_component to launch or create a Dash JBrowse
 component (currently only supporting LinearGenomeView)</p>
 <p>e.g: create(“view”, genome=”hg19”).get_config()</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>returns configuration object</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>obj</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.JBrowseConfig.set_assembly">
-<span class="sig-name descname"><span class="pre">set_assembly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">assembly_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aliases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refname_aliases</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.set_assembly" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">set_assembly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">assembly_data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.set_assembly" title="Permalink to this definition"></a></dt>
 <dd><p>Sets the assembly.</p>
-<p>set_assembly(“url/assembly.fasta”)</p>
+<p>Assumes assembly_data.fai exists for fasta assembly data
+that is not bgzipped.</p>
+<p>Assumes assembly_data.fai and assembly_data.gzi exist for
+bgzipped assembly data.</p>
+<p>e.g set_assembly(“url/assembly.fasta.gz”, overwrite=True)
+assumes
+“url/assembly.fasta.gz.fai” and
+“url/assembly.fasta.gz.gzi” also exist</p>
+<p>For configuring assemblies check out our config docs
+<a class="reference external" href="https://jbrowse.org/jb2/docs/config_guide/#assembly-config">https://jbrowse.org/jb2/docs/config_guide/#assembly-config</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>assembly_data</strong> (<em>str</em>) – path to the assembly data</p></li>
-<li><p><strong>aliases</strong> (<em>list</em>) – list of aliases for the assembly</p></li>
-<li><p><strong>refname_aliases</strong> (<em>obj</em>) – configuration for refname aliases.</p></li>
+<li><p><strong>assembly_data</strong> (<em>str</em>) – path to the sequence data</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – (optional) name for the assembly,
+defaults to name generated from assembly_data file name</p></li>
+<li><p><strong>aliases</strong> (<em>list</em>) – (optional) list of aliases for the assembly</p></li>
+<li><p><strong>refname_aliases</strong> (<em>obj</em>) – (optional) config for refname aliases.</p></li>
+<li><p><strong>overwrite</strong> (<em>str</em>) – flag wether or not to overwrite
+existing assembly, default to False.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>assembly name</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>TypeError</strong> – if assembly_data is a local file</p>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – if assembly_data is a local file</p></li>
+<li><p><strong>TypeError</strong> – adapter used for file type is not supported or
+recognized</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>

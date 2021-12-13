@@ -70,16 +70,6 @@
                             "configuration": "GRCh38-ReferenceSequenceTrack-LinearReferenceSequenceDisplay"
                         }
                     ]
-                },
-                {
-                    "type": "FeatureTrack",
-                    "configuration": "ncbi_refseq_109_hg38",
-                    "displays": [
-                        {
-                            "type": "LinearBasicDisplay",
-                            "configuration": "ncbi_refseq_109_hg38-LinearBasicDisplay"
-                        }
-                    ]
                 }
             ]
         }
