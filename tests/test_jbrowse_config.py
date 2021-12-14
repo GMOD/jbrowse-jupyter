@@ -80,11 +80,13 @@ def test_set_assembly_name():
     )
     assert len(conf.get_tracks()) == 1
 
+    alias_uri = "https://s3.amazonaws.com/jbrowse.org/genomes" \
+        "/hg19/hg19_aliases.txt"
     ref_name = {
         "adapter": {
             "type": "RefNameAliasAdapter",
             "location": {
-                "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/hg19/hg19_aliases.txt"
+                "uri": alias_uri
             }
         }
     }
@@ -92,14 +94,16 @@ def test_set_assembly_name():
         "GRCh37"
     ]
 
-    conf.set_assembly("https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz", aliases, ref_name)
+    a_data = "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz"
+    conf.set_assembly(a_data, aliases, ref_name)
     assert conf.get_assembly_name() == 'hg19'
 
     ref_name = {}
     aliases = []
-    conf.set_assembly("https://s3.amazonaws.com/jbrowse.org/genomes/tomato/SL4.0/S_lycopersicum_chromosomes.4.00.fa.gz", aliases, ref_name)
+    a_data2 = "https://s3.amazonaws.com/jbrowse.org/genomes/" \
+        "tomato/SL4.0/S_lycopersicum_chromosomes.4.00.fa.gz"
+    conf.set_assembly(a_data2, aliases, ref_name)
     assert conf.get_assembly_name() == 'SL4.0'
-
 
 
 def test_create_view():
