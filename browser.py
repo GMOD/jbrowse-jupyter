@@ -1,8 +1,7 @@
-import dash
-import dash_html_components as html
+from dash import html, Dash
 from jbrowse_jupyter import create, create_component
 
-app = dash.Dash(__name__)
+app = Dash(__name__)
 
 # create config and pass additional params
 jbrowse_conf = create("config")
