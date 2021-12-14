@@ -33,7 +33,7 @@ def test_set_theme():
     assert secondary["secondary"]["main"] == "#0097a7"
 
 
-def test_set_assembly_name():
+def test_set_assembly():
     myError = "Can not get assembly name. Please configure the assembly first."
     conf = JBrowseConfig()
     # raises exception trying to get name before setting an assembly
@@ -103,15 +103,9 @@ def test_set_assembly_name():
     ]
 
     a_data = "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz"
-    conf.set_assembly(a_data, aliases, ref_name)
+    conf.set_assembly(a_data, aliases=aliases, refname_aliases=ref_name, overwrite=True)
     assert conf.get_assembly_name() == 'hg19'
 
-    ref_name = {}
-    aliases = []
-    a_data2 = "https://s3.amazonaws.com/jbrowse.org/genomes/" \
-        "tomato/SL4.0/S_lycopersicum_chromosomes.4.00.fa.gz"
-    conf.set_assembly(a_data2, aliases, ref_name)
-    assert conf.get_assembly_name() == 'SL4.0'
 
 
 def test_create_view():
