@@ -1,7 +1,8 @@
 import re
 import os
 import json
-import dash_html_components as html
+from dash import html
+# import dash_html_components as html
 import pkg_resources
 from dash_jbrowse import LinearGenomeView
 from urllib.parse import urlparse
