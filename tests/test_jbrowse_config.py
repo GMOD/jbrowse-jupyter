@@ -13,6 +13,12 @@ def test_set_location():
     conf.set_location("1:1..90")
     assert conf.get_config()["location"] == "1:1..90"
 
+    conf.set_location("SL4.0ch00:1..9,643,250")
+    assert conf.get_config()["location"] == "SL4.0ch00:1..9,643,250"
+
+    conf.set_location("ctgA:1105..1221")
+    assert conf.get_config()["location"] == "ctgA:1105..1221"
+
 
 def test_set_theme():
     conf = JBrowseConfig()
@@ -27,7 +33,7 @@ def test_set_theme():
     assert secondary["secondary"]["main"] == "#0097a7"
 
 
-def test_set_assembly_name():
+def test_set_assembly():
     myError = "Can not get assembly name. Please configure the assembly first."
     conf = JBrowseConfig()
     # raises exception trying to get name before setting an assembly
@@ -81,6 +87,25 @@ def test_set_assembly_name():
         name="test-demo",
     )
     assert len(conf.get_tracks()) == 1
+
+    alias_uri = "https://s3.amazonaws.com/jbrowse.org/genomes" \
+        "/hg19/hg19_aliases.txt"
+    ref_name = {
+        "adapter": {
+            "type": "RefNameAliasAdapter",
+            "location": {
+                "uri": alias_uri
+            }
+        }
+    }
+    aliases = [
+        "GRCh37"
+    ]
+
+    a_data = "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz"
+    conf.set_assembly(a_data, aliases=aliases, refname_aliases=ref_name, overwrite=True)
+    assert conf.get_assembly_name() == 'hg19'
+
 
 
 def test_create_view():

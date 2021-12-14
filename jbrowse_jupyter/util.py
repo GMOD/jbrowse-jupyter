@@ -52,6 +52,11 @@ def get_name(assembly_file):
     return assembly_file[name_start:name_end]
 
 
+def get_name_regex(assembly_file):
+    """ Returns the name of the assembly based on the assembly data file"""
+    return re.search(r'(\w+)\.(?:fa|fasta|fa\.gz)$', assembly_file).group(1)
+
+
 def get_default(name):
     """Returns the configuration oject given a genome name."""
     base = pkg_resources.resource_filename("jbrowse_jupyter", "data")
