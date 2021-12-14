@@ -103,9 +103,9 @@ def test_set_assembly():
     ]
 
     a_data = "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz"
-    conf.set_assembly(a_data, aliases=aliases, refname_aliases=ref_name, overwrite=True)
+    conf.set_assembly(a_data, aliases=aliases,
+                      refname_aliases=ref_name, overwrite=True)
     assert conf.get_assembly_name() == 'hg19'
-
 
 
 def test_create_view():
