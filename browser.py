@@ -19,7 +19,9 @@ ref_name_aliases = {
 
 # setting the assembly
 assembly_data = "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz"
-jbrowse_conf.set_assembly(assembly_data, aliases, ref_name_aliases)
+jbrowse_conf.set_assembly(assembly_data,
+                          aliases=aliases,
+                          ref_name_aliases=ref_name_aliases)
 
 # add a track
 track_data = "https://s3.amazonaws.com/jbrowse.org/genomes/" \

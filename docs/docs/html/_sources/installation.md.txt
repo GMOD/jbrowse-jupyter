@@ -8,7 +8,7 @@ $ pip install jbrowse-jupyter
 
 ### Install with conda
 
-Clone this repository and [install conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html). Once you have conda installed, follow the steps found below 
+Clone the GMOD/jbrowse-jupyter [repository](https://github.com/GMOD/jbrowse-jupyter) and [install conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html). Once you have conda installed, follow the steps found below 
 to create a conda envirnment and install the dependecies.
 ```
 $ cd jbrowse-jupyter

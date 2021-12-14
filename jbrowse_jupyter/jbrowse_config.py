@@ -12,13 +12,11 @@ def create(view_type, **kwargs):
     """
     Creates a JBrowseConfig given a view type.
 
-    Note: currently not supporting view type JB2config
-
     :param str view_type: the type of view ('view' or 'conf')
     :param str genome: genome ('hg19' or 'hg38')
         for view type `view`
-    :return: JBrowseConfig configuration object
-    :rtype: obj
+    :return: JBrowseConfig
+    :rtype: JBrowseConfig instance
     :raises TypeError: if genome passed is not hg19 or hg38
     :raises TypeError: if genome is not passed when choosing view_type `view`
     :raises TypeError: if view type is not `view` or `conf`
@@ -51,7 +49,12 @@ def create(view_type, **kwargs):
 
 
 class JBrowseConfig:
-    """ Creates a state configuration for JBrowse embeddable components"""
+    """
+    Creates Browse configuration objects.
+    Currently supporting configuration objects for the
+    React JBrowse Linear Genome View
+    https://jbrowse.org/storybook/lgv/main
+    """
     def __init__(self, conf=None):
         """
         Initializes class.
@@ -86,25 +89,27 @@ class JBrowseConfig:
         self.tracks_ids_map = {}
 
     def get_config(self):
-        """ Returns the configuration object. """
+        """
+        Returns the configuration object of the JBrowseConfig
+        instance. This object can then be passed to launch or
+        create_component to launch or create a Dash JBrowse
+        component (currently only supporting LinearGenomeView)
+
+        e.g: create("view", genome="hg19").get_config()
+
+        :return: returns configuration object
+        :rtype: obj
+        """
         return self.config
 
     # ========== Assembly ===========
 
     def get_assembly(self):
-        """
-        Returns the JBrowseConfig assembly subconfiguration object.
-        """
+        # Returns the JBrowseConfig assembly subconfiguration object
         return self.config["assembly"]
 
     def get_assembly_name(self):
-        """
-        Returns the assembly name.
-
-        :return: assembly name
-        :rtype: str
-        :raises Exception: if assembly has not been configured.
-        """
+        # Returns the assembly name.
         assembly_error = "Can not get assembly name. " \
             "Please configure the assembly first."
         if self.get_assembly():
@@ -112,20 +117,52 @@ class JBrowseConfig:
         else:
             raise Exception(assembly_error)
 
-    def set_assembly(self, assembly_data, aliases, refname_aliases):
+    def set_assembly(self, assembly_data, **kwargs):
         """
         Sets the assembly.
 
-        :param str assembly_data: path to the assembly data
-        :param list aliases: list of aliases for the assembly
-        :param obj refname_aliases: configuration for refname aliases.
-        :return: assembly name
-        :rtype: str
+        Assumes assembly_data.fai exists for fasta assembly data
+        that is not bgzipped.
+
+        Assumes assembly_data.fai and assembly_data.gzi exist for
+        bgzipped assembly data.
+
+        e.g set_assembly("url/assembly.fasta.gz", overwrite=True)
+        assumes
+        "url/assembly.fasta.gz.fai" and
+        "url/assembly.fasta.gz.gzi" also exist
+
+        For configuring assemblies check out our config docs
+        https://jbrowse.org/jb2/docs/config_guide/#assembly-config
+
+        :param str assembly_data: path to the sequence data
+        :param str name: (optional) name for the assembly,
+            defaults to name generated from assembly_data file name
+        :param list aliases: (optional) list of aliases for the assembly
+        :param obj refname_aliases: (optional) config for refname aliases.
+        :param str overwrite: flag wether or not to overwrite
+            existing assembly, default to False.
         :raises TypeError: if assembly_data is a local file
+        :raises TypeError: adapter used for file type is not supported or
+            recognized
         """
+        overwrite = kwargs.get('overwrite', False)
+        indx = kwargs.get('index', "defaultIndex")
+        err = 'assembly is already set, set overwrite to True to overwrite'
+        if self.get_assembly() and not overwrite:
+            raise TypeError(err)
+        aliases = kwargs.get('aliases', [])
+        refname_aliases = kwargs.get('refname_aliases', {})
         if (is_url(assembly_data)):
-            name = get_name(assembly_data)
-            assembly_adapter = guess_adapter_type(assembly_data, 'uri')
+            if (indx != 'defaultIndex'):
+                if not is_url(indx):
+                    raise TypeError("Local files are not currently supported")
+            name = kwargs.get('name', get_name(assembly_data))
+            assembly_adapter = guess_adapter_type(assembly_data, 'uri', indx)
+            if (assembly_adapter["type"] == "UNKNOWN"):
+                raise TypeError("Adapter type is not recognized")
+            if (assembly_adapter["type"] == "UNSUPPORTED"):
+                raise TypeError("Adapter type is not supported")
             assembly_config = {
                 "name": name,
                 "sequence": {
@@ -143,9 +180,7 @@ class JBrowseConfig:
     # ============ Tracks =============
 
     def get_reference_track(self):
-        """
-        Returns the reference track for the configured assembly.
-        """
+        # Returns the reference track for the configured assembly.
         assembly_name = self.get_assembly_name()
         configuration = f'{assembly_name}-ReferenceSequenceTrack'
         conf_str = f'{configuration}-LinearReferenceSequenceDisplay'
@@ -161,10 +196,7 @@ class JBrowseConfig:
         }
 
     def get_track_display(self, track):
-        """
-        Returns the track display subconfiguration.
-
-        """
+        # Returns the track display subconfiguration.
         track_type = track["type"]
         track_id = track["trackId"]
         display_type = guess_display_type(track_type)
@@ -180,17 +212,13 @@ class JBrowseConfig:
         }
 
     def get_track(self, track_name):
-        """
-        Return the list of track configurations with that name.
-        """
+        # Return the list of track configurations with that name
         tracks = [track for track in self.get_tracks() if track["name"]
                   == track_name]
         return tracks
 
     def get_tracks(self):
-        """
-        Returns list of tracks in the configuration.
-        """
+        # Returns list of tracks in the configuration.
         return self.config["tracks"]
 
     def add_df_track(self, track_data, name, **kwargs):
@@ -202,11 +230,11 @@ class JBrowseConfig:
         Requires DataFrame to have columns named 'refName',
         'start', 'end', and 'name'
 
-        refName - str
-        start - int
-        end - int
-        name - str
-        score - (optional) int
+        Requires refName and name columns to be of type str and
+        start, end, and score to be int
+
+        e.g:
+        add_df_track(df, "track_name")
 
         :param df: panda DataFrame with the track data.
         :param str name: name for the track.
@@ -258,6 +286,14 @@ class JBrowseConfig:
         Adds a track subconfiguration to the list of tracks
         in the config.
 
+        if an index is not provided, it will assume an index file
+        with the same name  can be found in the directory of the
+        track data
+
+        e.g:
+        add_track("url.bam")
+        assumes "url.bam.bai" also exists
+
         :param str data: track file or url
             (currently only supporting url)
         :param str name: (optional) name for the track
@@ -266,6 +302,7 @@ class JBrowseConfig:
         :param str index: (optional) index file for the track
         :param str track_type: (optional) track type
         :param boolean overwrite: (optional) defaults to False
+        :raises Exception: if assembly has not been configured
         :raises TypeError: if track data is not provided
         :raises TypeError: if track type is not supported
         """
@@ -338,6 +375,9 @@ class JBrowseConfig:
         """
         Sets initial location for when the browser first loads.
 
+        e.g:
+        set_location("chr1:1..90")
+
         :param str location: location, syntax 'refName:start-end'
         """
         self.config["location"] = location
@@ -347,10 +387,17 @@ class JBrowseConfig:
         """
         Sets the default session given a list of track ids
 
+        e.g:
+        set_default_session(['track_id', 'track_id2'])
+
         :param tracks_ids: list[str] list of track ids to display
         :param boolean display_assembly: display the assembly reference
             sequence track. Defaults to True
+        :raises Exception: if assembly has not been configured
         """
+        err = "Please set the assembly before setting the default session."
+        if not self.get_assembly():
+            raise Exception(err)
         reference_track = {}
         tracks_configs = []
         if (display_assembly):
@@ -371,19 +418,35 @@ class JBrowseConfig:
         }
 
     def get_default_session(self):
-        """ Returns the defaultSession subconfiguration. """
+        # Returns the defaultSession subconfiguration
         return self.config["defaultSession"]
 
     # ====== Advanced Customization ===============
     def get_text_search_adapters(self):
-        """ Returns the aggregateTextSearchAdapters in the config. """
+        # Returns the aggregateTextSearchAdapters in the config
         return self.config["aggregateTextSearchAdapters"]
 
     def add_text_search_adapter(self, ix_path,
                                 ixx_path, meta_path, adapter_id=None):
-        """ Adds a trix text search adapter. """
+        """
+        Adds an aggregate trix text search adapter.
+
+        e.g:
+        add_text_search_adapter("url/file.ix", url/file.ixx",
+        "url/meta.json")
+
+        :param str ix_path: path to ix file
+        :param str ixx_path: path to ixx file
+        :param str meta_path: path to meta.json file
+        :param str adapter_id: optional adapter_id
+        :raises Exception: if assembly has not been configured
+        :raises TypeError: if adapter with same adapter id
+                is already configured
+        :raises TypeError: local files are not supported
+        """
+        err = "Please set the assembly before adding a text search adapter."
         if not self.get_assembly():
-            raise Exception("Please set the assembly before adding a track.")
+            raise Exception(err)
         if (not (is_url(ix_path) and is_url(ixx_path) and is_url(meta_path))):
             raise TypeError("Local files are not currently supported.")
         assembly_name = self.get_assembly_name()
@@ -409,14 +472,14 @@ class JBrowseConfig:
         adapters = self.get_text_search_adapters()
         exists = [a for a in adapters if a["textSearchAdapterId"] == text_id]
         if len(exists) > 0:
-            raise Exception("Adapter already exists for given adapterId: "
+            raise TypeError("Adapter already exists for given adapterId: "
                             f'{text_id}.Provide a different adapter_id'
                             )
         adapters.append(text_search_adapter)
         self.config["aggregateTextSearchAdapters"] = adapters
 
     def get_theme(self):
-        """ Returns the theme subconfiguration. """
+        # Returns the theme subconfiguration.
         subconfiguration = self.config["configuration"]
         return subconfiguration["theme"]
 
@@ -425,6 +488,9 @@ class JBrowseConfig:
         """
         Sets the theme in the configuration. Accepts up to 4
         hexadecimal colors.
+
+        e.g:
+        set_theme("#311b92", "#0097a7", "#f57c00", "#d50000")
 
         :param str primary: primary color of custom palette
         :param str secondary: (optional) secondary color

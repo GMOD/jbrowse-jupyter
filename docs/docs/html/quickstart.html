@@ -76,19 +76,39 @@
   <section id="quickstart">
 <h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline"></a></h1>
 <p>JBrowse Jupyter is a python package that provides a python interface to JBrowse 2 views.</p>
-<p>The package provides a JBrowseConfig API to facilitate the creation of JBrowse 2 React Linear Genome View’s state configuration objects. It also provides utility functions to create and embed Dash JBrowse components in jupyter notebooks and python applications.</p>
-<section id="jupyter-notebook">
-<h2>Jupyter Notebook<a class="headerlink" href="#jupyter-notebook" title="Permalink to this headline"></a></h2>
+<p>The package provides a JBrowseConfig API to facilitate the customization of JBrowse 2 React Linear Genome View’s state configuration objects. It also provides utility functions to create Dash JBrowse components to embed in Dash applications and others to embed them in jupyter notebooks.</p>
+<p>First,</p>
+<p>install the jupyter-jbrowse package</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install jupyter-jbrowse
 </pre></div>
 </div>
+<section id="jupyter-notebook">
+<h2>Jupyter Notebook<a class="headerlink" href="#jupyter-notebook" title="Permalink to this headline"></a></h2>
+<p>Using the package, we can create a Dash JBrowse LinearGenomeView  to embed in a jupyter cell.</p>
+<ol class="arabic simple">
+<li><p>Import the package’s <code class="docutils literal notranslate"><span class="pre">create</span></code> and <code class="docutils literal notranslate"><span class="pre">launch</span></code> methods.</p></li>
+<li><p>Use the <code class="docutils literal notranslate"><span class="pre">create(view_type,</span> <span class="pre">**kwargs)</span></code> to create a <code class="docutils literal notranslate"><span class="pre">JBrowseConfig</span></code> from one of the provided default assemblies/genomes. Currently providing hg38 and hg19. For more information about the default, you can checkout the data directory in our repo <a class="reference external" href="https://github.com/GMOD/jbrowse-jupyter/tree/doc_updates/jbrowse_jupyter/data">here</a></p>
+<ul class="simple">
+<li><p>for further customization of the config, check functions that the JBrowseConfig provides</p></li>
+</ul>
+</li>
+<li><p>Use the <code class="docutils literal notranslate"><span class="pre">launch</span></code> utility function with the hg38 config to create and launch a Dash JBrowse Linear Genome View in a jupyter notebook cell.</p></li>
+</ol>
 <p><img alt="Launching hg38 LGV in python notebook" src="_images/quickstart.png" />
 <em>Launching a Linear Genome View in Jupyter Notebook</em></p>
 </section>
 <section id="python-dash-application">
 <h2>Python Dash Application<a class="headerlink" href="#python-dash-application" title="Permalink to this headline"></a></h2>
+<ol class="arabic simple">
+<li><p>Import the package’s <code class="docutils literal notranslate"><span class="pre">create</span></code> and  <code class="docutils literal notranslate"><span class="pre">create_component</span></code></p></li>
+<li><p>Use the <code class="docutils literal notranslate"><span class="pre">create(view_type,</span> <span class="pre">**kwargs)</span></code> to create a <code class="docutils literal notranslate"><span class="pre">JBrowseConfig</span></code> from one of the provided default assemblies/genomes. Currently providing hg38 and hg19. For more information about the default, you can checkout the data directory in our repo <a class="reference external" href="https://github.com/GMOD/jbrowse-jupyter/tree/doc_updates/jbrowse_jupyter/data">here</a></p>
+<ul class="simple">
+<li><p>for further customization of the config, check functions that the JBrowseConfig provides</p></li>
+</ul>
+</li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">create_component</span></code> to create a Dash JBrowse Linear Genome View component. The example below uses dash and dash_html_components to create a python application.</p></li>
+</ol>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dash</span>
-<span class="kn">import</span> <span class="nn">dash_jbrowse</span>
 <span class="kn">import</span> <span class="nn">dash_html_components</span> <span class="k">as</span> <span class="nn">html</span>
 <span class="kn">from</span> <span class="nn">jbrowse_jupyter</span> <span class="kn">import</span> <span class="n">create</span><span class="p">,</span> <span class="n">create_component</span>
 
