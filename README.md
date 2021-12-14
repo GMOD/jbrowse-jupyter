@@ -49,7 +49,7 @@ $ pip install jbrowse-jupyter
 ```
 
 *Launching a Linear Genome View in Jupyter Notebook*
-![Launching hg38 LGV in python notebook](./images/notebook.png)
+![Launching hg38 LGV in python notebook](https://github.com/GMOD/jbrowse-jupyter/raw/main/images/notebook.png)
 
 *JBrowse Linear Genome view in python Dash application*
 ```python
@@ -74,7 +74,7 @@ if __name__ == "__main__":
     app.run_server(port=8081, debug=True)
 
 ```
-![Dash JBrowse LGV in python app](./images/python_app.png)
+![Dash JBrowse LGV in python app](https://github.com/GMOD/jbrowse-jupyter/raw/main/images/python_app.png)
 You can customize the Linear Genome View by modifying the `jbrowse_conf`. The `jbrowse_conf` is an instance of our `JBrowseConfig`, and can be modified to set an assembly, add tracks, set custom color palettes and more.
 
 Find more information about the JBrowseConfig API [here](https://gmod.github.io/jbrowse-jupyter/docs/html/index.html)
