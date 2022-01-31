@@ -1,4 +1,4 @@
-name: Publish Python 🐍 distributions 📦 TestPyPI
+name: Publish Python 🐍 distributions 📦 PyPI
 on:
   push:
     branches:
@@ -20,7 +20,7 @@ jobs:
      - name: Test with pytest
        run: |
          pytest tests -v
-     - name: Build and publish to TestPyPI
+     - name: Build and publish to PyPI
        run: |
          # Install the package from setup.py
          python3 setup.py install
