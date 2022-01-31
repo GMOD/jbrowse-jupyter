@@ -8,13 +8,12 @@ from jbrowse_jupyter.tracks import (
 )
 
 
-def create(view_type, **kwargs):
+def create(view_type="LGV", **kwargs):
     """
     Creates a JBrowseConfig given a view type.
 
-    :param str view_type: the type of view ('view' or 'conf')
+    :param str view_type: the type of view ('LGV' or 'CGV'), defaults to LGV
     :param str genome: genome ('hg19' or 'hg38')
-        for view type `view`
     :return: JBrowseConfig
     :rtype: JBrowseConfig instance
     :raises TypeError: if genome passed is not hg19 or hg38
@@ -22,55 +21,65 @@ def create(view_type, **kwargs):
     :raises TypeError: if view type is not `view` or `conf`
     """
     available_genomes = {"hg19", "hg38"}
-    conf = {}
-    if view_type == "view":
-        if "genome" in kwargs:
-            genome = kwargs["genome"]
-            if genome in available_genomes:
-                conf = get_default(genome)
-            else:
-                raise TypeError(
-                    f'{genome} is not a valid default genome to view')
-        else:
-            raise TypeError("genome is required arg for view_type=view")
-    elif view_type == "JB2config":
-        raise TypeError("currently not supporting JB2 configs files")
-    elif view_type == "config":
-        if "conf" in kwargs:
-            conf = kwargs["conf"]
-        else:
-            # default empty JBrowse config
-            return JBrowseConfig()
-    else:
-        err = f'{view_type} is an invalid view type.' \
-            "Please choose view or config"
-        raise TypeError(err)
-    return JBrowseConfig(conf=conf)
+    conf = kwargs.get('conf', {})
+    genome = kwargs.get('genome', "empty")
+    # view type (LGV or CGV)
+    if view_type != "LGV" and view_type != "CGV":
+        raise TypeError(f'Currently not supporting view_type: {view_type}.')
+    # configuration
+    # 1) genomes available
+    # 2) with own conf obj OR
+    # 3) empty default config to customize)
+    no_configuration = (genome != "empty" and not conf)
+    # Check passed genome is available
+    message1 = "is not a valid default genome to view"
+    message2 = "Choose from hg19 or hg38 or pass your own conf"
+    if genome not in available_genomes and no_configuration:
+        raise TypeError(
+                    f'"{genome}" {message1}.{message2}.')
+    #  genome
+    if genome in available_genomes:
+        conf = get_default(genome, view_type)
+    # start from empty JBrowseConfig
+    elif not conf:
+        return JBrowseConfig(view=view_type)
+    # get customized JBrowseConfig
+    return JBrowseConfig(view=view_type, conf=conf)
 
 
 class JBrowseConfig:
     """
-    Creates Browse configuration objects.
+    Creates JBrowse configuration objects.
     Currently supporting configuration objects for the
-    React JBrowse Linear Genome View
+    React JBrowse Linear Genome View and React JBrowse
+    Circular Genome View
     https://jbrowse.org/storybook/lgv/main
+    https://jbrowse.org/storybook/cgv/main/
+
     """
-    def __init__(self, conf=None):
+    def __init__(self, view="LGV", conf=None):
         """
         Initializes class.
 
         :param obj conf: optional conf obj
         """
+        view_default = {
+            "id": 'linearGenomeView',
+            "type": 'LinearGenomeView',
+            "tracks": []
+        }
+        if view != "LGV" and view == "CGV":
+            view_default = {
+                "id": 'circularView',
+                "type": 'CircularView',
+                "tracks": []
+            }
         default = {
             "assembly": {},
             "tracks": [],
             "defaultSession": {
                 "name": "default-session",
-                "view": {
-                    "id": 'linearGenomeView',
-                    "type": 'LinearGenomeView',
-                    "tracks": []
-                }
+                "view": view_default
             },
             "aggregateTextSearchAdapters": [],
             "location": "",
@@ -87,15 +96,16 @@ class JBrowseConfig:
             ids = {x["trackId"]: x for x in conf["tracks"]}
             self.tracks_ids_map = ids
         self.tracks_ids_map = {}
+        self.view = view
 
     def get_config(self):
         """
         Returns the configuration object of the JBrowseConfig
         instance. This object can then be passed to launch or
         create_component to launch or create a Dash JBrowse
-        component (currently only supporting LinearGenomeView)
+        component
 
-        e.g: create("view", genome="hg19").get_config()
+        e.g: create("LGV", genome="hg19").get_config()
 
         :return: returns configuration object
         :rtype: obj
@@ -199,7 +209,7 @@ class JBrowseConfig:
         # Returns the track display subconfiguration.
         track_type = track["type"]
         track_id = track["trackId"]
-        display_type = guess_display_type(track_type)
+        display_type = guess_display_type(track_type, self.view)
         return {
             "type": track_type,
             "configuration": track_id,
@@ -380,7 +390,10 @@ class JBrowseConfig:
 
         :param str location: location, syntax 'refName:start-end'
         """
-        self.config["location"] = location
+        if (self.view == 'CGV'):
+            raise TypeError("Location is not available to set on a CGV")
+        else:
+            self.config["location"] = location
 
     # ======= default session ========
     def set_default_session(self, tracks_ids, display_assembly=True):
@@ -408,14 +421,24 @@ class JBrowseConfig:
         # guess the display type
         for t in tracks_to_display:
             tracks_configs.append(self.get_track_display(t))
-        self.config["defaultSession"] = {
-            "name": "my session",
-            "view": {
-                "id": "LinearGenomeView",
-                "type": "LinearGenomeView",
-                "tracks": tracks_configs
+        if (self.view == "CGV"):
+            self.config["defaultSession"] = {
+                "name": "my session",
+                "view": {
+                    "id": "circularView",
+                    "type": "CircularView",
+                    "tracks": tracks_configs
+                }
             }
-        }
+        else:
+            self.config["defaultSession"] = {
+                "name": "my session",
+                "view": {
+                    "id": "LinearGenomeView",
+                    "type": "LinearGenomeView",
+                    "tracks": tracks_configs
+                }
+            }
 
     def get_default_session(self):
         # Returns the defaultSession subconfiguration
@@ -430,6 +453,7 @@ class JBrowseConfig:
                                 ixx_path, meta_path, adapter_id=None):
         """
         Adds an aggregate trix text search adapter.
+        Currently not available for Circular Genome View
 
         e.g:
         add_text_search_adapter("url/file.ix", url/file.ixx",
@@ -449,6 +473,8 @@ class JBrowseConfig:
             raise Exception(err)
         if (not (is_url(ix_path) and is_url(ixx_path) and is_url(meta_path))):
             raise TypeError("Local files are not currently supported.")
+        if self.view == "CGV":
+            raise TypeError("Text Searching not currently available in CGV")
         assembly_name = self.get_assembly_name()
         default_id = f'{assembly_name}-{guess_file_name(ix_path)}-index'
         text_id = default_id if adapter_id is None else adapter_id

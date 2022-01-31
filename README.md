@@ -64,7 +64,7 @@ from jbrowse_jupyter import create, create_component
 
 app = dash.Dash(__name__)
 
-jbrowse_conf = create("view", genome="hg38")
+jbrowse_conf = create("LGV", genome="hg38")
 
 config = jbrowse_conf.get_config()
 
@@ -110,12 +110,22 @@ The `jbrowse-jupyter` package provides several utility functions to create and l
 
 ### Configuring Components
 * `create`(view_type, **kwargs)- creates a JBrowseConfig configuration object given a view_type 
-    - view : creates a default empty JBrowseConfig. e.g `create`('view', genome='hg19')
-    - conf: creates a JBrowseConfig from one of the default genomes, e.g `create`('conf')
-* `create_component`(conf, **kwargs) - creates and returns a Dash JBrowse LinearGenomeView component
-    - component can be used as any Dash component in Dash applications
+    - view_type: Choose from a LGV or CGV e.g `create`('LGV') or `create`('CGV')
+    Additional params:
+        - genome: choose from one of our default genomes {hg19 or hg38} e.g `create`('LGV', genome="hg38")
+        OR 
+        - conf: use a conf object, you can manually edit and pass json object.
+        e.g `create`('LGV', conf={"my-conf": "object"})
+        *Note:* you can manually create a conf following the https://jbrowse.org/jb2/docs/config_guide/
+        - if no genome or conf is passed, you will create an empty JBrowseConfig for that view type.
+    *defaults* if you pass no params,an empty JBrowse config for a LGV (LinearGenomeView) will be created
+* `create_component`(conf, **kwargs) - creates and returns a Dash JBrowse LinearGenomeView component. This component can be used as any  Dash component in Dash applications.
+  - comp_id: id for Dash components
+  - dash_comp: 'CGV' or 'LGV', defaults to 'LGV' when none is passed
 * `launch`(conf, **kwargs) - launches a LinearGenomeView Dash component in a Jupyter cell
-    > **Warning**: Only use `launch` in jupyter notebooks
+  - comp_id: id for Dash components
+  - dash_comp: 'CGV' or 'LGV', defaults to 'LGV' when none is passed
+ > **Warning**: Only use `launch` in jupyter notebooks
 
 ### JBrowseConfig
 Quick overview of the JBrowseConfig API

@@ -1,10 +1,9 @@
 import re
 import os
 import json
-from dash import html
-# import dash_html_components as html
 import pkg_resources
-from dash_jbrowse import LinearGenomeView
+import dash_jbrowse as jb
+from dash import html
 from urllib.parse import urlparse
 from jupyter_dash import JupyterDash
 
@@ -58,10 +57,12 @@ def get_name_regex(assembly_file):
     return re.search(r'(\w+)\.(?:fa|fasta|fa\.gz)$', assembly_file).group(1)
 
 
-def get_default(name):
+def get_default(name, view_type="LGV"):
     """Returns the configuration oject given a genome name."""
     base = pkg_resources.resource_filename("jbrowse_jupyter", "data")
     file_name = f'{base}/{name}.json'
+    if view_type == "CGV":
+        file_name = f'{base}/{name}_cgv.json'
     conf = {}
     with open(file_name) as json_data:
         conf = json.load(json_data)
@@ -82,14 +83,14 @@ def create_component(conf, **kwargs):
     :return: Dash JBrowse Linear Genome View component
     :rtype: Dash JBrowse component
     """
-    supported = set({"LGV"})
+    supported = set({"LGV", "CGV"})
     comp_id = "jbrowse-component"
     dash_comp = kwargs.get("dash_comp", "LGV")
-    if "component_id" in kwargs:
+    if "id" in kwargs:
         comp_id = kwargs["id"]
     if dash_comp in supported:
         if dash_comp == "LGV":
-            return LinearGenomeView(
+            return jb.LinearGenomeView(
                 id=comp_id,
                 assembly=conf["assembly"],
                 tracks=conf["tracks"],
@@ -99,6 +100,14 @@ def create_component(conf, **kwargs):
                 aggregateTextSearchAdapters=conf["aggregateTextSearchAdapters"]
             )
         # here is where we can add another view
+        if dash_comp == "CGV":
+            return jb.CircularGenomeView(
+                id=comp_id,
+                assembly=conf["assembly"],
+                tracks=conf["tracks"],
+                defaultSession=conf["defaultSession"],
+                configuration=conf["configuration"],
+            )
     else:
         raise TypeError(f'The {dash_comp} component is not supported.')
 
@@ -119,7 +128,7 @@ def launch(conf, **kwargs):
     """
     app = JupyterDash(__name__)
     # could add other JBrowse view types e.g Circular, Dotplot
-    supported = set({"LGV"})
+    supported = set({"LGV", "CGV"})
     dash_comp = kwargs.get("dash_comp", "LGV")
     comp_id = "jbrowse-component"
     comp_port = 3000
@@ -134,12 +143,25 @@ def launch(conf, **kwargs):
     if dash_comp in supported:
         if dash_comp == "LGV":
             # create jupyter dash app layout
-            app.layout = html.Div([LinearGenomeView(
+            adapters = conf["aggregateTextSearchAdapters"]
+            app.layout = html.Div([
+                jb.LinearGenomeView(
                     id=comp_id,
                     assembly=conf["assembly"],
                     tracks=conf["tracks"],
                     defaultSession=conf["defaultSession"],
+                    aggregateTextSearchAdapters=adapters,
                     location=conf["location"],
+                    configuration=conf["configuration"]
+                )])
+        if dash_comp == "CGV":
+            # create jupyter dash app layout
+            app.layout = html.Div([
+                jb.CircularGenomeView(
+                    id=comp_id,
+                    assembly=conf["assembly"],
+                    tracks=conf["tracks"],
+                    defaultSession=conf["defaultSession"],
                     configuration=conf["configuration"]
                 )])
     else:
