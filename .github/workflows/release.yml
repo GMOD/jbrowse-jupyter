@@ -1,8 +1,12 @@
-name: Publish Python 🐍 distributions 📦 TestPyPI
+name: Publish Python 🐍 distributions 📦 PyPI
+# Controls when the action will run.
 on:
-  push:
-    branches:
-      - main
+  # Triggers the workflow when a release is created
+  release:
+    types: [created]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+    
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
@@ -20,7 +24,7 @@ jobs:
      - name: Test with pytest
        run: |
          pytest tests -v
-     - name: Build and publish to TestPyPI
+     - name: Build and publish to PyPI
        run: |
          # Install the package from setup.py
          python3 setup.py install
