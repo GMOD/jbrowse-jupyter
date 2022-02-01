@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quickstart &mdash; JBrowse Jupyter</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -73,7 +72,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="quickstart">
+  <div class="section" id="quickstart">
 <h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline"></a></h1>
 <p>JBrowse Jupyter is a python package that provides a python interface to JBrowse 2 views.</p>
 <p>The package provides a JBrowseConfig API to facilitate the customization of JBrowse 2 React Linear Genome View’s state configuration objects. It also provides utility functions to create Dash JBrowse components to embed in Dash applications and others to embed them in jupyter notebooks.</p>
@@ -82,7 +81,7 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install jupyter-jbrowse
 </pre></div>
 </div>
-<section id="jupyter-notebook">
+<div class="section" id="jupyter-notebook">
 <h2>Jupyter Notebook<a class="headerlink" href="#jupyter-notebook" title="Permalink to this headline"></a></h2>
 <p>Using the package, we can create a Dash JBrowse LinearGenomeView  to embed in a jupyter cell.</p>
 <ol class="arabic simple">
@@ -96,8 +95,8 @@
 </ol>
 <p><img alt="Launching hg38 LGV in python notebook" src="_images/quickstart.png" />
 <em>Launching a Linear Genome View in Jupyter Notebook</em></p>
-</section>
-<section id="python-dash-application">
+</div>
+<div class="section" id="python-dash-application">
 <h2>Python Dash Application<a class="headerlink" href="#python-dash-application" title="Permalink to this headline"></a></h2>
 <ol class="arabic simple">
 <li><p>Import the package’s <code class="docutils literal notranslate"><span class="pre">create</span></code> and  <code class="docutils literal notranslate"><span class="pre">create_component</span></code></p></li>
@@ -114,7 +113,7 @@
 
 <span class="n">app</span> <span class="o">=</span> <span class="n">dash</span><span class="o">.</span><span class="n">Dash</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="n">jbrowse_conf</span> <span class="o">=</span> <span class="n">create</span><span class="p">(</span><span class="s2">&quot;view&quot;</span><span class="p">,</span> <span class="n">genome</span><span class="o">=</span><span class="s2">&quot;hg38&quot;</span><span class="p">)</span>
+<span class="n">jbrowse_conf</span> <span class="o">=</span> <span class="n">create</span><span class="p">(</span><span class="s2">&quot;LGV&quot;</span><span class="p">,</span> <span class="n">genome</span><span class="o">=</span><span class="s2">&quot;hg38&quot;</span><span class="p">)</span>
 
 <span class="n">config</span> <span class="o">=</span> <span class="n">jbrowse_conf</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span>
 
@@ -132,8 +131,8 @@
 </div>
 <p><img alt="Launching hg38 LGV in python dash app" src="_images/python_app_conf.png" />
 <em>Launching a Linear Genome View in python Dash application</em></p>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>

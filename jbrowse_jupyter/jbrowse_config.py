@@ -18,7 +18,7 @@ def create(view_type="LGV", **kwargs):
     :rtype: JBrowseConfig instance
     :raises TypeError: if genome passed is not hg19 or hg38
     :raises TypeError: if genome is not passed when choosing view_type `view`
-    :raises TypeError: if view type is not `view` or `conf`
+    :raises TypeError: if view type is not `LGV` or `CGV`
     """
     available_genomes = {"hg19", "hg38"}
     conf = kwargs.get('conf', {})
@@ -61,6 +61,8 @@ class JBrowseConfig:
         """
         Initializes class.
 
+        :param str view: LGV or CGV
+            defaults to LGV
         :param obj conf: optional conf obj
         """
         view_default = {
@@ -252,11 +254,14 @@ class JBrowseConfig:
         :param str overwrite: flag wether or not to overwrite existing track.
         :raises Exception: if assembly has not been configured.
         :raises TypeError: if track data is invalid
+        :raises TypeError: if view is not LGV
         :raises TypeError: if track with that trackId already exists
             list of tracks
         """
         if not self.get_assembly():
             raise Exception("Please set the assembly before adding a track.")
+        if self.view != "LGV":
+            raise TypeError("Can not add a data frame track to a CGV conf.")
         check_track_data(track_data)
 
         overwrite = kwargs.get('overwrite', False)
@@ -389,6 +394,7 @@ class JBrowseConfig:
         set_location("chr1:1..90")
 
         :param str location: location, syntax 'refName:start-end'
+        :raises TypeError: if view is CGV, location not supported in CGV
         """
         if (self.view == 'CGV'):
             raise TypeError("Location is not available to set on a CGV")
@@ -467,6 +473,7 @@ class JBrowseConfig:
         :raises TypeError: if adapter with same adapter id
                 is already configured
         :raises TypeError: local files are not supported
+        :raises TypeError: if view is CGV
         """
         err = "Please set the assembly before adding a text search adapter."
         if not self.get_assembly():

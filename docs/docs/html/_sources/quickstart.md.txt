@@ -36,7 +36,7 @@ from jbrowse_jupyter import create, create_component
 
 app = dash.Dash(__name__)
 
-jbrowse_conf = create("view", genome="hg38")
+jbrowse_conf = create("LGV", genome="hg38")
 
 config = jbrowse_conf.get_config()
 
