@@ -18,7 +18,7 @@ In a new cell above the import statement
 ## Dash JBrowse
 Dash JBrowse is a collection of dash components for JBrowse's embeddable components.
 
-We utilize the Dash JBrowse package along with [jupyter-dash](https://github.com/plotly/jupyter-dash) library to embed [JBrowse React Linear Genome view](https://www.npmjs.com/package/@jbrowse/react-linear-genome-view) in any jupyter notebook.
+We utilize the Dash JBrowse package along with [jupyter-dash](https://github.com/plotly/jupyter-dash) library to embed [JBrowse React Linear Genome view](https://www.npmjs.com/package/@jbrowse/react-linear-genome-view) or the [JBrowse React Circular Genome view](https://www.npmjs.com/package/@jbrowse/react-circular-genome-view)in any jupyter notebook.
 
 You can find more information about our Dash JBrowse library [here](https://github.com/GMOD/dash_jbrowse).
 
@@ -56,6 +56,8 @@ $ pip install jbrowse-jupyter
 *Launching a Linear Genome View in Jupyter Notebook*
 ![Launching hg38 LGV in python notebook](https://github.com/GMOD/jbrowse-jupyter/raw/main/images/notebook.png)
 
+*Launching a Circular Genome View in Jupyter Notebook*
+![Launching hg19 CGV in python notebook](https://github.com/GMOD/jbrowse-jupyter/raw/main/images/notebook2.png)
 *JBrowse Linear Genome view in python Dash application*
 ```python
 import dash
@@ -177,6 +179,7 @@ JBrowseConfig().
  <!-- For full details please reference the documentation. -->
 [DOCUMENTATION](https://gmod.github.io/jbrowse-jupyter/docs/html/index.html) with more details and tutorials.
 
+![Circular Genome View Gif](https://user-images.githubusercontent.com/45598764/151271104-1ab7e57f-49c5-46e5-9bae-0bcf0d7ec58f.gif)
 ## Resources
 * [JBrowse](https://jbrowse.org/jb2/) - the next generation genome browser
 * [JBrowse React Linear Genome View](https://www.npmjs.com/package/@jbrowse/react-linear-genome-view) - interactive genome browser
