@@ -1,4 +1,4 @@
-dash>=2.0
+dash==2.0.0
 dash-jbrowse>=1.0.1
 flake8>=4.0.1
 jupyter_dash>=0.4.0
