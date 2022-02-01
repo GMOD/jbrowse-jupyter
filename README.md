@@ -18,7 +18,7 @@ In a new cell above the import statement
 ## Dash JBrowse
 Dash JBrowse is a collection of dash components for JBrowse's embeddable components.
 
-We utilize the Dash JBrowse package along with [jupyter-dash](https://github.com/plotly/jupyter-dash) library to embed [JBrowse React Linear Genome view](https://www.npmjs.com/package/@jbrowse/react-linear-genome-view) or the [JBrowse React Circular Genome view](https://www.npmjs.com/package/@jbrowse/react-circular-genome-view)in any jupyter notebook.
+We utilize the Dash JBrowse package along with [jupyter-dash](https://github.com/plotly/jupyter-dash) library to embed [JBrowse React Linear Genome view](https://www.npmjs.com/package/@jbrowse/react-linear-genome-view) or the [JBrowse React Circular Genome view](https://www.npmjs.com/package/@jbrowse/react-circular-genome-view) in any jupyter notebook.
 
 You can find more information about our Dash JBrowse library [here](https://github.com/GMOD/dash_jbrowse).
 
@@ -88,10 +88,12 @@ Find more information about the JBrowseConfig API [here](https://gmod.github.io/
 
 ### Other Examples
 
-You can find two examples in the root of this repo, 
-`browser.py` or the `browser.ipynb`
+You can find examples in the root of this repo, 
+* `browser.py` - uses the Dash library to create a python application with the Dash JBrowse LinearGenomeView component
+* `browser.ipynb` - jupyter notebook using the JupyterDash library to embed a Dash JBrowse LinearGenomeView component in a cell
+* `cgv_examples.py` - uses the Dash library to create a python application with the Dash JBrowse CircularGenomeView component
+* `cgv_examples.ipynb` - jupyter notebook using the JupyterDash library to embed a Dash JBrowse CircularGenomeView component in a cell
 
-`browser.py` uses the Dash library to create a python application with the Dash JBrowse LinearGenomeView component and configured with the help of this package. `browser.ipynb` is jupyter notebook using the JupyterDash library to embed a Dash JBrowse LinearGenomeView component in a cell.
 
 #### To run the Python Dash application
 ```
@@ -121,11 +123,13 @@ The `jbrowse-jupyter` package provides several utility functions to create and l
         *Note:* you can manually create a conf following the https://jbrowse.org/jb2/docs/config_guide/
         - if no genome or conf is passed, you will create an empty JBrowseConfig for that view type.
     *defaults* if you pass no params,an empty JBrowse config for a LGV (LinearGenomeView) will be created
-* `create_component`(conf, **kwargs) - creates and returns a Dash JBrowse LinearGenomeView component. This component can be used as any  Dash component in Dash applications.
-  - comp_id: id for Dash components
+* `create_component`(conf, **kwargs) - creates and returns a Dash JBrowse component -> 'CGV' or 'LGV'. This component can be used as any  Dash component in Dash applications.
+  - conf: JBrowseConfig obj 
+  - id: id for Dash components (opyional)
   - dash_comp: 'CGV' or 'LGV', defaults to 'LGV' when none is passed
+  e.g `create_component`(cgv_with_conf.get_config(), dash_comp="CGV")
 * `launch`(conf, **kwargs) - launches a LinearGenomeView Dash component in a Jupyter cell
-  - comp_id: id for Dash components
+  - id: id for Dash components
   - dash_comp: 'CGV' or 'LGV', defaults to 'LGV' when none is passed
  > **Warning**: Only use `launch` in jupyter notebooks
 
@@ -143,6 +147,7 @@ JBrowseConfig().
     - requires DataFrame to have columns ['refName', 'start', 'end', 'name']
     - refName and name columns must be strings, start and end must be int
     - if the score column is present, it will create a Quantitative track else it will create a Feature track.
+    - not available for CGV
     - params:
         * df – pandas DataFrame with the track data.
         * name (str) – (optional) name for the track
@@ -163,6 +168,7 @@ JBrowseConfig().
 * `set_location`(location)
     - initial location for when the browser first loads, syntax 'refName:start-end' 
     - e.g 'chrom1:500-1000'
+    - not available for CGV
 * `set_default_session`(tracks_ids, display_assembly=True)
     - sets the default session given a list of track ids
     - params:
@@ -172,6 +178,7 @@ JBrowseConfig().
     - sets the theme in the configuration given up to 4 hexadecimal colors
 * `add_text_search_adapter`(ix_path, ixx_path, meta_path, adapter_id=None)
     - adds a trix text search adapter
+    - not available for CGV
 * `get_config`() - returns the configuration object
 <!-- These configurations can be used to create [Dash JBrowse's Linear Genome View](https://github.com/GMOD/dash_jbrowse) components which can be used in any python application and or jupyter notebook. -->
 
