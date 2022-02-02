@@ -12,12 +12,21 @@ def create(view_type="LGV", **kwargs):
     """
     Creates a JBrowseConfig given a view type.
 
+    e.g
+    create() -
+        creates empty LGV JBrowseConfig
+    create("CGV") -
+        creates empty CGV JBrowseConfig
+    create("LGV", genome="hg19") -
+        creates LGV JBrowseConfig with hg19 default config
+    create("CGV", conf={"my": "conf"}) -
+        creates CGV JBrowseConfig given a conf obj
+
     :param str view_type: the type of view ('LGV' or 'CGV'), defaults to LGV
     :param str genome: genome ('hg19' or 'hg38')
     :return: JBrowseConfig
     :rtype: JBrowseConfig instance
     :raises TypeError: if genome passed is not hg19 or hg38
-    :raises TypeError: if genome is not passed when choosing view_type `view`
     :raises TypeError: if view type is not `LGV` or `CGV`
     """
     available_genomes = {"hg19", "hg38"}

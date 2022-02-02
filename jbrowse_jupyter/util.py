@@ -74,8 +74,8 @@ def create_component(conf, **kwargs):
     Creates a Dash JBrowse LinearGenomeView component
     given a configuration object and optionally an id.
 
-    e.g: 
-    
+    e.g:
+
     conf = hg38.get_config()
     create_component(conf,id="hg38-test", dash_comp="CGV")
     where hg38 is an instance of JBrowseConfig
@@ -83,7 +83,7 @@ def create_component(conf, **kwargs):
     :param obj conf: configuration object from JBrowseConfig
         instance
     :param str id: id to use in Dash component
-    :param str dash_comp: (optional) dash component type to 
+    :param str dash_comp: (optional) dash component type to
         create. Currently supporting LGV and CGV.
         defaults to `LGV` when no dash_comp= is specified
     :return: Dash JBrowse View given dash_comp type
@@ -93,11 +93,12 @@ def create_component(conf, **kwargs):
     comp_id = "jbrowse-component"
     dash_comp = kwargs.get("dash_comp", "LGV")
     the_view_type = conf["defaultSession"]["view"]["type"]
+    msg = "config was passed but attempting to create"
     err = "Please specify the correct dash_comp."
     if (the_view_type == "LinearGenomeView" and dash_comp == "CGV"):
-        raise TypeError(f'LGV config was passed but attempting to launch a CGV.{err}')
+        raise TypeError(f'LGV {msg} a CGV.{err}')
     if (the_view_type == "CircularView" and dash_comp == "LGV"):
-        raise TypeError(f'CGV config was passed but attempting to launch a LGV.{err}')
+        raise TypeError(f'CGV {msg} a LGV.{err}')
     if "id" in kwargs:
         comp_id = kwargs["id"]
     if dash_comp in supported:
@@ -129,17 +130,18 @@ def launch(conf, **kwargs):
     Launches a LinearGenomeView Dash JBrowse component in a
     server with the help of JupyterDash.
 
-    e.g launch(conf, dash_comp="CGV",height=400, port=8002)
-    
+    e.g
+    launch(conf, dash_comp="CGV",height=400, port=8002)
+
     :param obj conf: JBrowseConfiguration object to pass to
         the Dash JBrowse component
     :param str id: (optional) id to use for the Dash JBrowse
         component defaults to `jbrowse-component`
-    :param str dash_comp: (optional) dash component type to 
+    :param str dash_comp: (optional) dash component type to
         launch. Currently supporting LGV and CGV.
         defaults to `LGV` when no dash_comp= is specified
     :param int port: (optional) port to utilize when running
-        the JupyterDash app dash
+        the JupyterDash app
     :param int height: (optional) the height to utilize for
         the JupyterDash app
     """
@@ -147,14 +149,15 @@ def launch(conf, **kwargs):
     # could add other JBrowse view types e.g Circular, Dotplot
     supported = set({"LGV", "CGV"})
     dash_comp = kwargs.get("dash_comp", "LGV")
-    
+
     # error for mismatching config and launch type
     the_view_type = conf["defaultSession"]["view"]["type"]
+    msg = "config was passed but attempting to launch"
     err = "Please specify the correct dash_comp."
     if (the_view_type == "LinearGenomeView" and dash_comp == "CGV"):
-        raise TypeError(f'LGV config was passed but attempting to launch a CGV.{err}')
+        raise TypeError(f'LGV {msg} a CGV.{err}')
     if (the_view_type == "CircularView" and dash_comp == "LGV"):
-        raise TypeError(f'CGV config was passed but attempting to launch a LGV.{err}')
+        raise TypeError(f'CGV {msg} a LGV.{err}')
     comp_id = "jbrowse-component"
     comp_port = 3000
     comp_height = 300
