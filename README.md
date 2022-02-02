@@ -163,7 +163,7 @@ JBrowseConfig().
         * data (str) – track file or url (currently only supporting url)
         * name (str) – (optional) name for the track
         * index (str) – (optional) index file for the track
-        * track_type (str) – (optional) track type
+        * track_type (str) – (optional) track type. If none is passed, the api will infer one based on the file type
         * overwrite (boolean) – (optional) overwrites existing track if it exists in list of tracks (default False)
 * `set_location`(location)
     - initial location for when the browser first loads, syntax 'refName:start-end' 
@@ -209,12 +209,35 @@ We **really** love talking to our users. Please reach out with any thoughts you 
 -   Join our developers chat at https://gitter.im/GMOD/jbrowse2
 -   Send an email to our mailing list at `gmod-ajax@lists.sourceforge.net`
 
-<!-- ## FAQ
-* What is an assembly and how do I configure one?
-    - An assembly is
-* What is a track and how do I add one to the configuration?
-    - A track is
+## FAQ
+* What file types are supported?
+    - We currently support:
+        * bam
+        * big wig
+        * big bed
+        * cram
+        * fasta indexed
+        * fasta gzipped
+        * gff3 tabix
+        * two bit
+        * vcf
+        * vcf gzipped
+
+* What track types are supported?
+    - We currently support:
+        * [AlignmentsTrack](https://jbrowse.org/jb2/docs/user_guide/#alignments-tracks)
+        * [QuantitativeTrack](https://jbrowse.org/jb2/docs/user_guide/#bigwig-tracks)
+        * [VariantTrack](https://jbrowse.org/jb2/docs/user_guide/#variant-tracks)
+        * [ReferenceSequenceTrack](https://jbrowse.org/jb2/docs/user_guide/#sequence-track)
+        * Feature Tracks
+
+    For the circular genome view (CGV), we only support variant tracks. Check out [track types](https://jbrowse.org/jb2/docs/user_guide/#sequence-track) docs for more information.
+* What views do you currently support?
+    - We currently support JBrowse's Linear Genome View and Circular Genome View. We hope to support more in the future.
 * How do I configure text searching?
     - In order to configure text searching in your Linear Genome View, you must first create a text index. Follow the steps found [here](https://jbrowse.org/jb2/docs/quickstart_cli/#indexing-feature-names-for-searching). Then you must create and add a text search adapter to your config. 
-* How do I set a default session?
-* How do I set a custom color theme palette to fit with my application? -->
+* How do I configure tracks to show up on first render?
+    - You can set a specific track/tracks to show up when the component first renders, and you can do this via the default session. You can set the default session via the JBrowseConfig API. `set_default_session`
+* How do I set a custom color theme palette to fit with my application?
+    - You can customize the color palette of the component through the use of `set_theme` function from the JBrowseConfig API. Below is an image of an LGV with a custom color palette. 
+![Custom Palette](https://github.com/GMOD/jbrowse-jupyter/raw/main/images/custom_palette.png)
