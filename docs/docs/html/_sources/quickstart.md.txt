@@ -19,9 +19,13 @@ Using the package, we can create a Dash JBrowse LinearGenomeView  to embed in a 
     - for further customization of the config, check functions that the JBrowseConfig provides
 3. Use the `launch` utility function with the hg38 config to create and launch a Dash JBrowse Linear Genome View in a jupyter notebook cell.
 
+
 ![Launching hg38 LGV in python notebook](./images/quickstart.png)
 *Launching a Linear Genome View in Jupyter Notebook*
 
+
+![Launching hg19 CGV in python notebook](./images/quickstart2.png)
+*Launching a Circular Genome View in Jupyter Notebook*
 ### Python Dash Application
 
 1. Import the package's `create` and  `create_component`
