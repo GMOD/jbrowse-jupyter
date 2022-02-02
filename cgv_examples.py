@@ -109,8 +109,6 @@ cgv_with_api.set_default_session(["variantTest"], False)
 cgv3 = cgv_with_api.get_config()
 component3 = create_component(cgv3, id="test3", dash_comp="CGV")
 
-
-
 # 3 different ways to configure, 3 identical components
 app.layout = html.Div(
     [component, component2, component3],
