@@ -31,7 +31,7 @@ def supported_track_type(track_type):
     }
 
 
-def guess_display_type(track_type):
+def guess_display_type(track_type, view="LGV"):
     """
     Returns the possible display type to use for a given track type.
 
@@ -46,9 +46,16 @@ def guess_display_type(track_type):
         "QuantitativeTrack": "LinearBasicDisplay",
         "FeatureTrack": "LinearBasicDisplay",
     }
+    if view == "CGV":
+        displays = {
+            "VariantTrack": "ChordVariantDisplay",
+            "ReferenceSequenceTrack": "LinearReferenceSequenceDisplay",
+        }
     if track_type in displays:
         return displays[track_type]
     else:
+        if view == "CGV":
+            return "ChordVariantDisplay"
         return "LinearBasicDisplay"
 
 

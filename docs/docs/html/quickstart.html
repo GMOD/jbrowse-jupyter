@@ -96,6 +96,8 @@
 </ol>
 <p><img alt="Launching hg38 LGV in python notebook" src="_images/quickstart.png" />
 <em>Launching a Linear Genome View in Jupyter Notebook</em></p>
+<p><img alt="Launching hg19 CGV in python notebook" src="_images/quickstart2.png" />
+<em>Launching a Circular Genome View in Jupyter Notebook</em></p>
 </section>
 <section id="python-dash-application">
 <h2>Python Dash Application<a class="headerlink" href="#python-dash-application" title="Permalink to this headline"></a></h2>
@@ -114,7 +116,7 @@
 
 <span class="n">app</span> <span class="o">=</span> <span class="n">dash</span><span class="o">.</span><span class="n">Dash</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="n">jbrowse_conf</span> <span class="o">=</span> <span class="n">create</span><span class="p">(</span><span class="s2">&quot;view&quot;</span><span class="p">,</span> <span class="n">genome</span><span class="o">=</span><span class="s2">&quot;hg38&quot;</span><span class="p">)</span>
+<span class="n">jbrowse_conf</span> <span class="o">=</span> <span class="n">create</span><span class="p">(</span><span class="s2">&quot;LGV&quot;</span><span class="p">,</span> <span class="n">genome</span><span class="o">=</span><span class="s2">&quot;hg38&quot;</span><span class="p">)</span>
 
 <span class="n">config</span> <span class="o">=</span> <span class="n">jbrowse_conf</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span>
 

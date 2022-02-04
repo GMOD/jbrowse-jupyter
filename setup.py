@@ -7,10 +7,9 @@ with open('requirements.txt') as f:
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
-# TODO: figure out install requires vs requirements.txt and look up classifiers
 setuptools.setup(
     name="jbrowse-jupyter",
-    version="0.0.4",
+    version="1.2.1",
     author="Teresa De Jesus Martinez",
     author_email="tere486martinez@gmail.com",
     maintainer="Teresa De Jesus Martinez; JBrowse Team",

@@ -10,10 +10,15 @@ The package provides a JBrowseConfig API to enable the creation of JBrowse state
 ![demo-gif](https://user-images.githubusercontent.com/45598764/144863573-2bcd982b-1d18-4dc8-aa2f-fd8adf4985a2.gif)
 
 *You can open this browser.ipynb in colab* [here](https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/browser.ipynb)
+Note: to install the package in colab you can use this command.
+In a new cell above the import statement
+```
+!pip install git+https://github.com/GMOD/jbrowse-jupyter.git@main
+```
 ## Dash JBrowse
 Dash JBrowse is a collection of dash components for JBrowse's embeddable components.
 
-We utilize the Dash JBrowse package along with [jupyter-dash](https://github.com/plotly/jupyter-dash) library to embed [JBrowse React Linear Genome view](https://www.npmjs.com/package/@jbrowse/react-linear-genome-view) in any jupyter notebook.
+We utilize the Dash JBrowse package along with [jupyter-dash](https://github.com/plotly/jupyter-dash) library to embed [JBrowse React Linear Genome view](https://www.npmjs.com/package/@jbrowse/react-linear-genome-view) or the [JBrowse React Circular Genome view](https://www.npmjs.com/package/@jbrowse/react-circular-genome-view) in any jupyter notebook.
 
 You can find more information about our Dash JBrowse library [here](https://github.com/GMOD/dash_jbrowse).
 
@@ -49,8 +54,10 @@ $ pip install jbrowse-jupyter
 ```
 
 *Launching a Linear Genome View in Jupyter Notebook*
-![Launching hg38 LGV in python notebook](./images/notebook.png)
+![Launching hg38 LGV in python notebook](https://github.com/GMOD/jbrowse-jupyter/raw/main/images/notebook.png)
 
+*Launching a Circular Genome View in Jupyter Notebook*
+![Launching hg19 CGV in python notebook](https://github.com/GMOD/jbrowse-jupyter/raw/main/images/notebook2.png)
 *JBrowse Linear Genome view in python Dash application*
 ```python
 import dash
@@ -59,7 +66,7 @@ from jbrowse_jupyter import create, create_component
 
 app = dash.Dash(__name__)
 
-jbrowse_conf = create("view", genome="hg38")
+jbrowse_conf = create("LGV", genome="hg38")
 
 config = jbrowse_conf.get_config()
 
@@ -74,17 +81,19 @@ if __name__ == "__main__":
     app.run_server(port=8081, debug=True)
 
 ```
-![Dash JBrowse LGV in python app](./images/python_app.png)
+![Dash JBrowse LGV in python app](https://github.com/GMOD/jbrowse-jupyter/raw/main/images/python_app.png)
 You can customize the Linear Genome View by modifying the `jbrowse_conf`. The `jbrowse_conf` is an instance of our `JBrowseConfig`, and can be modified to set an assembly, add tracks, set custom color palettes and more.
 
 Find more information about the JBrowseConfig API [here](https://gmod.github.io/jbrowse-jupyter/docs/html/index.html)
 
 ### Other Examples
 
-You can find two examples in the root of this repo, 
-`browser.py` or the `browser.ipynb`
+You can find examples in the root of this repo, 
+* `browser.py` - uses the Dash library to create a python application with the Dash JBrowse LinearGenomeView component
+* `browser.ipynb` - jupyter notebook using the JupyterDash library to embed a Dash JBrowse LinearGenomeView component in a cell
+* `cgv_examples.py` - uses the Dash library to create a python application with the Dash JBrowse CircularGenomeView component
+* `cgv_examples.ipynb` - jupyter notebook using the JupyterDash library to embed a Dash JBrowse CircularGenomeView component in a cell
 
-`browser.py` uses the Dash library to create a python application with the Dash JBrowse LinearGenomeView component and configured with the help of this package. `browser.ipynb` is jupyter notebook using the JupyterDash library to embed a Dash JBrowse LinearGenomeView component in a cell.
 
 #### To run the Python Dash application
 ```
@@ -105,12 +114,24 @@ The `jbrowse-jupyter` package provides several utility functions to create and l
 
 ### Configuring Components
 * `create`(view_type, **kwargs)- creates a JBrowseConfig configuration object given a view_type 
-    - view : creates a default empty JBrowseConfig. e.g `create`('view', genome='hg19')
-    - conf: creates a JBrowseConfig from one of the default genomes, e.g `create`('conf')
-* `create_component`(conf, **kwargs) - creates and returns a Dash JBrowse LinearGenomeView component
-    - component can be used as any Dash component in Dash applications
+    - view_type: Choose from a LGV or CGV e.g `create`('LGV') or `create`('CGV')
+    Additional params:
+        - genome: choose from one of our default genomes {hg19 or hg38} e.g `create`('LGV', genome="hg38")
+        OR 
+        - conf: use a conf object, you can manually edit and pass json object.
+        e.g `create`('LGV', conf={"my-conf": "object"})
+        *Note:* you can manually create a conf following the https://jbrowse.org/jb2/docs/config_guide/
+        - if no genome or conf is passed, you will create an empty JBrowseConfig for that view type.
+    *defaults* if you pass no params,an empty JBrowse config for a LGV (LinearGenomeView) will be created
+* `create_component`(conf, **kwargs) - creates and returns a Dash JBrowse component -> 'CGV' or 'LGV'. This component can be used as any  Dash component in Dash applications.
+  - conf: JBrowseConfig obj 
+  - id: id for Dash components (opyional)
+  - dash_comp: 'CGV' or 'LGV', defaults to 'LGV' when none is passed
+  e.g `create_component`(cgv_with_conf.get_config(), dash_comp="CGV")
 * `launch`(conf, **kwargs) - launches a LinearGenomeView Dash component in a Jupyter cell
-    > **Warning**: Only use `launch` in jupyter notebooks
+  - id: id for Dash components
+  - dash_comp: 'CGV' or 'LGV', defaults to 'LGV' when none is passed
+ > **Warning**: Only use `launch` in jupyter notebooks
 
 ### JBrowseConfig
 Quick overview of the JBrowseConfig API
@@ -126,6 +147,7 @@ JBrowseConfig().
     - requires DataFrame to have columns ['refName', 'start', 'end', 'name']
     - refName and name columns must be strings, start and end must be int
     - if the score column is present, it will create a Quantitative track else it will create a Feature track.
+    - not available for CGV
     - params:
         * df – pandas DataFrame with the track data.
         * name (str) – (optional) name for the track
@@ -141,11 +163,12 @@ JBrowseConfig().
         * data (str) – track file or url (currently only supporting url)
         * name (str) – (optional) name for the track
         * index (str) – (optional) index file for the track
-        * track_type (str) – (optional) track type
+        * track_type (str) – (optional) track type. If none is passed, the api will infer one based on the file type
         * overwrite (boolean) – (optional) overwrites existing track if it exists in list of tracks (default False)
 * `set_location`(location)
     - initial location for when the browser first loads, syntax 'refName:start-end' 
     - e.g 'chrom1:500-1000'
+    - not available for CGV
 * `set_default_session`(tracks_ids, display_assembly=True)
     - sets the default session given a list of track ids
     - params:
@@ -155,6 +178,7 @@ JBrowseConfig().
     - sets the theme in the configuration given up to 4 hexadecimal colors
 * `add_text_search_adapter`(ix_path, ixx_path, meta_path, adapter_id=None)
     - adds a trix text search adapter
+    - not available for CGV
 * `get_config`() - returns the configuration object
 <!-- These configurations can be used to create [Dash JBrowse's Linear Genome View](https://github.com/GMOD/dash_jbrowse) components which can be used in any python application and or jupyter notebook. -->
 
@@ -162,6 +186,7 @@ JBrowseConfig().
  <!-- For full details please reference the documentation. -->
 [DOCUMENTATION](https://gmod.github.io/jbrowse-jupyter/docs/html/index.html) with more details and tutorials.
 
+![Circular Genome View Gif](https://user-images.githubusercontent.com/45598764/152484043-aeff48b5-a1f2-44f2-b7d9-131c2afd4e1a.gif)
 ## Resources
 * [JBrowse](https://jbrowse.org/jb2/) - the next generation genome browser
 * [JBrowse React Linear Genome View](https://www.npmjs.com/package/@jbrowse/react-linear-genome-view) - interactive genome browser
@@ -180,16 +205,39 @@ publish, please cite the most recent JBrowse paper, which will be linked from
 We **really** love talking to our users. Please reach out with any thoughts you have on what we are building!
 
 -   Report a bug or request a feature at
-    https://github.com/GMOD/dash_jbrowse/issues/new
+    https://github.com/GMOD/jbrowse-jupyter/issues
 -   Join our developers chat at https://gitter.im/GMOD/jbrowse2
 -   Send an email to our mailing list at `gmod-ajax@lists.sourceforge.net`
 
-<!-- ## FAQ
-* What is an assembly and how do I configure one?
-    - An assembly is
-* What is a track and how do I add one to the configuration?
-    - A track is
+## FAQ
+* What file types are supported?
+    - We currently support:
+        * bam
+        * big wig
+        * big bed
+        * cram
+        * fasta indexed
+        * fasta gzipped
+        * gff3 tabix
+        * two bit
+        * vcf
+        * vcf gzipped
+
+* What track types are supported?
+    - We currently support:
+        * [AlignmentsTrack](https://jbrowse.org/jb2/docs/user_guide/#alignments-tracks)
+        * [QuantitativeTrack](https://jbrowse.org/jb2/docs/user_guide/#bigwig-tracks)
+        * [VariantTrack](https://jbrowse.org/jb2/docs/user_guide/#variant-tracks)
+        * [ReferenceSequenceTrack](https://jbrowse.org/jb2/docs/user_guide/#sequence-track)
+        * Feature Tracks
+
+    For the circular genome view (CGV), we only support variant tracks. Check out [track types](https://jbrowse.org/jb2/docs/user_guide/#sequence-track) docs for more information.
+* What views do you currently support?
+    - We currently support JBrowse's Linear Genome View and Circular Genome View. We hope to support more in the future.
 * How do I configure text searching?
     - In order to configure text searching in your Linear Genome View, you must first create a text index. Follow the steps found [here](https://jbrowse.org/jb2/docs/quickstart_cli/#indexing-feature-names-for-searching). Then you must create and add a text search adapter to your config. 
-* How do I set a default session?
-* How do I set a custom color theme palette to fit with my application? -->
+* How do I configure tracks to show up on first render?
+    - You can set a specific track/tracks to show up when the component first renders, and you can do this via the default session. You can set the default session via the JBrowseConfig API. `set_default_session`
+* How do I set a custom color theme palette to fit with my application?
+    - You can customize the color palette of the component through the use of `set_theme` function from the JBrowseConfig API. Below is an image of an LGV with a custom color palette. 
+![Custom Palette](https://github.com/GMOD/jbrowse-jupyter/raw/main/images/custom_palette.png)

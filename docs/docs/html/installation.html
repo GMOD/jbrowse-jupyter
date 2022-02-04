@@ -87,14 +87,19 @@
 <p>Clone the GMOD/jbrowse-jupyter <a class="reference external" href="https://github.com/GMOD/jbrowse-jupyter">repository</a> and <a class="reference external" href="https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html">install conda</a>. Once you have conda installed, follow the steps found below
 to create a conda envirnment and install the dependecies.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd jbrowse-jupyter
-$ conda create -n myenv python=3.8
+$ conda create -n myenv python=3.6
 $ conda activate myenv
 $ pip install -r requirements.txt
 </pre></div>
 </div>
-<p>You can find two examples in the root of the directory.
-<code class="docutils literal notranslate"><span class="pre">browser.py</span></code> or the <code class="docutils literal notranslate"><span class="pre">browser.ipynb</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">browser.py</span></code> uses the Dash library to create a python application with the Dash JBrowse LinearGenomeView component and configured with the help of this package. <code class="docutils literal notranslate"><span class="pre">browser.ipynb</span></code> is jupyter notebook using the JupyterDash library to embed a Dash JBrowse LinearGenomeView component in a cell.</p>
+<p>You can find examples in the root of the directory.</p>
+<ul class="simple">
+<li><p>LGV - <code class="docutils literal notranslate"><span class="pre">browser.py</span></code> or the <code class="docutils literal notranslate"><span class="pre">browser.ipynb</span></code></p></li>
+<li><p>CGV - <code class="docutils literal notranslate"><span class="pre">cgv_examples.py</span></code> or <code class="docutils literal notranslate"><span class="pre">cgv_examples.ipynb</span></code></p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">browser.py</span></code> uses the Dash library to create a python application with the Dash JBrowse LinearGenomeView component and configured with the help of this package. <code class="docutils literal notranslate"><span class="pre">browser.ipynb</span></code> is jupyter notebook using the JupyterDash library to embed a Dash JBrowse LinearGenomeView component in a cell.
+<code class="docutils literal notranslate"><span class="pre">cgv_examples.py</span></code> a Dash application using the Dash JBrowse CircularGenomeView component
+<code class="docutils literal notranslate"><span class="pre">cgv_examples.ipynb</span></code> is jupyter notebook using the JupyterDash library to embed a Dash JBrowse CircularGenomeView component in a cell.</p>
 <p>To run the Python Dash application</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python browser.py
 </pre></div>
@@ -115,7 +120,10 @@ a jupyter notebook</a></p>
 <li><p><a class="reference external" href="https://dash.plotly.com/layout">Dash Applications</a> how to get started to custumize Dash applications.</p></li>
 <li><p><a class="reference external" href="https://dash.plotly.com/dash-html-components">Dash HTML components</a> Dash html components to build the Dash aplication layout.</p></li>
 <li><p><a class="reference external" href="https://github.com/plotly/jupyter-dash">DashJupyter</a> library to enable embedding Dash components in jupyter notebooks.</p></li>
-<li><p><a class="reference external" href="https://github.com/GMOD/dash_jbrowse">DashJbrowse</a> suite of Dash components for JBrowse views. (JBrowse Linear Genome View)</p></li>
+<li><p><a class="reference external" href="https://github.com/GMOD/dash_jbrowse">DashJbrowse</a> suite of Dash components for JBrowse views. (JBrowse Linear Genome View and JBrowse Circular Genome View)</p></li>
+<li><p><a class="reference external" href="https://jbrowse.org/jb2/">JBrowse Docs</a></p></li>
+<li><p><a class="reference external" href="https://jbrowse.org/jb2/docs/config_guide/">JBrowse Config Guide</a></p></li>
+<li><p><a class="reference external" href="https://jbrowse.org/jb2/download/#embedded-components">JBrowse Views</a></p></li>
 </ul>
 </section>
 </section>

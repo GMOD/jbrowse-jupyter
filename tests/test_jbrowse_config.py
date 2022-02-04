@@ -13,6 +13,12 @@ def test_set_location():
     conf.set_location("1:1..90")
     assert conf.get_config()["location"] == "1:1..90"
 
+    conf.set_location("SL4.0ch00:1..9,643,250")
+    assert conf.get_config()["location"] == "SL4.0ch00:1..9,643,250"
+
+    conf.set_location("ctgA:1105..1221")
+    assert conf.get_config()["location"] == "ctgA:1105..1221"
+
 
 def test_set_theme():
     conf = JBrowseConfig()
@@ -27,7 +33,7 @@ def test_set_theme():
     assert secondary["secondary"]["main"] == "#0097a7"
 
 
-def test_set_assembly_name():
+def test_set_assembly():
     myError = "Can not get assembly name. Please configure the assembly first."
     conf = JBrowseConfig()
     # raises exception trying to get name before setting an assembly
@@ -82,16 +88,36 @@ def test_set_assembly_name():
     )
     assert len(conf.get_tracks()) == 1
 
+    alias_uri = "https://s3.amazonaws.com/jbrowse.org/genomes" \
+        "/hg19/hg19_aliases.txt"
+    ref_name = {
+        "adapter": {
+            "type": "RefNameAliasAdapter",
+            "location": {
+                "uri": alias_uri
+            }
+        }
+    }
+    aliases = [
+        "GRCh37"
+    ]
+
+    a_data = "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz"
+    conf.set_assembly(a_data, aliases=aliases,
+                      refname_aliases=ref_name, overwrite=True)
+    assert conf.get_assembly_name() == 'hg19'
+
 
 def test_create_view():
     "tests creating a view from one of the provided genomes"
-    genome_error = "volvox is not a valid default genome to view"
+    genome_error = '"volvox" is not a valid default genome to view.' \
+        'Choose from hg19 or hg38 or pass your own conf.'
     with pytest.raises(TypeError) as excinfo:
-        create("view", genome="volvox")
+        create("LGV", genome="volvox")
     assert genome_error in str(excinfo)
     # creates JBrowseConfig from default hg19 or hg38
-    hg19 = create("view", genome="hg19")
-    hg38 = create("view", genome="hg38")
+    hg19 = create("LGV", genome="hg19")
+    hg38 = create("LGV", genome="hg38")
     assert hg19.get_assembly_name() == "hg19"
     assert len(hg19.get_tracks()) > 0
     assert hg19.get_default_session()
@@ -100,9 +126,21 @@ def test_create_view():
     assert hg38.get_default_session()
 
 
+def test_create_view_invalid_genome():
+    "test creating a view from a config"
+    invalid_genome = "invalidGenome"
+    msg = "Choose from hg19 or hg38 or pass your own conf"
+    error = "is not a valid default genome to view."
+    err = f'"{invalid_genome}" {error}{msg}'
+    with pytest.raises(TypeError) as excinfo:
+        create("view", genome="invalidGenome")
+        create("invalidView")
+    assert err in str(excinfo)
+
+
 def test_create_view_invalid():
     "test creating a view from a config"
-    error = "invalidView is an invalid view type.Please choose view or config"
+    error = "Currently not supporting view_type: invalidView."
     with pytest.raises(TypeError) as excinfo:
         create("invalidView")
     assert error in str(excinfo)
@@ -147,7 +185,7 @@ def test_create_view_from_conf():
             },
         },
     }
-    hg19_from_config = create("config", conf=config1)
+    hg19_from_config = create("conf", conf=config1)
     assert hg19_from_config.get_config()
     # can add track
     assert len(hg19_from_config.get_tracks()) == 0
@@ -182,12 +220,42 @@ def test_create_view_from_conf():
     assert len(adapter_after) == 2
 
 
-def test_empty_config():
+def test_empty_config_lgv():
     # === empty config ===
-    empty_conf = create("config")
+    empty_conf = create("LGV")
     assert empty_conf.get_config()
     assembly_error = "Can not get assembly name. " \
         "Please configure the assembly first."
     with pytest.raises(Exception) as excinfo:
         empty_conf.get_assembly_name()
     assert assembly_error in str(excinfo)
+
+
+def test_empty_cgv():
+    # === empty config ===
+    empty_conf = create("CGV")
+    assert empty_conf.get_config()
+    assembly_error = "Can not get assembly name. " \
+        "Please configure the assembly first."
+    with pytest.raises(Exception) as excinfo:
+        empty_conf.get_assembly_name()
+    assert assembly_error in str(excinfo)
+
+
+def test_create_view_cgv():
+    "tests creating a view from one of the provided genomes"
+    genome_error = '"volvox" is not a valid default genome to view.' \
+        'Choose from hg19 or hg38 or pass your own conf.'
+    with pytest.raises(TypeError) as excinfo:
+        create("CGV", genome="volvox")
+    assert genome_error in str(excinfo)
+    # creates JBrowseConfig from default hg19 or hg38
+    hg19 = create("CGV", genome="hg19")
+    hg38 = create("CGV", genome="hg38")
+    assert hg19.get_assembly_name() == "hg19"
+    assert len(hg19.get_tracks()) > 0
+    assert hg19.get_default_session()
+    assert hg38.get_assembly_name() == "hg38"
+    # hg38 for cgv does not have tracks
+    assert len(hg38.get_tracks()) == 0
+    assert hg38.get_default_session()
