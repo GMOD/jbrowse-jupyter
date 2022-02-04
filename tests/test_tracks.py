@@ -30,7 +30,7 @@ def test_make_location():
 
 
 def test_add_track_fail():
-    conf = create("config")
+    conf = create("LGV")
     assembly_error = "Please set the assembly before adding a track."
     with pytest.raises(Exception) as excinfo:
         conf.add_track(gff3, name="this will fail")
@@ -38,7 +38,7 @@ def test_add_track_fail():
 
 
 def test_alignments():
-    conf = create("view", genome="hg19")
+    conf = create("LGV", genome="hg19")
     # BAM or CRAM alignment data
     conf.add_track(cram, name="alignments cram track example")
     conf.add_track(bam, name="alignments bam track example")
@@ -49,7 +49,7 @@ def test_alignments():
 
 
 def test_feature():
-    conf = create("view", genome="hg38")
+    conf = create("LGV", genome="hg38")
     track_error = "Adapter type is not recognized"
     # gff is not supported
     with pytest.raises(TypeError) as excinfo:
@@ -62,7 +62,7 @@ def test_feature():
 
 
 def test_add_track_type_fail():
-    conf = create("view", genome="hg19")
+    conf = create("LGV", genome="hg19")
     track_type_error = 'Track type: "InvalidTrackType" is not supported.'
     with pytest.raises(Exception) as excinfo:
         conf.add_track(gff3Tabix, track_type="InvalidTrackType")
@@ -70,7 +70,7 @@ def test_add_track_type_fail():
 
 
 def test_add_track_overwrite():
-    conf = create("view", genome="hg38")
+    conf = create("LGV", genome="hg38")
     overwrite_err = "track with trackId: " \
         '"GRCh38-test" already exists inconfig.' \
         ' Set overwrite to True to overwrite it.'
@@ -85,9 +85,9 @@ def test_add_track_overwrite():
 
 
 def test_add_track_with_index():
-    conf = create("view", genome="hg38")
+    conf = create("LGV", genome="hg38")
     conf.add_track(gff3Tabix, name="test")
-    conf2 = create("view", genome="hg38")
+    conf2 = create("LGV", genome="hg38")
     conf2.add_track(gff3Tabix, name="test", index=gff3_tabix_index)
     index_one = conf.get_track("test")
     idx = index_one[0]['adapter']['index']['location']['uri']
@@ -98,7 +98,7 @@ def test_add_track_with_index():
 
 def test_variant():
     # VCF data
-    conf = create("view", genome="hg19")
+    conf = create("LGV", genome="hg19")
     conf.add_track(vcf, name="vcf track")
     conf.add_track(vcfGz, name="vcfgz track")
     vcf_track = conf.get_track("vcfgz track")
@@ -107,7 +107,7 @@ def test_variant():
 
 def test_wiggle():
     # bigWig data (quantitative/wiggle)
-    conf = create("view", genome="hg19")
+    conf = create("LGV", genome="hg19")
     conf.add_track(bigWig, name="wiggle track")
     bigwig_track = conf.get_track("wiggle track")
     assert bigwig_track[0]["type"] == "QuantitativeTrack"
@@ -115,7 +115,7 @@ def test_wiggle():
 
 # ==== dataframe track ======
 def test_data_frame_track():
-    hg38 = create('view', genome='hg38')
+    hg38 = create('LGV', genome='hg38')
     assert len(hg38.get_tracks()) == 1
     data_frame = {
         "refName": ["1", "1"],
