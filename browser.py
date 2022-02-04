@@ -4,7 +4,8 @@ from jbrowse_jupyter import create, create_component
 app = Dash(__name__)
 
 # create config and pass additional params
-jbrowse_conf = create("config")
+# creates an empty LGV by default when no params are passed
+jbrowse_conf = create()
 aliases = ["hg38"]
 ref_name_aliases = {
     "adapter": {
@@ -42,7 +43,7 @@ config = jbrowse_conf.get_config()
 jbrowse_conf.set_default_session(["test-track"])
 # create a dash component
 
-component = create_component(config, dash_comp="LGV")
+component = create_component(config)
 
 # launch the component
 app.layout = html.Div(
