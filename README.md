@@ -186,7 +186,7 @@ JBrowseConfig().
  <!-- For full details please reference the documentation. -->
 [DOCUMENTATION](https://gmod.github.io/jbrowse-jupyter/docs/html/index.html) with more details and tutorials.
 
-![Circular Genome View Gif](https://user-images.githubusercontent.com/45598764/151271104-1ab7e57f-49c5-46e5-9bae-0bcf0d7ec58f.gif)
+![Circular Genome View Gif](https://user-images.githubusercontent.com/45598764/152484043-aeff48b5-a1f2-44f2-b7d9-131c2afd4e1a.gif)
 ## Resources
 * [JBrowse](https://jbrowse.org/jb2/) - the next generation genome browser
 * [JBrowse React Linear Genome View](https://www.npmjs.com/package/@jbrowse/react-linear-genome-view) - interactive genome browser
