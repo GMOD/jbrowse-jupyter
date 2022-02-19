@@ -1,7 +1,7 @@
 dash==2.0.0
-dash-jbrowse>=1.0.1
-flake8>=4.0.1
-jupyter_dash>=0.4.0
-pandas>=1.1.5
-pytest>=6.2.5
+dash-jbrowse==1.0.1
+flake8==4.0.1
+jupyter_dash==0.4.0
+pandas==1.1.5
+pytest==6.2.5
 jupyterlab~=3.0
