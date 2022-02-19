@@ -1,10 +1,3 @@
-#!/bin/bash
-
-# Install Python package
-pip install -e .
-# Install Javascript dependencies
-npm install # or yarn
-# Build JupyterLab extension
-npm run build # or yarn build
-# Install JupyterLab extension
-jupyter labextension install .
+jupyter contrib nbextension install --user
+jupyter nbextension enable --py widgetsnbextension
+jupyter labextension install @jupyter-widgets/jupyterlab-manager --minimize=False
