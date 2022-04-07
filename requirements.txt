@@ -4,3 +4,5 @@ flake8>=4.0.1
 jupyter_dash>=0.4.0
 pandas>=1.1.5
 pytest>=6.2.5
+werkzeug==2.0.3
+
