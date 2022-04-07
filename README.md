@@ -101,7 +101,7 @@ $ conda install -c conda-forge -c plotly jupyter-dash
 $ jupyter lab build 
 ```
 
-```
+```python
 from jupyter_dash import JupyterDash
 
 from dash import html
