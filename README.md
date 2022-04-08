@@ -79,8 +79,57 @@ app.layout = html.Div(
 
 if __name__ == "__main__":
     app.run_server(port=8081, debug=True)
+    
+```
+
+## using jupyter-server-proxy
+
+or using the [jupyter-server-proxy extension](https://github.com/jupyterhub/jupyter-server-proxy)
+and the [jupyter-dash extension](https://github.com/plotly/jupyter-dash)
+
+### Using Pypi
+```
+$ pip install jupyter-server-proxy
+$ pip install jupyter-dash
 
 ```
+### Using conda
+```
+$ conda install jupyter-server-proxy -c conda-forge
+$ conda install -c conda-forge -c plotly jupyter-dash
+$ jupyter lab build 
+```
+
+```python
+from jupyter_dash import JupyterDash
+
+from dash import html
+from jbrowse_jupyter import create, create_component
+import jupyter_server_proxy
+
+JupyterDash.infer_jupyter_proxy_config()
+#JupyterDash()._server_proxy # true if the proxy works as expected
+#JupyterDash().config # gives the proxy config
+
+app = JupyterDash(__name__)
+jbrowse_conf = create("LGV", genome="hg38")
+
+config = jbrowse_conf.get_config()
+component = create_component(config)
+
+app.layout = html.Div(
+    [component],
+    id='test'
+)
+
+if __name__ == "__main__":
+    # the external mode should display  a url proxied by jupyter-server-proxy, 
+    # very handy on jupyterlab behind jupyterhub as in departmental jupyterlab instances.
+    
+    app.run_server(mode='external', debug=True, port=8999)
+
+```
+
 ![Dash JBrowse LGV in python app](https://github.com/GMOD/jbrowse-jupyter/raw/main/images/python_app.png)
 You can customize the Linear Genome View by modifying the `jbrowse_conf`. The `jbrowse_conf` is an instance of our `JBrowseConfig`, and can be modified to set an assembly, add tracks, set custom color palettes and more.
 

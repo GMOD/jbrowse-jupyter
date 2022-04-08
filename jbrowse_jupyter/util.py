@@ -160,13 +160,20 @@ def launch(conf, **kwargs):
         raise TypeError(f'CGV {msg} a LGV.{err}')
     comp_id = "jbrowse-component"
     comp_port = 3000
+    comp_host = '10.117.0.56'
     comp_height = 300
+    comp_mode = 'inline'
+    
     if "id" in kwargs:
         comp_id = kwargs["id"]
     if "port" in kwargs:
         comp_port = kwargs["port"]
+    if "host" in kwargs:
+        comp_host = kwargs["host"]
     if "height" in kwargs:
         comp_height = kwargs["height"]
+    if "mode" in kwargs:
+        comp_mode = kwargs["mode"]
 
     if dash_comp in supported:
         if dash_comp == "LGV":
@@ -194,5 +201,5 @@ def launch(conf, **kwargs):
                 )])
     else:
         raise TypeError(f'The {dash_comp} component is not supported.')
-    app.run_server(port=comp_port,
-                   height=comp_height, mode="inline", use_reloader=False)
+    app.run_server(port=comp_port, host=comp_host,
+                   height=comp_height, mode=comp_mode, use_reloader=False)
