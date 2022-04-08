@@ -80,19 +80,12 @@
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">view_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'LGV'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Creates a JBrowseConfig given a view type.</p>
-<p>e.g
-create() -</p>
-<blockquote>
-<div><p>creates empty LGV JBrowseConfig</p>
-</div></blockquote>
-<dl class="simple">
-<dt>create(“CGV”) -</dt><dd><p>creates empty CGV JBrowseConfig</p>
-</dd>
-<dt>create(“LGV”, genome=”hg19”) -</dt><dd><p>creates LGV JBrowseConfig with hg19 default config</p>
-</dd>
-<dt>create(“CGV”, conf={“my”: “conf”}) -</dt><dd><p>creates CGV JBrowseConfig given a conf obj</p>
-</dd>
-</dl>
+<ul class="simple">
+<li><p>create(): creates empty LGV JBrowseConfig</p></li>
+<li><p>create(“CGV”):creates empty CGV JBrowseConfig</p></li>
+<li><p>create(“LGV”, genome=”hg19”):creates LGV JBrowseConfig w/ default genome</p></li>
+<li><p>create(“CGV”, conf={“k”: “v”}):creates CGV JBrowseConfig w/ a conf obj</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
