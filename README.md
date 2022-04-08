@@ -1,6 +1,7 @@
 ![Pytest and flake8](https://github.com/GMOD/jbrowse-jupyter/actions/workflows/push.yml/badge.svg)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/browser.ipynb)
-
+<!-- [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/GMOD/jbrowse-jupyter/main?labpath=browser.ipynb)
+ -->
 # [JBrowse Jupyter](https://gmod.github.io/jbrowse-jupyter/)
 
 JBrowse Jupyter is a python package that provides a python interface to JBrowse views.
@@ -60,11 +61,10 @@ $ pip install jbrowse-jupyter
 ![Launching hg19 CGV in python notebook](https://github.com/GMOD/jbrowse-jupyter/raw/main/images/notebook2.png)
 *JBrowse Linear Genome view in python Dash application*
 ```python
-import dash
-import dash_html_components as html
+from dash import html, Dash
 from jbrowse_jupyter import create, create_component
 
-app = dash.Dash(__name__)
+app = Dash(__name__)
 
 jbrowse_conf = create("LGV", genome="hg38")
 
