@@ -61,11 +61,10 @@ $ pip install jbrowse-jupyter
 ![Launching hg19 CGV in python notebook](https://github.com/GMOD/jbrowse-jupyter/raw/main/images/notebook2.png)
 *JBrowse Linear Genome view in python Dash application*
 ```python
-import dash
-import dash_html_components as html
+from dash import html, Dash
 from jbrowse_jupyter import create, create_component
 
-app = dash.Dash(__name__)
+app = Dash(__name__)
 
 jbrowse_conf = create("LGV", genome="hg38")
 

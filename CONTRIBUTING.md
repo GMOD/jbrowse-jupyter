@@ -51,6 +51,7 @@ $ python -m pytest tests/
 ```
 We use flake8 for linting. You can run 
 ```
+$ pip install flake8
 $ flake8 --count
 ```
 from the root of this repo to see any lint errors
