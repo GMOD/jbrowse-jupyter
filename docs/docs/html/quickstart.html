@@ -110,11 +110,10 @@
 </li>
 <li><p>Use <code class="docutils literal notranslate"><span class="pre">create_component</span></code> to create a Dash JBrowse Linear Genome View component. The example below uses dash and dash_html_components to create a python application.</p></li>
 </ol>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dash</span>
-<span class="kn">import</span> <span class="nn">dash_html_components</span> <span class="k">as</span> <span class="nn">html</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dash</span> <span class="kn">import</span> <span class="n">html</span><span class="p">,</span> <span class="n">Dash</span>
 <span class="kn">from</span> <span class="nn">jbrowse_jupyter</span> <span class="kn">import</span> <span class="n">create</span><span class="p">,</span> <span class="n">create_component</span>
 
-<span class="n">app</span> <span class="o">=</span> <span class="n">dash</span><span class="o">.</span><span class="n">Dash</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Dash</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <span class="n">jbrowse_conf</span> <span class="o">=</span> <span class="n">create</span><span class="p">(</span><span class="s2">&quot;LGV&quot;</span><span class="p">,</span> <span class="n">genome</span><span class="o">=</span><span class="s2">&quot;hg38&quot;</span><span class="p">)</span>
 

@@ -12,15 +12,10 @@ def create(view_type="LGV", **kwargs):
     """
     Creates a JBrowseConfig given a view type.
 
-    e.g
-    create() -
-        creates empty LGV JBrowseConfig
-    create("CGV") -
-        creates empty CGV JBrowseConfig
-    create("LGV", genome="hg19") -
-        creates LGV JBrowseConfig with hg19 default config
-    create("CGV", conf={"my": "conf"}) -
-        creates CGV JBrowseConfig given a conf obj
+    - create(): creates empty LGV JBrowseConfig
+    - create("CGV"):creates empty CGV JBrowseConfig
+    - create("LGV", genome="hg19"):creates LGV JBrowseConfig w/ default genome
+    - create("CGV", conf={"k": "v"}):creates CGV JBrowseConfig w/ a conf obj
 
     :param str view_type: the type of view ('LGV' or 'CGV'), defaults to LGV
     :param str genome: genome ('hg19' or 'hg38')
