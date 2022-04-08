@@ -163,7 +163,6 @@ def launch(conf, **kwargs):
     comp_host = '10.117.0.56'
     comp_height = 300
     comp_mode = 'inline'
-    
     if "id" in kwargs:
         comp_id = kwargs["id"]
     if "port" in kwargs:
