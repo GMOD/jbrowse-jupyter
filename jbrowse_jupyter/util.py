@@ -159,8 +159,8 @@ def launch(conf, **kwargs):
     if (the_view_type == "CircularView" and dash_comp == "LGV"):
         raise TypeError(f'CGV {msg} a LGV.{err}')
     comp_id = "jbrowse-component"
-    comp_port = 3000
-    comp_host = '10.117.0.56'
+    comp_port = 8050
+    comp_host = '127.0.0.1'
     comp_height = 300
     comp_mode = 'inline'
     if "id" in kwargs:
