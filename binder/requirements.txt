@@ -5,5 +5,3 @@ jupyter-server-proxy>=3.2.1
 Werkzeug==2.0.3
 pandas>=1.1.5
 pytest>=6.2.5
-ipywidgets
-jupyter_contrib_nbextensions
