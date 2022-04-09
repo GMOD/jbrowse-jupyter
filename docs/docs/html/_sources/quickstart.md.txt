@@ -34,11 +34,10 @@ Using the package, we can create a Dash JBrowse LinearGenomeView  to embed in a 
 3. Use `create_component` to create a Dash JBrowse Linear Genome View component. The example below uses dash and dash_html_components to create a python application.
 
 ```python
-import dash
-import dash_html_components as html
+from dash import html, Dash
 from jbrowse_jupyter import create, create_component
 
-app = dash.Dash(__name__)
+app = Dash(__name__)
 
 jbrowse_conf = create("LGV", genome="hg38")
 
