@@ -1,7 +1,8 @@
 ![Pytest and flake8](https://github.com/GMOD/jbrowse-jupyter/actions/workflows/push.yml/badge.svg)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/browser.ipynb)
-<!-- [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/GMOD/jbrowse-jupyter/main?labpath=browser.ipynb)
- -->
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/GMOD/jbrowse-jupyter/04b89d20fff202efdcda50f4e0a06471e2536dc3?urlpath=lab%2Ftree%2Fbinder%2Fbinder.ipynb)
+
+
 # [JBrowse Jupyter](https://gmod.github.io/jbrowse-jupyter/)
 
 JBrowse Jupyter is a python package that provides a python interface to JBrowse views.
@@ -16,15 +17,19 @@ In a new cell above the import statement
 ```
 !pip install git+https://github.com/GMOD/jbrowse-jupyter.git@main
 ```
-## Dash JBrowse
+### Dash JBrowse
 Dash JBrowse is a collection of dash components for JBrowse's embeddable components.
 
 We utilize the Dash JBrowse package along with [jupyter-dash](https://github.com/plotly/jupyter-dash) library to embed [JBrowse React Linear Genome view](https://www.npmjs.com/package/@jbrowse/react-linear-genome-view) or the [JBrowse React Circular Genome view](https://www.npmjs.com/package/@jbrowse/react-circular-genome-view) in any jupyter notebook.
 
 You can find more information about our Dash JBrowse library [here](https://github.com/GMOD/dash_jbrowse).
 
+## Documentation
+Additional details and tutorials can be found in our Sphinx documentation page.
+https://gmod.github.io/jbrowse-jupyter/docs/html/index.html
 ## Installation
-
+`jbrowse-jupyter` is freely available for download on the Python Package Index
+https://pypi.org/project/jbrowse-jupyter/
 ### Pre-requisites
 * [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) - for virtual environments
 * [pip](https://packaging.python.org/en/latest/guides/installing-using-linux-tools/) - python package manager
@@ -79,8 +84,57 @@ app.layout = html.Div(
 
 if __name__ == "__main__":
     app.run_server(port=8081, debug=True)
+    
+```
+
+## using jupyter-server-proxy
+
+or using the [jupyter-server-proxy extension](https://github.com/jupyterhub/jupyter-server-proxy)
+and the [jupyter-dash extension](https://github.com/plotly/jupyter-dash)
+
+### Using Pypi
+```
+$ pip install jupyter-server-proxy
+$ pip install jupyter-dash
 
 ```
+### Using conda
+```
+$ conda install jupyter-server-proxy -c conda-forge
+$ conda install -c conda-forge -c plotly jupyter-dash
+$ jupyter lab build 
+```
+
+```python
+from jupyter_dash import JupyterDash
+
+from dash import html
+from jbrowse_jupyter import create, create_component
+import jupyter_server_proxy
+
+JupyterDash.infer_jupyter_proxy_config()
+#JupyterDash()._server_proxy # true if the proxy works as expected
+#JupyterDash().config # gives the proxy config
+
+app = JupyterDash(__name__)
+jbrowse_conf = create("LGV", genome="hg38")
+
+config = jbrowse_conf.get_config()
+component = create_component(config)
+
+app.layout = html.Div(
+    [component],
+    id='test'
+)
+
+if __name__ == "__main__":
+    # the external mode should display  a url proxied by jupyter-server-proxy, 
+    # very handy on jupyterlab behind jupyterhub as in departmental jupyterlab instances.
+    
+    app.run_server(mode='external', debug=True, port=8999)
+
+```
+
 ![Dash JBrowse LGV in python app](https://github.com/GMOD/jbrowse-jupyter/raw/main/images/python_app.png)
 You can customize the Linear Genome View by modifying the `jbrowse_conf`. The `jbrowse_conf` is an instance of our `JBrowseConfig`, and can be modified to set an assembly, add tracks, set custom color palettes and more.
 
@@ -184,9 +238,12 @@ JBrowseConfig().
 
 <!-- The JBrowseConfig API allows us to set an assembly, add tracks, set default sessions, set custom color themes, and more. -->
  <!-- For full details please reference the documentation. -->
-[DOCUMENTATION](https://gmod.github.io/jbrowse-jupyter/docs/html/index.html) with more details and tutorials.
 
 ![Circular Genome View Gif](https://user-images.githubusercontent.com/45598764/152484043-aeff48b5-a1f2-44f2-b7d9-131c2afd4e1a.gif)
+
+## Demos
+* Browser notebook demo - https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/browser.ipynb
+* SK-BR-3 demo -  https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/skbr3.ipynb
 ## Resources
 * [JBrowse](https://jbrowse.org/jb2/) - the next generation genome browser
 * [JBrowse React Linear Genome View](https://www.npmjs.com/package/@jbrowse/react-linear-genome-view) - interactive genome browser
