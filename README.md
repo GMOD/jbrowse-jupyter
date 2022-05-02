@@ -28,7 +28,8 @@ You can find more information about our Dash JBrowse library [here](https://gith
 Additional details and tutorials can be found in our Sphinx documentation page.
 https://gmod.github.io/jbrowse-jupyter/docs/html/index.html
 ## Installation
-
+`jbrowse-jupyter` is freely available for download on the Python Package Index
+https://pypi.org/project/jbrowse-jupyter/
 ### Pre-requisites
 * [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) - for virtual environments
 * [pip](https://packaging.python.org/en/latest/guides/installing-using-linux-tools/) - python package manager
