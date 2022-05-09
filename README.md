@@ -24,6 +24,10 @@ We utilize the Dash JBrowse package along with [jupyter-dash](https://github.com
 
 You can find more information about our Dash JBrowse library [here](https://github.com/GMOD/dash_jbrowse).
 
+## Demos
+* Browser notebook demo - https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/browser.ipynb
+* SK-BR-3 demo -  https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/skbr3.ipynb
+
 ## Documentation
 Additional details and tutorials can be found in our Sphinx documentation page.
 https://gmod.github.io/jbrowse-jupyter/docs/html/index.html
@@ -241,9 +245,6 @@ JBrowseConfig().
 
 ![Circular Genome View Gif](https://user-images.githubusercontent.com/45598764/152484043-aeff48b5-a1f2-44f2-b7d9-131c2afd4e1a.gif)
 
-## Demos
-* Browser notebook demo - https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/browser.ipynb
-* SK-BR-3 demo -  https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/skbr3.ipynb
 ## Resources
 * [JBrowse](https://jbrowse.org/jb2/) - the next generation genome browser
 * [JBrowse React Linear Genome View](https://www.npmjs.com/package/@jbrowse/react-linear-genome-view) - interactive genome browser
