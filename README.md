@@ -1,6 +1,7 @@
 ![Pytest and flake8](https://github.com/GMOD/jbrowse-jupyter/actions/workflows/push.yml/badge.svg)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/browser.ipynb)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://hub.gke2.mybinder.org/user/gmod-jbrowse-jupyter-kxdru4j7/lab/tree/browser.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/GMOD/jbrowse-jupyter/04b89d20fff202efdcda50f4e0a06471e2536dc3?urlpath=lab%2Ftree%2Fbinder%2Fbinder.ipynb)
+
 
 # [JBrowse Jupyter](https://gmod.github.io/jbrowse-jupyter/)
 
@@ -16,15 +17,23 @@ In a new cell above the import statement
 ```
 !pip install git+https://github.com/GMOD/jbrowse-jupyter.git@main
 ```
-## Dash JBrowse
+### Dash JBrowse
 Dash JBrowse is a collection of dash components for JBrowse's embeddable components.
 
 We utilize the Dash JBrowse package along with [jupyter-dash](https://github.com/plotly/jupyter-dash) library to embed [JBrowse React Linear Genome view](https://www.npmjs.com/package/@jbrowse/react-linear-genome-view) or the [JBrowse React Circular Genome view](https://www.npmjs.com/package/@jbrowse/react-circular-genome-view) in any jupyter notebook.
 
 You can find more information about our Dash JBrowse library [here](https://github.com/GMOD/dash_jbrowse).
 
-## Installation
+## Demos
+* Browser notebook demo - https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/browser.ipynb
+* SK-BR-3 demo -  https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/skbr3.ipynb
 
+## Documentation
+Additional details and tutorials can be found in our Sphinx documentation page.
+https://gmod.github.io/jbrowse-jupyter/docs/html/index.html
+## Installation
+`jbrowse-jupyter` is freely available for download on the Python Package Index
+https://pypi.org/project/jbrowse-jupyter/
 ### Pre-requisites
 * [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) - for virtual environments
 * [pip](https://packaging.python.org/en/latest/guides/installing-using-linux-tools/) - python package manager
@@ -233,9 +242,9 @@ JBrowseConfig().
 
 <!-- The JBrowseConfig API allows us to set an assembly, add tracks, set default sessions, set custom color themes, and more. -->
  <!-- For full details please reference the documentation. -->
-[DOCUMENTATION](https://gmod.github.io/jbrowse-jupyter/docs/html/index.html) with more details and tutorials.
 
 ![Circular Genome View Gif](https://user-images.githubusercontent.com/45598764/152484043-aeff48b5-a1f2-44f2-b7d9-131c2afd4e1a.gif)
+
 ## Resources
 * [JBrowse](https://jbrowse.org/jb2/) - the next generation genome browser
 * [JBrowse React Linear Genome View](https://www.npmjs.com/package/@jbrowse/react-linear-genome-view) - interactive genome browser
