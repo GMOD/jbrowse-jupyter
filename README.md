@@ -52,7 +52,7 @@ Clone this repository and [install conda](https://docs.conda.io/projects/conda/e
 to create a conda envirnment and install the dependecies.
 ```
 $ cd jbrowse-jupyter
-$ conda create -n myenv python=3.6
+$ conda create -n myenv
 $ conda activate myenv
 $ pip install -r requirements.txt
 ```
