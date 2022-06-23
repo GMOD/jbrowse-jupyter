@@ -26,7 +26,7 @@ copyright = '2021, Teresa De Jesus Martinez, JBrowse Team'
 author = 'Teresa De Jesus Martinez, JBrowse Team'
 
 # The full version, including alpha/beta/rc tags
-release = '1.2.6'
+release = '1.2.8'
 
 
 # -- General configuration ---------------------------------------------------
