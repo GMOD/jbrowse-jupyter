@@ -43,7 +43,7 @@ def guess_display_type(track_type, view="LGV"):
         "AlignmentsTrack": "LinearAlignmentsDisplay",
         "VariantTrack": "LinearVariantDisplay",
         "ReferenceSequenceTrack": "LinearReferenceSequenceDisplay",
-        "QuantitativeTrack": "LinearBasicDisplay",
+        "QuantitativeTrack": "LinearWiggleDisplay",
         "FeatureTrack": "LinearBasicDisplay",
     }
     if view == "CGV":
