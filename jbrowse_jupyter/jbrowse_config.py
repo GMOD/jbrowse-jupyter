@@ -487,7 +487,8 @@ class JBrowseConfig:
         if not self.get_assembly():
             raise Exception(err)
         if (not (is_url(ix_path) and is_url(ixx_path) and is_url(meta_path))):
-            raise TypeError("Only supporting URLs. Please refer to our local file support docs for more details.")
+            raise TypeError("Only supporting URLs. Please refer to our"
+                            "local file support docs for more details.")
         if self.view == "CGV":
             raise TypeError("Text Searching not currently available in CGV")
         assembly_name = self.get_assembly_name()
