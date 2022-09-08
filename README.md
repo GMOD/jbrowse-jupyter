@@ -300,6 +300,9 @@ We **really** love talking to our users. Please reach out with any thoughts you 
     - You can customize the color palette of the component through the use of `set_theme` function from the JBrowseConfig API. Below is an image of an LGV with a custom color palette. 
 ![Custom Palette](https://github.com/GMOD/jbrowse-jupyter/raw/main/images/custom_palette.png)
 
-* Can I use local files?
-    - There are a couple of ways in which you can configure and use your own data from your local environment in jbrowse views. 1) make use of the jupyter notebook server as shown in the local_support.ipynb or launch your own http server with CORS which will enable you to use local files in Google Colab notebooks and binder notebooks
-    - Note that these solutions are recommended for your development environments and not supported in production.
+* Can I use local files/my own data?
+    - There are a couple of ways in which you can configure and use your own data from your local environment in jbrowse views. 
+        1.  make use of the jupyter notebook server as shown in the local_support.ipynb 
+        2. launch your own http server with CORS which will enable you to use local files in Google Colab notebooks and binder notebooks
+
+    **_Note_:** that these solutions are recommended for your development environments and not supported in production.
