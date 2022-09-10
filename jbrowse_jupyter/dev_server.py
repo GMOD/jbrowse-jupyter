@@ -128,9 +128,23 @@ class DevServer(HTTPServer):
 
 
 def serve(data_path, **kwargs):
+    """
+    Launches a development http server. It is not recommended
+    for development.
+
+    e.g
+    serve('./path/to/data', port=8080, host='localhost')
+
+    :param str data_path: path to file directory to serve
+        defaults to the current working dir
+    :param int port: (optional) port to utilize when running
+        the dev server, defaults to 8080
+    :param str host: (optional) host to utilize when running
+        the dev server, default to localhost
+    """
     print("Warning, this is a development environment."
           "\n This is not Recommended for production.")
-    port = kwargs.get('port', 8888)
+    port = kwargs.get('port', 8080)
     host = kwargs.get('host', "localhost")
     # data_path = kwargs.get('path', ".")
     # print('data', data_path)

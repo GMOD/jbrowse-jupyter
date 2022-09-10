@@ -7,3 +7,4 @@ Creating components
 
 .. automodule:: jbrowse_jupyter.util
    :members: create_component, launch
+
