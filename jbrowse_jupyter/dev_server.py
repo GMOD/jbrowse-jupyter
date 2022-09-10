@@ -130,7 +130,7 @@ class DevServer(HTTPServer):
 def serve(data_path, **kwargs):
     """
     Launches a development http server. It is not recommended
-    for development.
+    for production.
 
     e.g
     serve('./path/to/data', port=8080, host='localhost')

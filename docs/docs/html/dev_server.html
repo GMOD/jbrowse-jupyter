@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dev Server &mdash; JBrowse Jupyter</title>
+  <title>Development Server &mdash; JBrowse Jupyter</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -41,9 +41,9 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">Reference</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="util.html">Creating components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="util.html">Creating Components</a></li>
 <li class="toctree-l2"><a class="reference internal" href="jbrowse_jupyter.html">JBrowseConfig API</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Dev Server</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Development Server</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorials and Demos</a></li>
@@ -66,7 +66,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="modules.html">Reference</a> &raquo;</li>
-      <li>Dev Server</li>
+      <li>Development Server</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/dev_server.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -77,12 +77,12 @@
            <div itemprop="articleBody">
              
   <section id="module-jbrowse_jupyter.dev_server">
-<span id="dev-server"></span><h1>Dev Server<a class="headerlink" href="#module-jbrowse_jupyter.dev_server" title="Permalink to this headline"></a></h1>
+<span id="development-server"></span><h1>Development Server<a class="headerlink" href="#module-jbrowse_jupyter.dev_server" title="Permalink to this headline"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="jbrowse_jupyter.dev_server.serve">
 <span class="sig-name descname"><span class="pre">serve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.dev_server.serve" title="Permalink to this definition"></a></dt>
 <dd><p>Launches a development http server. It is not recommended
-for development.</p>
+for production.</p>
 <p>e.g
 serve(‘./path/to/data’, port=8080, host=’localhost’)</p>
 <dl class="field-list simple">
