@@ -53,7 +53,9 @@ def test_set_assembly():
     # raises an error, there is no local file support yet
     with pytest.raises(TypeError) as excinfo:
         conf.set_assembly("./path/to/local/file")
-    assert "Local files are not currently supported." in str(excinfo)
+    err = "Provide a url for your index file." \
+        "Checkout our local file support docs."
+    assert err in str(excinfo)
     aliases = ["hg38"]
     uri = "https://s3.amazonaws.com/jbrowse.org/genomes/" \
         "GRCh38/hg38_aliases.txt"
@@ -197,7 +199,8 @@ def test_create_view_from_conf():
     assert hg19_from_config.get_default_session()
 
     # can set text search adapter
-    index_error = 'Local files are not currently supported.'
+    index_error = "Provide a url for your index file."\
+        "Checkout our local file support docs."
     with pytest.raises(TypeError) as excinfo:
         hg19_from_config.add_text_search_adapter(
             './path/to/ixname.ix',

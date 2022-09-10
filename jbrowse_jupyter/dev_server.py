@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 import os
 import re
-import shutil
-from http.server import HTTPServer, SimpleHTTPRequestHandler, test
+from http.server import HTTPServer, SimpleHTTPRequestHandler
 
 '''
 This server takes inspiration from multiple solutions to provide:
@@ -13,12 +12,16 @@ This server takes inspiration from multiple solutions to provide:
 * Adding specific directory
     - https://stackoverflow.com/a/46332163
 '''
-# CREDIT FOR ENABLING RANGE REQUEST HTTP SERVER: https://github.com/danvk/RangeHTTPServer/blob/master/RangeHTTPServer
+# CREDIT FOR ENABLING RANGE REQUEST HTTP SERVER:
+# https://github.com/danvk/RangeHTTPServer/blob/master/RangeHTTPServer
+
+
 def copy_byte_range(infile, outfile, start=None, stop=None, bufsize=16*1024):
     '''Like shutil.copyfileobj, but only copy a range of the streams.
     Both start and stop are inclusive.
     '''
-    if start is not None: infile.seek(start)
+    if start is not None:
+        infile.seek(start)
     while 1:
         to_read = min(bufsize, stop + 1 - infile.tell() if stop else bufsize)
         buf = infile.read(to_read)
@@ -26,11 +29,15 @@ def copy_byte_range(infile, outfile, start=None, stop=None, bufsize=16*1024):
             break
         outfile.write(buf)
 
+
 BYTE_RANGE_RE = re.compile(r'bytes=(\d+)-(\d+)?$')
+
+
 def parse_byte_range(byte_range):
-    '''Returns the two numbers in 'bytes=123-456' or throws ValueError.
+    """
+    Returns the two numbers in 'bytes=123-456' or throws ValueError.
     The last number or both numbers may be None.
-    '''
+    """
     if byte_range.strip() == '':
         return None, None
 
@@ -43,7 +50,7 @@ def parse_byte_range(byte_range):
         raise ValueError('Invalid byte range %s' % byte_range)
     return first, last
 
-     
+
 class CustomRequestHandler (SimpleHTTPRequestHandler):
     """
     Creating a small HTTP request server
@@ -54,7 +61,7 @@ class CustomRequestHandler (SimpleHTTPRequestHandler):
             return SimpleHTTPRequestHandler.send_head(self)
         try:
             self.range = parse_byte_range(self.headers['Range'])
-        except ValueError as e:
+        except ValueError:
             self.send_error(400, 'Invalid byte range')
             return None
         first, last = self.range
@@ -88,7 +95,7 @@ class CustomRequestHandler (SimpleHTTPRequestHandler):
         self.send_header('Last-Modified', self.date_time_string(fs.st_mtime))
         self.end_headers()
         return f
-    
+
     def copyfile(self, source, outputfile):
         if not self.range:
             return SimpleHTTPRequestHandler.copyfile(self, source, outputfile)
@@ -97,34 +104,35 @@ class CustomRequestHandler (SimpleHTTPRequestHandler):
         # you stop the copying before the end of the file.
         start, stop = self.range  # set in send_head()
         copy_byte_range(source, outputfile, start, stop)
-        
+
     def end_headers(self):
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Access-Control-Allow-Methods', 'GET')
         # self.send_header('Access-Control-Expose-Headers', '*')
-        # self.send_header('Cache-Control', 'no-store, no-cache, must-revalidate')
         self.send_header('Accept-Ranges', 'bytes')
         # self.send_header('Content-Type', 'application/octet-stream')
         SimpleHTTPRequestHandler.end_headers(self)
-        
+
     def translate_path(self, path):
         path = SimpleHTTPRequestHandler.translate_path(self, path)
         relpath = os.path.relpath(path, os.getcwd())
         fullpath = os.path.join(self.server.base_path, relpath)
         return fullpath
 
+
 class DevServer(HTTPServer):
-    def __init__(self, base_path, server_address, RequestHandlerClass=CustomRequestHandler):
+    def __init__(self, base_path, server_address,
+                 RequestHandlerClass=CustomRequestHandler):
         self.base_path = base_path
         HTTPServer.__init__(self, server_address, RequestHandlerClass)
 
-def serve(data_path,**kwargs):
-    print("Warning, this is a development environment.\n"
-          "This is not Recommended for production.")
+
+def serve(data_path, **kwargs):
+    print("Warning, this is a development environment."
+          "\n This is not Recommended for production.")
     port = kwargs.get('port', 8888)
     host = kwargs.get('host', "localhost")
     # data_path = kwargs.get('path', ".")
-    
     # print('data', data_path)
     # dir_path = os.path.join(os.path.dirname(__file__), data_path)
     # print('dir path', dir_path)
