@@ -1,3 +1,4 @@
+from email.policy import default
 from jbrowse_jupyter.util import is_url, get_default, guess_file_name, get_name
 from jbrowse_jupyter.tracks import (
     guess_adapter_type,
@@ -394,6 +395,46 @@ class JBrowseConfig:
         else:
             raise TypeError("Provide a url for your index file."
                             "Checkout our local file support docs.")
+            
+    def delete_track(self, track_id):
+        new_tracks = []
+        current_tracks = self.get_tracks()
+        if track_id not in self.tracks_ids_map.keys():
+            raise TypeError(
+                (
+                    f'track with trackId: "{track_id}" does not exist in'
+                    f'config.')
+                )
+        else:
+            new_tracks = [
+                    t for t in current_tracks if t["trackId"] != track_id]
+            self.config["tracks"] = new_tracks
+            # clear from default session
+            default_sess = self.get_default_session()
+            print(default_sess)
+            print("===========")
+            tracks_sess = default_sess["view"]["tracks"]
+            print(tracks_sess)
+            new_tracks_sess = [track for track in tracks_sess if track["configuration"] != track_id]
+            
+            if (self.view == "CGV"):
+                self.config["defaultSession"] = {
+                    "name": "my session",
+                    "view": {
+                        "id": "circularView",
+                        "type": "CircularView",
+                        "tracks": new_tracks_sess
+                    }
+                }
+            else:
+                self.config["defaultSession"] = {
+                    "name": "my session",
+                    "view": {
+                        "id": "LinearGenomeView",
+                        "type": "LinearGenomeView",
+                        "tracks": new_tracks_sess
+                    }
+                }
 
     # ======= location ===========
     def set_location(self, location):
