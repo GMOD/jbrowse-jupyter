@@ -21,13 +21,12 @@ ref_name_aliases = {
 assembly_data = "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz"
 jbrowse_conf.set_assembly(assembly_data,
                           aliases=aliases,
-                          ref_name_aliases=ref_name_aliases)
+                          refname_aliases=ref_name_aliases)
 
 # add a track
 track_data = "https://s3.amazonaws.com/jbrowse.org/genomes/" \
               "GRCh38/ncbi_refseq/GCA_000001405.15_GRCh38_full" \
               "_analysis_set.refseq_annotation.sorted.gff.gz"
-jbrowse_conf.add_track(track_data, name="test-demo")
 jbrowse_conf.add_track(track_data, name="test-demo", track_id="test-track")
 
 # set location
