@@ -410,10 +410,7 @@ class JBrowseConfig:
             self.config["tracks"] = new_tracks
             # clear from default session
             default_sess = self.get_default_session()
-            print(default_sess)
-            print("===========")
             tracks_sess = default_sess["view"]["tracks"]
-            print(tracks_sess)
             new_tracks_sess = [
                 t for t in tracks_sess if t["configuration"] != track_id]
             if (self.view == "CGV"):
