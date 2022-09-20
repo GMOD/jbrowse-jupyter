@@ -192,12 +192,14 @@ def test_create_view_from_conf():
     # can add track
     assert len(hg19_from_config.get_tracks()) == 0
     bigwig = "https://jbrowse.org/genomes/hg19/COLO829/colo_normal.bw"
-    hg19_from_config.add_track(bigwig, name="wiggle track example")
+    hg19_from_config.add_track(bigwig, name="example", track_id='delete-test')
     assert len(hg19_from_config.get_tracks()) == 1
     # can set default session
-    hg19_from_config.set_default_session(["wiggle track example"])
+    hg19_from_config.set_default_session(["example"])
     assert hg19_from_config.get_default_session()
-
+    # can delete a track
+    hg19_from_config.delete_track("delete-test")
+    assert len(hg19_from_config.get_tracks()) == 0
     # can set text search adapter
     index_error = "Provide a url for your index file."\
         "Checkout our local file support docs."

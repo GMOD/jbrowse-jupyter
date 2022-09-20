@@ -395,6 +395,43 @@ class JBrowseConfig:
             raise TypeError("Provide a url for your index file."
                             "Checkout our local file support docs.")
 
+    def delete_track(self, track_id):
+        new_tracks = []
+        current_tracks = self.get_tracks()
+        if track_id not in self.tracks_ids_map.keys():
+            raise TypeError(
+                (
+                    f'track with trackId: "{track_id}" does not exist in'
+                    f'config.')
+                )
+        else:
+            new_tracks = [
+                    t for t in current_tracks if t["trackId"] != track_id]
+            self.config["tracks"] = new_tracks
+            # clear from default session
+            default_sess = self.get_default_session()
+            tracks_sess = default_sess["view"]["tracks"]
+            new_tracks_sess = [
+                t for t in tracks_sess if t["configuration"] != track_id]
+            if (self.view == "CGV"):
+                self.config["defaultSession"] = {
+                    "name": "my session",
+                    "view": {
+                        "id": "circularView",
+                        "type": "CircularView",
+                        "tracks": new_tracks_sess
+                    }
+                }
+            else:
+                self.config["defaultSession"] = {
+                    "name": "my session",
+                    "view": {
+                        "id": "LinearGenomeView",
+                        "type": "LinearGenomeView",
+                        "tracks": new_tracks_sess
+                    }
+                }
+
     # ======= location ===========
     def set_location(self, location):
         """
