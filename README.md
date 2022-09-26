@@ -91,7 +91,7 @@ if __name__ == "__main__":
     
 ```
 
-## Using jupyter-server-proxy
+### using jupyter-server-proxy
 
 or using the [jupyter-server-proxy extension](https://github.com/jupyterhub/jupyter-server-proxy)
 and the [jupyter-dash extension](https://github.com/plotly/jupyter-dash)
@@ -144,7 +144,7 @@ You can customize the Linear Genome View by modifying the `jbrowse_conf`. The `j
 
 Find more information about the JBrowseConfig API [here](https://gmod.github.io/jbrowse-jupyter/docs/html/index.html)
 
-### Other Examples
+## Other Examples
 
 You can find examples in the root of this repo, 
 * `browser.py` - uses the Dash library to create a python application with the Dash JBrowse LinearGenomeView component
@@ -153,11 +153,11 @@ You can find examples in the root of this repo,
 * `cgv_examples.ipynb` - jupyter notebook using the JupyterDash library to embed a Dash JBrowse CircularGenomeView component in a cell
 * `local_support.ipynb` - jupyter notebook with tutorial on using your local data and passing it to JBrowse views
 
-#### To run the Python Dash application
+### To run the Python Dash application
 ```
 $ python browser.py
 ```
-#### To run the jupyter notebook
+### To run the jupyter notebook
 
 Make sure you have [jupyter notebook or jupyterlab](https://jupyter.org/install).
 
@@ -223,6 +223,9 @@ JBrowseConfig().
         * index (str) – (optional) index file for the track
         * track_type (str) – (optional) track type. If none is passed, the api will infer one based on the file type
         * overwrite (boolean) – (optional) overwrites existing track if it exists in list of tracks (default False)
+* `delete_track`(track_id)
+    - params:
+        * track_id (str) - trackId for the track to delete
 * `set_location`(location)
     - initial location for when the browser first loads, syntax 'refName:start-end' 
     - e.g 'chrom1:500-1000'
