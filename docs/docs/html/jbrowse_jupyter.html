@@ -184,6 +184,23 @@ assumes “url.bam.bai” also exists</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.JBrowseConfig.delete_track">
+<span class="sig-name descname"><span class="pre">delete_track</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">track_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.delete_track" title="Permalink to this definition"></a></dt>
+<dd><p>Deletes a track from the config.</p>
+<p>e.g:
+delte_track(“test_track_id”)</p>
+<p>Will delete track with track_id test_track_id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>track_id</strong> (<em>str</em>) – track_id to delete</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>TypeError</strong> – if track_id provided does not exist</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.JBrowseConfig.get_config">
 <span class="sig-name descname"><span class="pre">get_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.get_config" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the configuration object of the JBrowseConfig
