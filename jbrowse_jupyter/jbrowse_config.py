@@ -162,7 +162,7 @@ class JBrowseConfig:
         :param obj refname_aliases: (optional) config for refname aliases.
         :param str overwrite: flag wether or not to overwrite
             existing assembly, default to False.
-        :raises TypeError: if assembly_data is a local file
+        :raises TypeError: if assembly_data is a local path
         :raises TypeError: adapter used for file type is not supported or
             recognized
         """
@@ -176,7 +176,8 @@ class JBrowseConfig:
         if (is_url(assembly_data)):
             if (indx != 'defaultIndex'):
                 if not is_url(indx):
-                    raise TypeError("Local files are not currently supported")
+                    raise TypeError("Provide a url for your index file."
+                                    "Checkout our local file support docs.")
             name = kwargs.get('name', get_name(assembly_data))
             assembly_adapter = guess_adapter_type(assembly_data, 'uri', indx)
             if (assembly_adapter["type"] == "UNKNOWN"):
@@ -195,7 +196,8 @@ class JBrowseConfig:
             }
             self.config["assembly"] = assembly_config
         else:
-            raise TypeError("Local files are not currently supported.")
+            raise TypeError("Provide a url for your index file."
+                            "Checkout our local file support docs.")
 
     # ============ Tracks =============
 
@@ -329,7 +331,6 @@ class JBrowseConfig:
         :raises TypeError: if track data is not provided
         :raises TypeError: if track type is not supported
         """
-        # TODO: local file support
         # TODO: get effective/working locations for track data
         # and track index when
         if not data:
@@ -346,8 +347,8 @@ class JBrowseConfig:
         if is_url(data):
             # default to uri protocol until local files enabled
             if not is_url(index) and index != "defaultIndex":
-                raise TypeError("Local files are not currently supported."
-                                "Provide a url for your index file.")
+                raise TypeError("Provide a url for your index file."
+                                "Checkout our local file support docs.")
             adapter = guess_adapter_type(data, 'uri', index)
             if (adapter["type"] == "UNKNOWN"):
                 raise TypeError("Adapter type is not recognized")
@@ -391,7 +392,45 @@ class JBrowseConfig:
             self.config["tracks"] = current_tracks
             self.tracks_ids_map[track_id] = track_config
         else:
-            raise TypeError("Local files are not currently supported.")
+            raise TypeError("Provide a url for your index file."
+                            "Checkout our local file support docs.")
+
+    def delete_track(self, track_id):
+        new_tracks = []
+        current_tracks = self.get_tracks()
+        if track_id not in self.tracks_ids_map.keys():
+            raise TypeError(
+                (
+                    f'track with trackId: "{track_id}" does not exist in'
+                    f'config.')
+                )
+        else:
+            new_tracks = [
+                    t for t in current_tracks if t["trackId"] != track_id]
+            self.config["tracks"] = new_tracks
+            # clear from default session
+            default_sess = self.get_default_session()
+            tracks_sess = default_sess["view"]["tracks"]
+            new_tracks_sess = [
+                t for t in tracks_sess if t["configuration"] != track_id]
+            if (self.view == "CGV"):
+                self.config["defaultSession"] = {
+                    "name": "my session",
+                    "view": {
+                        "id": "circularView",
+                        "type": "CircularView",
+                        "tracks": new_tracks_sess
+                    }
+                }
+            else:
+                self.config["defaultSession"] = {
+                    "name": "my session",
+                    "view": {
+                        "id": "LinearGenomeView",
+                        "type": "LinearGenomeView",
+                        "tracks": new_tracks_sess
+                    }
+                }
 
     # ======= location ===========
     def set_location(self, location):
@@ -480,14 +519,15 @@ class JBrowseConfig:
         :raises Exception: if assembly has not been configured
         :raises TypeError: if adapter with same adapter id
                 is already configured
-        :raises TypeError: local files are not supported
+        :raises TypeError: local paths are not supported
         :raises TypeError: if view is CGV
         """
         err = "Please set the assembly before adding a text search adapter."
         if not self.get_assembly():
             raise Exception(err)
         if (not (is_url(ix_path) and is_url(ixx_path) and is_url(meta_path))):
-            raise TypeError("Local files are not currently supported.")
+            raise TypeError("Provide a url for your index file."
+                            "Checkout our local file support docs.")
         if self.view == "CGV":
             raise TypeError("Text Searching not currently available in CGV")
         assembly_name = self.get_assembly_name()

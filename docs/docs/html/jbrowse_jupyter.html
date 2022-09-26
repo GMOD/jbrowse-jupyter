@@ -18,8 +18,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Tutorials and Demos" href="tutorial.html" />
-    <link rel="prev" title="Creating components" href="util.html" /> 
+    <link rel="next" title="Development Server" href="dev_server.html" />
+    <link rel="prev" title="Creating Components" href="util.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -41,12 +41,14 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">Reference</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="util.html">Creating components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="util.html">Creating Components</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">JBrowseConfig API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev_server.html">Development Server</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorials and Demos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contact.html">Contact us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 </ul>
 
         </div>
@@ -140,7 +142,7 @@ add_text_search_adapter(“url/file.ix”, url/file.ixx”,
 <li><p><strong>Exception</strong> – if assembly has not been configured</p></li>
 <li><p><strong>TypeError</strong> – if adapter with same adapter id
 is already configured</p></li>
-<li><p><strong>TypeError</strong> – local files are not supported</p></li>
+<li><p><strong>TypeError</strong> – local paths are not supported</p></li>
 <li><p><strong>TypeError</strong> – if view is CGV</p></li>
 </ul>
 </dd>
@@ -227,7 +229,7 @@ existing assembly, default to False.</p></li>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><ul class="simple">
-<li><p><strong>TypeError</strong> – if assembly_data is a local file</p></li>
+<li><p><strong>TypeError</strong> – if assembly_data is a local path</p></li>
 <li><p><strong>TypeError</strong> – adapter used for file type is not supported or
 recognized</p></li>
 </ul>
@@ -298,8 +300,8 @@ set_theme(“#311b92”, “#0097a7”, “#f57c00”, “#d50000”)</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="util.html" class="btn btn-neutral float-left" title="Creating components" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="tutorial.html" class="btn btn-neutral float-right" title="Tutorials and Demos" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="util.html" class="btn btn-neutral float-left" title="Creating Components" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dev_server.html" class="btn btn-neutral float-right" title="Development Server" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
