@@ -2,6 +2,8 @@
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/browser.ipynb)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/GMOD/jbrowse-jupyter/b74e1acfbe2a85a49462b6844297f92f2b738155?urlpath=lab%2Ftree%2Fbinder%2Fbinder.ipynb)
 [![Downloads](https://pepy.tech/badge/jbrowse-jupyter)](https://pepy.tech/project/jbrowse-jupyter)
+[![made-with-sphinx-doc](https://img.shields.io/badge/Made%20with-Sphinx-1f425f.svg)](https://gmod.github.io/jbrowse-jupyter/docs/html/index.html)
+
 
 # [JBrowse Jupyter](https://gmod.github.io/jbrowse-jupyter/)
 
