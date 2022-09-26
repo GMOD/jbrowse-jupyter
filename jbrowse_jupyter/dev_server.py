@@ -13,6 +13,7 @@ This server takes inspiration from multiple solutions to provide:
     - https://stackoverflow.com/a/46332163
 '''
 # CREDIT FOR ENABLING RANGE REQUEST HTTP SERVER:
+# lines 20-31, 34,37-52, 59-107
 # https://github.com/danvk/RangeHTTPServer/blob/master/RangeHTTPServer
 
 

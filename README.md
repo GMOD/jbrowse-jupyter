@@ -247,13 +247,15 @@ JBrowseConfig().
 
 
 
-### local file support
+### Local file support
 We currently support two ways of passing your local data to JBrowse Views.
 
 For our Jupyter users, you can leverage the Jupyter server to host your files and pass those urls to the JBrowse views. You can find a detailed example in our local_support.ipynb
 
+For those using colab notebooks,binder, jupyter and more you can use the JBrowse dev server.
+
 #### JBrowse dev server
-We also provide a simple http server configured with CORS that will allow you to serve your local files in order to be able to use them in notebooks or in a development python application. 
+We also provide a simple http server configured with CORS that will allow you to serve your local files from a specified directory within your machine.
 
 > **_Note__** that the use of local files or the dev server provided is not recommended for production environments. 
 
@@ -353,6 +355,7 @@ We **really** love talking to our users. Please reach out with any thoughts you 
         1. Make use of the jupyter notebook/lab server. Intended for those running their notebooks with jupyter lab or jupyter notebook.
         2. Launch your own http server with CORS which will enable you to use local files. You can run our serve.py to launch our dev server. 
     (Checkout our local_support.ipynb for tutorials on how to use your own data)
-    **_Note_:** that these solutions are recommended for your development environments and not supported in production.
-* I am running a colab notebook/binder notebook and wish to use my local data? 
+
+**_Note_:** that these solutions are recommended for your development environments and not supported in production.
+* I am running a colab notebook/binder notebook and wish to use my local data, how can I do this? 
     - You can run JBrowse dev server to serve local files to use in your JBrowse views. More information on the dev server can be found in the local file support section of this readme.
