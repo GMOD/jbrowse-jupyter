@@ -396,6 +396,18 @@ class JBrowseConfig:
                             "Checkout our local file support docs.")
 
     def delete_track(self, track_id):
+        """
+        Deletes a track from the config.
+
+        e.g:
+        delte_track("test_track_id")
+
+        Will delete track with track_id test_track_id.
+
+        :param str track_id: track_id to delete
+
+        :raises TypeError: if track_id provided does not exist
+        """
         new_tracks = []
         current_tracks = self.get_tracks()
         if track_id not in self.tracks_ids_map.keys():
