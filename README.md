@@ -91,7 +91,7 @@ if __name__ == "__main__":
     
 ```
 
-### using jupyter-server-proxy
+### Using jupyter-server-proxy
 
 or using the [jupyter-server-proxy extension](https://github.com/jupyterhub/jupyter-server-proxy)
 and the [jupyter-dash extension](https://github.com/plotly/jupyter-dash)
