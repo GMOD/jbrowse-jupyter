@@ -2,7 +2,7 @@
 
 JBrowse Jupyter is a python package that provides a python interface to JBrowse 2 views.
 
-The package provides a JBrowseConfig API to facilitate the customization of JBrowse 2 React Linear Genome View's state configuration objects. It also provides utility functions to create Dash JBrowse components to embed in Dash applications and others to embed them in jupyter notebooks.
+The package provides a JBrowseConfig API to facilitate the customization of JBrowse 2 React embeddable component's state configuration objects. It also provides utility functions to create Dash JBrowse components to embed in Dash applications and others to embed them in jupyter notebooks.
 
 First,
 

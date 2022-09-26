@@ -11,8 +11,8 @@ $ cd jbrowse-jupyter
 ```
 2. Create a conda environment and install the dependencies
 ```
-$ conda create -n myenv python=3.6
-$ source avtivate myenv
+$ conda create -n myenv
+$ source activate myenv
 $ python -m pip install -r requirements.txt
 ```
 This command will create a conda env with python 3.6. 
@@ -69,7 +69,7 @@ You should see a requirements.txt,a Makefile, a make.bat file, the source/ direc
 
 1. Create an environment and install the dependencies.
 ```
-$ conda create -n myenv python=3.6
+$ conda create -n myenv
 $ source activate myenv
 $ python -m pip install -r requirements.txt
 ```

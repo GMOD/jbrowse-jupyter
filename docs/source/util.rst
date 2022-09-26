@@ -1,4 +1,4 @@
-Creating components
+Creating Components
 ---------------------------------------
 .. automodule:: jbrowse_jupyter.jbrowse_config
    :members: create
@@ -7,3 +7,4 @@ Creating components
 
 .. automodule:: jbrowse_jupyter.util
    :members: create_component, launch
+

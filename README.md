@@ -1,7 +1,7 @@
 ![Pytest and flake8](https://github.com/GMOD/jbrowse-jupyter/actions/workflows/push.yml/badge.svg)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/browser.ipynb)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/GMOD/jbrowse-jupyter/04b89d20fff202efdcda50f4e0a06471e2536dc3?urlpath=lab%2Ftree%2Fbinder%2Fbinder.ipynb)
-
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/GMOD/jbrowse-jupyter/4ace1180f633eb5a6179c6e4f53fdbd8a436cd1e?urlpath=lab%2Ftree%2Fbinder%2Fbinder.ipynb)
+[![Downloads](https://pepy.tech/badge/jbrowse-jupyter)](https://pepy.tech/project/jbrowse-jupyter)
 
 # [JBrowse Jupyter](https://gmod.github.io/jbrowse-jupyter/)
 
@@ -52,7 +52,7 @@ Clone this repository and [install conda](https://docs.conda.io/projects/conda/e
 to create a conda envirnment and install the dependecies.
 ```
 $ cd jbrowse-jupyter
-$ conda create -n myenv python=3.6
+$ conda create -n myenv
 $ conda activate myenv
 $ pip install -r requirements.txt
 ```
@@ -91,7 +91,7 @@ if __name__ == "__main__":
     
 ```
 
-## using jupyter-server-proxy
+### Using jupyter-server-proxy
 
 or using the [jupyter-server-proxy extension](https://github.com/jupyterhub/jupyter-server-proxy)
 and the [jupyter-dash extension](https://github.com/plotly/jupyter-dash)
@@ -144,20 +144,20 @@ You can customize the Linear Genome View by modifying the `jbrowse_conf`. The `j
 
 Find more information about the JBrowseConfig API [here](https://gmod.github.io/jbrowse-jupyter/docs/html/index.html)
 
-### Other Examples
+## Other Examples
 
 You can find examples in the root of this repo, 
 * `browser.py` - uses the Dash library to create a python application with the Dash JBrowse LinearGenomeView component
 * `browser.ipynb` - jupyter notebook using the JupyterDash library to embed a Dash JBrowse LinearGenomeView component in a cell
 * `cgv_examples.py` - uses the Dash library to create a python application with the Dash JBrowse CircularGenomeView component
 * `cgv_examples.ipynb` - jupyter notebook using the JupyterDash library to embed a Dash JBrowse CircularGenomeView component in a cell
+* `local_support.ipynb` - jupyter notebook with tutorial on using your local data and passing it to JBrowse views
 
-
-#### To run the Python Dash application
+### To run the Python Dash application
 ```
 $ python browser.py
 ```
-#### To run the jupyter notebook
+### To run the jupyter notebook
 
 Make sure you have [jupyter notebook or jupyterlab](https://jupyter.org/install).
 
@@ -223,6 +223,9 @@ JBrowseConfig().
         * index (str) – (optional) index file for the track
         * track_type (str) – (optional) track type. If none is passed, the api will infer one based on the file type
         * overwrite (boolean) – (optional) overwrites existing track if it exists in list of tracks (default False)
+* `delete_track`(track_id)
+    - params:
+        * track_id (str) - trackId for the track to delete
 * `set_location`(location)
     - initial location for when the browser first loads, syntax 'refName:start-end' 
     - e.g 'chrom1:500-1000'
@@ -244,6 +247,56 @@ JBrowseConfig().
  <!-- For full details please reference the documentation. -->
 
 ![Circular Genome View Gif](https://user-images.githubusercontent.com/45598764/152484043-aeff48b5-a1f2-44f2-b7d9-131c2afd4e1a.gif)
+
+
+
+### Local file support
+We currently support two ways of passing your local data to JBrowse Views.
+
+For our Jupyter users, you can leverage the Jupyter server to host your files and pass those urls to the JBrowse views. You can find a detailed example in our local_support.ipynb
+
+For those using colab notebooks,binder, jupyter and more you can use the JBrowse dev server.
+
+#### JBrowse dev server
+We also provide a simple http server configured with CORS that will allow you to serve your local files from a specified directory within your machine.
+
+> **_Note__** that the use of local files or the dev server provided is not recommended for production environments. 
+
+You can spin the dev server in two ways.
+1. Git clone this repo
+2. From the root of this repository, you will be able to run the python file named `serve.py`
+```$ python serve.py```
+3. You can choose your own port, host, and directory from which to serve your files. You can also press enter to choose all the defaults. 
+  - Default PORT: 8080
+  - Default host: localhost
+  - Default directory: the current working directory -> os.getcwd() is used
+
+4. Now that the dev server is running you can use the url provided in the terminal to pass to your views. 
+- For example: the url to the data you wish to pass to the JBrowse view config for the local dev server running on port 8080 on local host will look like this "http://localhost:8080/<your-file-name>"
+e.g `jbrowse_conf.add_track("http://localhost:8080/<your-file-name>", name="test-demo")`
+
+Or you can make your own python file and run it to start the server.
+
+1. create a python file named dev_server.py and add the code below
+
+```
+import os
+from jbrowse_jupyter import serve
+
+
+if __name__ == "__main__":
+    serve(os.getcwd(), port=8080, host='localhost')
+```
+2. Run the python file
+`$ python dev_server.py`
+
+3. This will spin up a python simple http server with cors enabled. You can take a look at our implementation of our dev server here: `jbrowse_jupyter/dev_server.py`
+
+4. Now that the dev server is running you can use the url provided in the terminal to pass to your views. 
+- For example: the url to the data you wish to pass to the JBrowse view config for the local dev server running on port 8080 on local host will look like this "http://localhost:8080/<your-file-name>"
+e.g `jbrowse_conf.add_track("http://localhost:8080/<your-file-name>", name="test-demo")`
+
+
 
 ## Resources
 * [JBrowse](https://jbrowse.org/jb2/) - the next generation genome browser
@@ -299,3 +352,13 @@ We **really** love talking to our users. Please reach out with any thoughts you 
 * How do I set a custom color theme palette to fit with my application?
     - You can customize the color palette of the component through the use of `set_theme` function from the JBrowseConfig API. Below is an image of an LGV with a custom color palette. 
 ![Custom Palette](https://github.com/GMOD/jbrowse-jupyter/raw/main/images/custom_palette.png)
+
+* Can I use local files/my own data?
+    - Yes, there are a couple of ways in which you can configure and use your own data from your local environment in jbrowse views. 
+        1. Make use of the jupyter notebook/lab server. Intended for those running their notebooks with jupyter lab or jupyter notebook.
+        2. Launch your own http server with CORS which will enable you to use local files. You can run our serve.py to launch our dev server. 
+    (Checkout our local_support.ipynb for tutorials on how to use your own data)
+
+**_Note_:** that these solutions are recommended for your development environments and not supported in production.
+* I am running a colab notebook/binder notebook and wish to use my local data, how can I do this? 
+    - You can run JBrowse dev server to serve local files to use in your JBrowse views. More information on the dev server can be found in the local file support section of this readme.
