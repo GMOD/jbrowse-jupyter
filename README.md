@@ -1,6 +1,6 @@
 ![Pytest and flake8](https://github.com/GMOD/jbrowse-jupyter/actions/workflows/push.yml/badge.svg)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/browser.ipynb)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/GMOD/jbrowse-jupyter/4ace1180f633eb5a6179c6e4f53fdbd8a436cd1e?urlpath=lab%2Ftree%2Fbinder%2Fbinder.ipynb)
+[![Binder](https://mybinder.org/v2/gh/GMOD/jbrowse-jupyter/b74e1acfbe2a85a49462b6844297f92f2b738155?urlpath=lab%2Ftree%2Fbinder%2Fbinder.ipynb)
 [![Downloads](https://pepy.tech/badge/jbrowse-jupyter)](https://pepy.tech/project/jbrowse-jupyter)
 
 # [JBrowse Jupyter](https://gmod.github.io/jbrowse-jupyter/)
