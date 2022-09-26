@@ -107,8 +107,8 @@ class CustomRequestHandler (SimpleHTTPRequestHandler):
 
     def end_headers(self):
         self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', 'GET')
-        # self.send_header('Access-Control-Expose-Headers', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
+        self.send_header('Access-Control-Expose-Headers', '*')
         self.send_header('Accept-Ranges', 'bytes')
         # self.send_header('Content-Type', 'application/octet-stream')
         SimpleHTTPRequestHandler.end_headers(self)
@@ -142,8 +142,10 @@ def serve(data_path, **kwargs):
     :param str host: (optional) host to utilize when running
         the dev server, default to localhost
     """
-    print("Warning, this is a development environment."
-          "\n This is not Recommended for production.")
+    print("=============================================")
+    print("Warning: \n"
+          "This is a development environment.\n"
+          "This is not recommended for production.")
     port = kwargs.get('port', 8080)
     host = kwargs.get('host', "localhost")
     # data_path = kwargs.get('path', ".")
@@ -154,5 +156,6 @@ def serve(data_path, **kwargs):
     # print('join', os.path.join(os.getcwd(), data_path))
     httpd = DevServer(data_path, (host, port))
     server = f'http://{host}:{port}'
+    print("=============================================")
     print(f'Server is now running at \n "{server}"')
     httpd.serve_forever()
