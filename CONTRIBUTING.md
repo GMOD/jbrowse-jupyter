@@ -47,6 +47,7 @@ $ pip install git+https://github.com/GMOD/jbrowse-jupyter.git@branch
 You can find all the tests in the `tests/` directory
 To run the tests, you can run this command from the root of the repo directory
 ```
+$ pip install pytest
 $ python -m pytest tests/
 ```
 We use flake8 for linting. You can run 
