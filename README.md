@@ -275,15 +275,14 @@ e.g `jbrowse_conf.add_track("http://localhost:8080/<your-file-name>", name="test
 | Binder support            | yes              | yes     |
 | Colab  support            | yes              | yes     |
 | Custom Color Theming      | yes              | no      |
-| Deletion of Track         | yes              | no      |
-| Export the view as an SVG | yes, from ui      | yes     |
-| Get FASTA file of region  | yes, from ui      | no     |
+| Deletion of tracks         | yes              | no      |
+| Export view as SVG        | yes, from ui     | yes     |
 | Local file support        | yes              | yes     |
-| Other views - Circular Genome View    | yes              | no      |
+| Supports other views aside from the Linear Genome View - e.g Circular Genome View    | yes              | no      |
 | Path support              | no               | yes     |
-| Text Indexing for searching          | yes              | no      |
-| Tracks from Dataframes    | yes              | no      |
-| Zooming in                | yes, from ui              | no      |
+| Ability to enable text searching from indexed files | yes              | no      |
+| Ability to add tracks from Dataframes    | yes              | no      |
+| Zooming in on regions of interest               | yes, from ui              | no      |
 
 For more features of the JBrowse and JBrowse embedded components checkout 
 [our documentation](https://jbrowse.org/jb2/docs/embedded_components/)
