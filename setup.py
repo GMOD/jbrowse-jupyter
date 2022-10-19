@@ -26,7 +26,7 @@ setuptools.setup(
     },
     packages=['jbrowse_jupyter'],
     python_requires=">=3.6",
-    tests_requires=['pytest'],
+    tests_require=['pytest'],
     classifiers=[
         "Programming Language :: Python :: 3",
         "Topic :: Scientific/Engineering",

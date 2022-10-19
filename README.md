@@ -15,16 +15,16 @@ The package provides a JBrowseConfig API to enable the creation of JBrowse state
 
 *You can open this browser.ipynb in colab* [here](https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/browser.ipynb)
 
-### Dash JBrowse
-Dash JBrowse is a collection of dash components for JBrowse's embeddable components.
-
-We utilize the Dash JBrowse package along with [jupyter-dash](https://github.com/plotly/jupyter-dash) library to embed [JBrowse React Linear Genome view](https://www.npmjs.com/package/@jbrowse/react-linear-genome-view) or the [JBrowse React Circular Genome view](https://www.npmjs.com/package/@jbrowse/react-circular-genome-view) in any jupyter notebook.
-
-You can find more information about our Dash JBrowse library [here](https://github.com/GMOD/dash_jbrowse).
+> ### Dash JBrowse
+> JBrowse Jupyter uses [Dash JBrowse](https://github.com/GMOD/dash_jbrowse), which is a collection of Dash components for JBrowse's embeddable React components.
+>
+> We utilize the Dash JBrowse package along with the [jupyter-dash](https://github.com/plotly/jupyter-dash) library to embed [JBrowse React Linear Genome view](https://www.npmjs.com/package/@jbrowse/react-linear-genome-view) or the [JBrowse React Circular Genome view](https://www.npmjs.com/package/@jbrowse/react-circular-genome-view) in any jupyter notebook.
+>
+> To learn more about the Dash JBrowse package, including how the Dash components can be used outside of Jupyter Notebooks, see [here](https://github.com/GMOD/dash_jbrowse).
 
 ## Demos
 * Browser notebook demo - https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/browser.ipynb
-* SK-BR-3 demo -  https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/skbr3.ipynb
+* SK-BR-3 demo - https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/skbr3.ipynb
 
 ## Documentation
 Additional details and tutorials can be found in our Sphinx documentation page.
@@ -32,34 +32,16 @@ https://gmod.github.io/jbrowse-jupyter/docs/html/index.html
 ## Installation
 `jbrowse-jupyter` is freely available for download on the Python Package Index
 https://pypi.org/project/jbrowse-jupyter/
-### Pre-requisites
-* [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) - for virtual environments
-* [pip](https://packaging.python.org/en/latest/guides/installing-using-linux-tools/) - python package manager
-* [Python](https://docs.python-guide.org/starting/installation/#installation) - 3.6 or greater
-* [Jupyter](https://jupyter.org/install) - jupyter lab or jupyter notebook to run .ipynb files
-
-### PyPI
 
 ```
 $ pip install jbrowse-jupyter
-```
-
-### Install with conda
-
-Clone this repository and [install conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html). Once you have conda installed, follow the steps found below 
-to create a conda envirnment and install the dependecies.
-```
-$ cd jbrowse-jupyter
-$ conda create -n myenv
-$ conda activate myenv
-$ pip install -r requirements.txt
 ```
 
 ## Quickstart
-Install the JBrowse Jupyter package using pip
-```
-$ pip install jbrowse-jupyter
-```
+
+For all of the following examples, make sure that the JBrowse Jupyter package has been installed into your environment (pipenv, venv, conda, etc.).
+
+### In a Jupyter Notebook
 
 *Launching a Linear Genome View in Jupyter Notebook*
 ![Launching hg38 LGV in python notebook](https://github.com/GMOD/jbrowse-jupyter/raw/main/images/notebook.png)
@@ -94,17 +76,9 @@ if __name__ == "__main__":
 or using the [jupyter-server-proxy extension](https://github.com/jupyterhub/jupyter-server-proxy)
 and the [jupyter-dash extension](https://github.com/plotly/jupyter-dash)
 
-### Using Pypi
 ```
 $ pip install jupyter-server-proxy
 $ pip install jupyter-dash
-
-```
-### Using conda
-```
-$ conda install jupyter-server-proxy -c conda-forge
-$ conda install -c conda-forge -c plotly jupyter-dash
-$ jupyter lab build 
 ```
 
 ```python
@@ -130,7 +104,7 @@ app.layout = html.Div(
 )
 
 if __name__ == "__main__":
-    # the external mode should display  a url proxied by jupyter-server-proxy, 
+    # the external mode should display a url proxied by jupyter-server-proxy, 
     # very handy on jupyterlab behind jupyterhub as in departmental jupyterlab instances.
     
     app.run_server(mode='external', debug=True, port=8999)
@@ -151,20 +125,20 @@ You can find examples in the root of this repo,
 * `cgv_examples.ipynb` - jupyter notebook using the JupyterDash library to embed a Dash JBrowse CircularGenomeView component in a cell
 * `local_support.ipynb` - jupyter notebook with tutorial on using your local data and passing it to JBrowse views
 
-### To run the Python Dash application
+### To run a Python Dash application
 ```
 $ python browser.py
 ```
-### To run the jupyter notebook
+### To run a jupyter notebook
 
-Make sure you have [jupyter notebook or jupyterlab](https://jupyter.org/install).
+Make sure you have [jupyter notebook or jupyterlab](https://jupyter.org/install) installed.
 
-Within the myenv conda environment
 ```
-$ pip install jupyterlab
+# May look different if you have classic notebooks instead of jupyterlab
+jupyter-lab build
+jupyter-lab browser.ipynb
 ```
-More information on using a specific [environment in 
-a jupyter notebook](https://softwarejargon.com/jupyterlab-and-conda-environment-installation-and-setup/)
+
 ## Usage
 The `jbrowse-jupyter` package provides several utility functions to create and launch Dash JBrowse components in python applications and jupyter notebooks.
 
@@ -176,10 +150,10 @@ The `jbrowse-jupyter` package provides several utility functions to create and l
         OR 
         - conf: use a conf object, you can manually edit and pass json object.
         e.g `create`('LGV', conf={"my-conf": "object"})
-        *Note:* you can manually create a conf following the https://jbrowse.org/jb2/docs/config_guide/
+        > **Note**: you can manually create a conf following the https://jbrowse.org/jb2/docs/config_guide/
         - if no genome or conf is passed, you will create an empty JBrowseConfig for that view type.
-    *defaults* if you pass no params,an empty JBrowse config for a LGV (LinearGenomeView) will be created
-* `create_component`(conf, **kwargs) - creates and returns a Dash JBrowse component -> 'CGV' or 'LGV'. This component can be used as any  Dash component in Dash applications.
+    *defaults* if you pass no params, an empty JBrowse config for a LGV (LinearGenomeView) will be created
+* `create_component`(conf, **kwargs) - creates and returns a Dash JBrowse component -> 'CGV' or 'LGV'. This component can be used as any Dash component in Dash applications.
   - conf: JBrowseConfig obj 
   - id: id for Dash components (opyional)
   - dash_comp: 'CGV' or 'LGV', defaults to 'LGV' when none is passed
@@ -253,12 +227,12 @@ We currently support two ways of passing your local data to JBrowse Views.
 
 For our Jupyter users, you can leverage the Jupyter server to host your files and pass those urls to the JBrowse views. You can find a detailed example in our local_support.ipynb
 
-For those using colab notebooks,binder, jupyter and more you can use the JBrowse dev server.
+For those using colab notebooks, binder, jupyter and more you can use the JBrowse dev server.
 
 #### JBrowse dev server
 We also provide a simple http server configured with CORS that will allow you to serve your local files from a specified directory within your machine.
 
-> **_Note__** that the use of local files or the dev server provided is not recommended for production environments. 
+> **Note** The use of local files or the dev server provided is not recommended for production environments. 
 
 You can spin the dev server in two ways.
 1. Git clone this repo
@@ -294,8 +268,6 @@ if __name__ == "__main__":
 - For example: the url to the data you wish to pass to the JBrowse view config for the local dev server running on port 8080 on local host will look like this "http://localhost:8080/<your-file-name>"
 e.g `jbrowse_conf.add_track("http://localhost:8080/<your-file-name>", name="test-demo")`
 
-
-
 ## Resources
 * [JBrowse](https://jbrowse.org/jb2/) - the next generation genome browser
 * [JBrowse React Linear Genome View](https://www.npmjs.com/package/@jbrowse/react-linear-genome-view) - interactive genome browser
@@ -304,6 +276,11 @@ e.g `jbrowse_conf.add_track("http://localhost:8080/<your-file-name>", name="test
 * [Dash HTML components](https://dash.plotly.com/dash-html-components) Dash html components to build the Dash aplication layout.
 * [DashJupyter](https://github.com/plotly/jupyter-dash) library to enable embedding Dash components in jupyter notebooks.
 * [DashJbrowse](https://github.com/GMOD/dash_jbrowse) suite of Dash components for JBrowse views. (JBrowse Linear Genome View)
+
+## Contributing
+
+See our [contributing guide](./CONTRIBUTING.md).
+
 ## Academic Use
 This package was written with funding from the [NHGRI](https://genome.gov/) as
 part of the JBrowse project. If you use it in an academic project that you
@@ -357,6 +334,6 @@ We **really** love talking to our users. Please reach out with any thoughts you 
         2. Launch your own http server with CORS which will enable you to use local files. You can run our serve.py to launch our dev server. 
     (Checkout our local_support.ipynb for tutorials on how to use your own data)
 
-**_Note_:** that these solutions are recommended for your development environments and not supported in production.
+> **Note**: These solutions are recommended for your development environments and not supported in production.
 * I am running a colab notebook/binder notebook and wish to use my local data, how can I do this? 
     - You can run JBrowse dev server to serve local files to use in your JBrowse views. More information on the dev server can be found in the local file support section of this readme.
