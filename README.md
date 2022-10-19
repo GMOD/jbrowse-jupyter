@@ -268,6 +268,26 @@ if __name__ == "__main__":
 - For example: the url to the data you wish to pass to the JBrowse view config for the local dev server running on port 8080 on local host will look like this "http://localhost:8080/<your-file-name>"
 e.g `jbrowse_conf.add_track("http://localhost:8080/<your-file-name>", name="test-demo")`
 
+## JBrowse Jupyter vs other tools
+
+| Features                  | JBrowse Jupyter  | Others  |
+| -------                   | ---------------- | ------- |
+| Binder support            | yes              | yes     |
+| Colab  support            | yes              | yes     |
+| Custom Color Theming      | yes              | no      |
+| Deletion of Track         | yes              | no      |
+| Export the view as an SVG | yes, from ui      | yes     |
+| Get FASTA file of region  | yes, from ui      | no     |
+| Local file support        | yes              | yes     |
+| Other views - Circular Genome View    | yes              | no      |
+| Path support              | no               | yes     |
+| Text Indexing for searching          | yes              | no      |
+| Tracks from Dataframes    | yes              | no      |
+| Zooming in                | yes, from ui              | no      |
+
+For more features of the JBrowse and JBrowse embedded components checkout 
+[our documentation](https://jbrowse.org/jb2/docs/embedded_components/)
+
 ## Resources
 * [JBrowse](https://jbrowse.org/jb2/) - the next generation genome browser
 * [JBrowse React Linear Genome View](https://www.npmjs.com/package/@jbrowse/react-linear-genome-view) - interactive genome browser
