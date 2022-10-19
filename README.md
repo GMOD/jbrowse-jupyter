@@ -270,19 +270,19 @@ e.g `jbrowse_conf.add_track("http://localhost:8080/<your-file-name>", name="test
 
 ## JBrowse Jupyter vs other tools
 
-| Features                  | JBrowse Jupyter  | Others  |
-| -------                   | ---------------- | ------- |
-| Binder support            | yes              | yes     |
-| Colab  support            | yes              | yes     |
-| Custom Color Theming      | yes              | no      |
-| Deletion of tracks         | yes              | no      |
-| Export view as SVG        | yes, from ui     | yes     |
-| Local file support        | yes              | yes     |
-| Supports other views aside from the Linear Genome View - e.g Circular Genome View    | yes              | no      |
-| Path support              | no               | yes     |
-| Ability to enable text searching from indexed files | yes              | no      |
-| Ability to add tracks from Dataframes    | yes              | no      |
-| Zooming in on regions of interest               | yes, from ui              | no      |
+| Features                  | JBrowse Jupyter    | Others             |
+| ------------------------- | ----------------   | ------------------ |
+| Binder support            | :heavy_check_mark: | :heavy_check_mark: |
+| Colab  support            | :heavy_check_mark: | :heavy_check_mark: |
+| Custom Color Theming      | :heavy_check_mark: | :x:                |
+| Deletion of tracks        | :heavy_check_mark: | :x:                |
+| Export view as SVG        | :heavy_check_mark:, from ui     | :heavy_check_mark: |
+| Local file support        | :heavy_check_mark: | :heavy_check_mark: |
+| Supports other views aside from the Linear Genome View - e.g Circular Genome View    | :heavy_check_mark:              | :x:      |
+| Path support              | :x:               | :heavy_check_mark:     |
+| Ability to enable text searching from indexed files | :heavy_check_mark:              | :x:      |
+| Ability to add tracks from Dataframes    | :heavy_check_mark:              | :x:      |
+| Zooming in on regions of interest               | :heavy_check_mark:, from ui              | :x:      |
 
 For more features of the JBrowse and JBrowse embedded components checkout 
 [our documentation](https://jbrowse.org/jb2/docs/embedded_components/)
