@@ -268,24 +268,31 @@ if __name__ == "__main__":
 - For example: the url to the data you wish to pass to the JBrowse view config for the local dev server running on port 8080 on local host will look like this "http://localhost:8080/<your-file-name>"
 e.g `jbrowse_conf.add_track("http://localhost:8080/<your-file-name>", name="test-demo")`
 
-## JBrowse Jupyter vs other tools
+## JBrowse Jupyter vs Other tools
 
-| Features                  | JBrowse Jupyter    | Others             |
-| ------------------------- | ----------------   | ------------------ |
-| Binder support            | :heavy_check_mark: | :heavy_check_mark: |
-| Colab  support            | :heavy_check_mark: | :heavy_check_mark: |
-| Custom Color Theming      | :heavy_check_mark: | :x:                |
-| Deletion of tracks        | :heavy_check_mark: | :x:                |
-| Export view as SVG        | :heavy_check_mark:, from ui     | :heavy_check_mark: |
-| Local file support        | :heavy_check_mark: | :heavy_check_mark: |
-| Supports other views aside from the Linear Genome View - e.g Circular Genome View    | :heavy_check_mark:              | :x:      |
-| Path support              | :x:               | :heavy_check_mark:     |
-| Ability to enable text searching from indexed files | :heavy_check_mark:              | :x:      |
-| Ability to add tracks from Dataframes    | :heavy_check_mark:              | :x:      |
-| Zooming in on regions of interest               | :heavy_check_mark:, from ui              | :x:      |
+| Features        | JBrowse/ JBrowse Jupyter | IGV.js /igv-notebook | ipyIgv | Gosling/Gos | D3GB | PygBrowse | Mango |
+| --------------- | ----------------   | ------------------   |  ----  | ----------- | ---- | --------- | ----  |
+| Binder support            | :heavy_check_mark: | :heavy_check_mark:   | :heavy_check_mark: | :heavy_check_mark: | :x:  | :x: | :x: |
+| Colab  support            | :heavy_check_mark: | :heavy_check_mark:   | :heavy_check_mark: | :heavy_check_mark: | :x: | :x: | :x: |
+| Custom Color Theming      | :heavy_check_mark: | :x:                  | :x:                | :heavy_check_mark: | :x: | :x: | :x: |
+| Deletion of tracks        | :heavy_check_mark: | :x:                  | :heavy_check_mark: | :x: | :x: | :x: | :x: |
+| Export view as SVG        | :heavy_check_mark: | :heavy_check_mark:   | :heavy_check_mark:| :x: | :x: | :x: | :heavy_check_mark:|
+| Local file support        | :heavy_check_mark: | :heavy_check_mark:   | :heavy_check_mark: | :heavy_check_mark:| :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Supports Circular Genome View | :heavy_check_mark: | :x: | :x: | :heavy_check_mark: | :x: | :x: | :x: |
+| Ability to enable text searching from indexed files | :heavy_check_mark: | :x: | :x: | :x: | :x: | :x: | :x: |
+| Ability to add tracks from Dataframes  | :heavy_check_mark: | :x: | :x: | :x: | :x: | :heavy_check_mark: | :x:| 
+| Zooming in on regions of interest | :heavy_check_mark: | :heavy_check_mark: | :x: | :heavy_check_mark: | :heavy_check_mark: | :x: | :heavy_check_mark: |
 
-For more features of the JBrowse and JBrowse embedded components checkout 
+* For more features of the JBrowse and JBrowse embedded components checkout 
 [our documentation](https://jbrowse.org/jb2/docs/embedded_components/)
+* Igv.js [documentation](https://github.com/igvteam/igv.js/wiki/) 
+* igv-notebook [documentation](https://github.com/igvteam/igv-notebook)
+* ipyIgv [documentation](https://github.com/QuantStack/ipyigv)
+* D3GB [documentation](http://d3gb.usal.es/index.html)
+* PygBrowse [documentation](https://github.com/phageghost/python-genome-browser)
+* Gosling [documentaiton](https://github.com/gosling-lang/gosling.js)
+* Gos [documentation](https://gosling-lang.github.io/gos/)
+* Mango [documentation](https://bdg-mango.readthedocs.io/en/latest/jupyterWidgets/usage.html)
 
 ## Resources
 * [JBrowse](https://jbrowse.org/jb2/) - the next generation genome browser
