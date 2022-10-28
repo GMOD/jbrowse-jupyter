@@ -281,7 +281,7 @@ e.g `jbrowse_conf.add_track("http://localhost:8080/<your-file-name>", name="test
 | Supports Circular Genome View | :heavy_check_mark: | :x: | :x: | :heavy_check_mark: | :x: | :x: | :x: |
 | Ability to enable text searching from indexed files | :heavy_check_mark: | :x: | :x: | :x: | :x: | :x: | :x: |
 | Ability to add tracks from Dataframes  | :heavy_check_mark: | :x: | :x: | :x: | :x: | :heavy_check_mark: | :x:| 
-| Zooming in on regions of interest | :heavy_check_mark: | :heavy_check_mark: | :x: | :heavy_check_mark: | :heavy_check_mark: | :x: | :heavy_check_mark: |
+| Zooming in on regions of interest | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :x: | :heavy_check_mark: |
 
 * For more features of the JBrowse and JBrowse embedded components checkout 
 [our documentation](https://jbrowse.org/jb2/docs/embedded_components/)
