@@ -96,6 +96,7 @@ class JBrowseConfig:
             "configuration": {
                 "theme": {}
             }
+            # internetAccounts
         }
         if conf is not None:
             for r in default.keys():
@@ -306,6 +307,11 @@ class JBrowseConfig:
         self.config["tracks"] = current_tracks
         self.tracks_ids_map[track_id] = df_track_config
 
+    def add_local_track(self, path, **kwargs):
+        """
+        file://path
+        example: file://path
+        """
     def add_track(self, data, **kwargs):
         """
         Adds a track subconfiguration to the list of tracks

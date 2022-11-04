@@ -13,10 +13,12 @@ def make_location(location, protocol):
     :raises ValueError: if a protocol other than `uri` is used.
 
     """
+    # note: additional check to see if it's using an internet account
     # elif protocol == "localPath":
     # return { "uri": location, "locationType": "LocalPathLocation"}
     if protocol == "uri":
-        return {"uri": location, "locationType": "UriLocation"}
+            # {"uri": location, "locationType": "UriLocation", "internetAccountId": e.g: dropboxOauth }
+            return {"uri": location, "locationType": "UriLocation"}
     else:
         raise TypeError(f"invalid protocol {protocol}")
 
