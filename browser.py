@@ -28,7 +28,9 @@ track_data = "https://s3.amazonaws.com/jbrowse.org/genomes/" \
               "GRCh38/ncbi_refseq/GCA_000001405.15_GRCh38_full" \
               "_analysis_set.refseq_annotation.sorted.gff.gz"
 jbrowse_conf.add_track(track_data, name="test-demo", track_id="test-track")
-
+# deleting a track
+jbrowse_conf.add_track(track_data, name="delete", track_id="test-delete-track")
+jbrowse_conf.delete_track("test-delete-track")
 # set location
 
 jbrowse_conf.set_location("10:1..19999")
