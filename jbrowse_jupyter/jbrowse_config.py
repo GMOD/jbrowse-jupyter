@@ -8,6 +8,20 @@ from jbrowse_jupyter.tracks import (
 )
 
 
+def register_notebook_callbacks():
+    try:
+        import google.colab.output
+        _in_colab_session = True
+    except:
+        _in_colab_session = False
+    print("YOOOOOOOO: ", _in_colab_session)
+    try:
+        __IPYTHON__
+        _in_ipython_session = True
+    except NameError:
+        _in_ipython_session = False
+    print("HELLLLOOOO: ", _in_ipython_session)
+    
 def create(view_type="LGV", **kwargs):
     """
     Creates a JBrowseConfig given a view type.
@@ -24,12 +38,7 @@ def create(view_type="LGV", **kwargs):
     :raises TypeError: if genome passed is not hg19 or hg38
     :raises TypeError: if view type is not `LGV` or `CGV`
     """
-    try:
-        import google.colab.output
-        IN_COLAB = True
-    except:
-        IN_COLAB = False
-    print("YOOOOOOOO: ", IN_COLAB)
+    register_notebook_callbacks()
     available_genomes = {"hg19", "hg38"}
     conf = kwargs.get('conf', {})
     genome = kwargs.get('genome', "empty")
