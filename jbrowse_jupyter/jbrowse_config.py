@@ -10,19 +10,19 @@ from jbrowse_jupyter.tracks import (
 
 def register_notebook_callbacks():
     try:
-        import google.colab.output
+        import google.colab.output # noqa
         _in_colab_session = True
-    except:
+    except: # noqa
         _in_colab_session = False
     try:
-        if get_ipython().__class__.__name__ == 'ZMQInteractiveShell':
+        if get_ipython().__class__.__name__ == 'ZMQInteractiveShell': # noqa
             _in_jupyter_session = True
-    except:
+    except: # noqa
         _in_jupyter_session = False
-        
     print("colab: ", _in_colab_session)
     print("jupyter: ", _in_jupyter_session)
-    
+
+
 def create(view_type="LGV", **kwargs):
     """
     Creates a JBrowseConfig given a view type.

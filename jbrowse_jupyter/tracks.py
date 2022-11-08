@@ -16,9 +16,10 @@ def make_location(location, protocol):
     # note: additional check to see if it's using an internet account
     # elif protocol == "localPath":
     # return { "uri": location, "locationType": "LocalPathLocation"}
+    # {"uri": location,
+    # "locationType": "UriLocation", "internetAccountId": e.g: dropboxOauth }
     if protocol == "uri":
-            # {"uri": location, "locationType": "UriLocation", "internetAccountId": e.g: dropboxOauth }
-            return {"uri": location, "locationType": "UriLocation"}
+        return {"uri": location, "locationType": "UriLocation"}
     else:
         raise TypeError(f"invalid protocol {protocol}")
 
