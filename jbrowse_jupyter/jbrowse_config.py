@@ -14,11 +14,9 @@ def register_notebook_callbacks():
         _in_colab_session = True
     except: # noqa
         _in_colab_session = False
-    try:
-        if get_ipython().__class__.__name__ == 'ZMQInteractiveShell': # noqa
-            _in_jupyter_session = True
-    except: # noqa
-        _in_jupyter_session = False
+    _in_jupyter_session = False
+    if get_ipython().__class__.__name__ == 'ZMQInteractiveShell': # noqa
+        _in_jupyter_session = True
     print("colab: ", _in_colab_session)
     print("jupyter: ", _in_jupyter_session)
 
