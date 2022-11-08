@@ -14,12 +14,13 @@ def register_notebook_callbacks():
         _in_colab_session = True
     except:
         _in_colab_session = False
-    print("colab: ", _in_colab_session)
     try:
         if get_ipython().__class__.__name__ == 'ZMQInteractiveShell':
             _in_jupyter_session = True
     except:
         _in_jupyter_session = False
+        
+    print("colab: ", _in_colab_session)
     print("jupyter: ", _in_jupyter_session)
     
 def create(view_type="LGV", **kwargs):
