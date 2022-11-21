@@ -20,6 +20,8 @@ def is_url(filePath):
     regex = re.compile(r'^https?:\/\/', re.IGNORECASE)
     return re.match(regex, filePath) is not None
 
+def resolve_local_path(data):
+    return f'file:///{data}'
 
 def guess_file_name(data):
     """
