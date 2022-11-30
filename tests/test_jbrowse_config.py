@@ -53,8 +53,10 @@ def test_set_assembly():
     # raises an error, there is no local file support yet
     with pytest.raises(TypeError) as excinfo:
         conf.set_assembly("./path/to/local/file")
-    err = "Provide a url for your index file." \
-        "Checkout our local file support docs."
+    err = ('Local path for "./path/to/local/file" is used in an unsupported environment. '
+            "Local paths supported in Colab and Jupyter notebooks."
+            "Please checkout our local file support docs for more"
+            " information.")
     assert err in str(excinfo)
     aliases = ["hg38"]
     uri = "https://s3.amazonaws.com/jbrowse.org/genomes/" \
@@ -257,6 +259,7 @@ def test_create_view_cgv():
     # creates JBrowseConfig from default hg19 or hg38
     hg19 = create("CGV", genome="hg19")
     hg38 = create("CGV", genome="hg38")
+    assert hg19.colab == False
     assert hg19.get_assembly_name() == "hg19"
     assert len(hg19.get_tracks()) > 0
     assert hg19.get_default_session()

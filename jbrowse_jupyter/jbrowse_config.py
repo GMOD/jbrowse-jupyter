@@ -1,4 +1,11 @@
-from jbrowse_jupyter.util import is_url, get_default, guess_file_name, get_name
+import base64
+import IPython
+from jbrowse_jupyter.util import (
+    is_url, get_default,
+    guess_file_name,
+    get_name,
+    register_colab
+)
 from jbrowse_jupyter.tracks import (
     guess_adapter_type,
     guess_track_type,
@@ -6,25 +13,6 @@ from jbrowse_jupyter.tracks import (
     get_from_config_adapter,
     guess_display_type
 )
-
-
-def register_notebook_callbacks():
-    try:
-        import google.colab.output # noqa
-        _in_colab_session = True
-    except: # noqa
-        _in_colab_session = False
-    try:
-        shell = get_ipython().__class__.__name__ # noqa
-        if shell == 'ZMQInteractiveShell': # noqa
-            _in_jupyter_session = True
-        else:
-            _in_jupyter_session = False
-    except: # noqa
-        _in_jupyter_session = False
-    print("colab: ", _in_colab_session)
-    print("jupyter: ", _in_jupyter_session)
-
 
 def create(view_type="LGV", **kwargs):
     """
@@ -42,7 +30,6 @@ def create(view_type="LGV", **kwargs):
     :raises TypeError: if genome passed is not hg19 or hg38
     :raises TypeError: if view type is not `LGV` or `CGV`
     """
-    register_notebook_callbacks()
     available_genomes = {"hg19", "hg38"}
     conf = kwargs.get('conf', {})
     genome = kwargs.get('genome', "empty")
@@ -92,6 +79,22 @@ class JBrowseConfig:
             defaults to LGV
         :param obj conf: optional conf obj
         """
+        in_colab_notebook = False
+        in_jupyter_notebook = False
+        try:
+            import google.colab.output # noqa
+            in_colab_notebook = True
+            register_colab()
+        except: # noqa
+            in_colab_notebook = False
+        try:
+            shell = IPython.get_ipython().__class__.__name__ # noqa
+            if shell == 'ZMQInteractiveShell': # noqa
+                in_jupyter_notebook = True
+            else:
+                in_jupyter_notebook = False
+        except: # noqa
+            in_jupyter_notebook = False
         view_default = {
             "id": 'linearGenomeView',
             "type": 'LinearGenomeView',
@@ -114,8 +117,22 @@ class JBrowseConfig:
             "location": "",
             "configuration": {
                 "theme": {}
-            }
+            },
             # internetAccounts
+            "internet_accounts": [
+                {
+                "type": "ColabLocalFileInternetAccount",
+                "internetAccountId": "colabLocalFile",
+                "name": "Colab",
+                "description": "Account to access local files in Colab",
+                },
+                {
+                "type": "JupyterNotebookLocalFileInternetAccount",
+                "internetAccountId": "jupyterLocalFile",
+                "name": "Jupyter",
+                "description": "Account to access local files in Jupyter notebook",
+                },
+            ]
         }
         if conf is not None:
             for r in default.keys():
@@ -127,6 +144,8 @@ class JBrowseConfig:
             self.tracks_ids_map = ids
         self.tracks_ids_map = {}
         self.view = view
+        self.colab = in_colab_notebook
+        self.jupyter = not in_colab_notebook and in_jupyter_notebook
 
     def get_config(self):
         """
@@ -195,9 +214,12 @@ class JBrowseConfig:
         refname_aliases = kwargs.get('refname_aliases', {})
         if (is_url(assembly_data)):
             if (indx != 'defaultIndex'):
-                if not is_url(indx):
-                    raise TypeError("Provide a url for your index file."
-                                    "Checkout our local file support docs.")
+                if not is_url(indx) and (not self.colab and not self.jupyter):
+                    raise TypeError("Local path is used in an unsupported environment. "
+                                    "Local paths supported in Colab and Jupyter notebooks."
+                                    "Please checkout our local file support docs for more"
+                                    " information.")
+                    # TODO: instead of raising an error make a local path location
             name = kwargs.get('name', get_name(assembly_data))
             assembly_adapter = guess_adapter_type(assembly_data, 'uri', indx)
             if (assembly_adapter["type"] == "UNKNOWN"):
@@ -216,8 +238,35 @@ class JBrowseConfig:
             }
             self.config["assembly"] = assembly_config
         else:
-            raise TypeError("Provide a url for your index file."
-                            "Checkout our local file support docs.")
+            if not self.colab and not self.jupyter:
+                raise TypeError(f'Local path for "{assembly_data}" is used in an unsupported environment. '
+                                "Local paths are supported in Colab and Jupyter notebooks."
+                                "Please checkout our local file support docs for more"
+                                " information.")
+            if (indx != 'defaultIndex'):
+                if not is_url(indx) and (not self.colab and not self.jupyter):
+                    raise TypeError(f'Local path for "{indx}" is used in an unsupported environment. '
+                                    "Local paths are supported in Colab and Jupyter notebooks."
+                                    "Please checkout our local file support docs for more"
+                                    " information.")
+            name = kwargs.get('name', get_name(assembly_data))
+            assembly_adapter = guess_adapter_type(assembly_data, 'localPath', indx, colab=self.colab)
+            if (assembly_adapter["type"] == "UNKNOWN"):
+                raise TypeError("Adapter type is not recognized")
+            if (assembly_adapter["type"] == "UNSUPPORTED"):
+                raise TypeError("Adapter type is not supported")
+            assembly_config = {
+                "name": name,
+                "sequence": {
+                    "type": "ReferenceSequenceTrack",
+                    "trackId": f'{name}-ReferenceSequenceTrack',
+                    "adapter": assembly_adapter
+                },
+                "aliases": aliases,
+                "refNameAliases": refname_aliases,
+            }
+            self.config["assembly"] = assembly_config
+            # TODO: make local location 
 
     # ============ Tracks =============
 
@@ -326,11 +375,6 @@ class JBrowseConfig:
         self.config["tracks"] = current_tracks
         self.tracks_ids_map[track_id] = df_track_config
 
-    def add_local_track(self, path, **kwargs):
-        """
-        file://path
-        example: file://path
-        """
     def add_track(self, data, **kwargs):
         """
         Adds a track subconfiguration to the list of tracks
@@ -356,11 +400,9 @@ class JBrowseConfig:
         :raises TypeError: if track data is not provided
         :raises TypeError: if track type is not supported
         """
-        # TODO: get effective/working locations for track data
-        # and track index when
         if not data:
             raise TypeError(
-                "A path to the track data is required. None was provided.")
+                "Track data is required. None was provided.")
         if not self.get_assembly():
             raise Exception("Please set the assembly before adding a track.")
 
@@ -371,9 +413,15 @@ class JBrowseConfig:
         current_tracks = self.get_tracks()
         if is_url(data):
             # default to uri protocol until local files enabled
-            if not is_url(index) and index != "defaultIndex":
-                raise TypeError("Provide a url for your index file."
-                                "Checkout our local file support docs.")
+            if not is_url(index) and index != 'defaultIndex':
+                if not self.colab and not self.jupyter:
+                    raise TypeError(f'Local path for "{index}" is used in an unsupported environment. '
+                                    "Local paths supported in Colab and Jupyter notebooks."
+                                    "Please checkout our local file support docs for more"
+                                    " information.")
+            # if not is_url(index) and index != "defaultIndex":
+            #     raise TypeError("Provide a url for your index file."
+            #                     "Checkout our local file support docs.")
             adapter = guess_adapter_type(data, 'uri', index)
             if (adapter["type"] == "UNKNOWN"):
                 raise TypeError("Adapter type is not recognized")
@@ -417,8 +465,57 @@ class JBrowseConfig:
             self.config["tracks"] = current_tracks
             self.tracks_ids_map[track_id] = track_config
         else:
-            raise TypeError("Provide a url for your index file."
-                            "Checkout our local file support docs.")
+            if not is_url(index) and index != 'defaultIndex':
+                if not self.colab and not self.jupyter:
+                    raise TypeError(f'Local path for "{index}" is used in an unsupported environment. '
+                                    "Local paths supported in Colab and Jupyter notebooks."
+                                    "Please checkout our local file support docs for more"
+                                    " information.")
+            # if not is_url(index) and index != "defaultIndex":
+            #     raise TypeError("Provide a url for your index file."
+            #                     "Checkout our local file support docs.")
+            adapter = guess_adapter_type(data, 'localPath', index)
+            if (adapter["type"] == "UNKNOWN"):
+                raise TypeError("Adapter type is not recognized")
+            if (adapter["type"] == "UNSUPPORTED"):
+                raise TypeError("Adapter type is not supported")
+            # get sequence adapter for cram adapter track
+            if adapter["type"] == "CramAdapter":
+                extra_config = self.get_assembly()["sequence"]["adapter"]
+                adapter["sequenceAdapter"] = extra_config
+            t_type = kwargs.get('track_type',
+                                guess_track_type(adapter["type"]))
+            supported_track_types = set({
+                'AlignmentsTrack',
+                'QuantitativeTrack',
+                'VariantTrack',
+                'FeatureTrack',
+                'ReferenceSequenceTrack'
+            })
+            if t_type not in supported_track_types:
+                raise TypeError(f'Track type: "{t_type}" is not supported.')
+            default_track_id = f'{self.get_assembly_name()}-{name}'
+            track_id = kwargs.get('track_id', default_track_id)
+            track_config = {
+                "type": t_type,
+                "trackId": track_id,
+                "name": name,
+                "assemblyNames": assembly_names,
+                "adapter": adapter
+            }
+            if track_id in self.tracks_ids_map.keys() and not overwrite:
+                raise TypeError(
+                    (
+                        f'track with trackId: "{track_id}" already exists in'
+                        f'config. Set overwrite to True to overwrite it.')
+                    )
+            if track_id in self.tracks_ids_map.keys() and overwrite:
+                current_tracks = [
+                    t for t in current_tracks if t["trackId"] != track_id]
+
+            current_tracks.append(track_config)
+            self.config["tracks"] = current_tracks
+            self.tracks_ids_map[track_id] = track_config
 
     def delete_track(self, track_id):
         """
@@ -562,28 +659,35 @@ class JBrowseConfig:
         err = "Please set the assembly before adding a text search adapter."
         if not self.get_assembly():
             raise Exception(err)
-        if (not (is_url(ix_path) and is_url(ixx_path) and is_url(meta_path))):
-            raise TypeError("Provide a url for your index file."
-                            "Checkout our local file support docs.")
+        if (not (is_url(ix_path) and is_url(ixx_path) and is_url(meta_path)) and not self.colab and not self.jupyter):
+            raise TypeError(f'Local path {ix_path}, {ixx_path}, and {meta_path} is'
+                            "used in an unsupported environment. "
+                            "Local paths supported in Colab and Jupyter notebooks."
+                            "Please checkout our local file support docs for more"
+                            " information.")
         if self.view == "CGV":
             raise TypeError("Text Searching not currently available in CGV")
         assembly_name = self.get_assembly_name()
         default_id = f'{assembly_name}-{guess_file_name(ix_path)}-index'
         text_id = default_id if adapter_id is None else adapter_id
+        local = is_url(ix_path) and is_url(ixx_path) and is_url(meta_path)
         text_search_adapter = {
             "type": "TrixTextSearchAdapter",
             "textSearchAdapterId": text_id,
             "ixFilePath": {
                 "uri": ix_path,
-                "locationType": "UriLocation"
+                "locationType": "UriLocation" if not local else "localPath",
+                "internetAccountId": "colabLocalFile" if self.colab else "jupyterLocalFile"
             },
             "ixxFilePath": {
                 "uri": ixx_path,
-                "locationType": "UriLocation"
+                "locationType": "UriLocation",
+                "internetAccountId": "colabLocalFile" if self.colab else "jupyterLocalFile"
             },
             "metaFilePath": {
                 "uri": meta_path,
-                "locationType": "UriLocation"
+                "locationType": "UriLocation",
+                "internetAccountId": "colabLocalFile" if self.colab else "jupyterLocalFile"
             },
             "assemblyNames": [assembly_name]
         }

@@ -25,10 +25,31 @@ gff3_tabix_index = gff3Tabix + ".tbi"
 
 def test_make_location():
     with pytest.raises(TypeError) as excinfo:
-        make_location("./local/file/path", "local")
-    assert "invalid protocol local" in str(excinfo)
+        make_location("./local/file/path", "invalidProtocol")
+    assert "invalid protocol invalidProtocol" in str(excinfo)
 
+def test_make_location():
+    location_test = make_location("./local/file/path", "localPath")
+    expected = {
+        "uri": "./local/file/path",
+        "locationType": "UriLocation",
+        "internetAccountId": "jupyterLocalFile"
+    }
+    assert location_test["uri"] == expected["uri"]
+    assert location_test["locationType"] == expected["locationType"]
+    assert location_test["internetAccountId"] == expected["internetAccountId"]
 
+def test_make_location_colab():
+    location_test = make_location("./local/file/path", "localPath", colab=True)
+    expected = {
+        "uri": "./local/file/path",
+        "locationType": "UriLocation",
+        "internetAccountId": "colabLocalFile"
+    }
+    assert location_test["uri"] == expected["uri"]
+    assert location_test["locationType"] == expected["locationType"]
+    assert location_test["internetAccountId"] == expected["internetAccountId"]
+    
 def test_add_track_fail():
     conf = create("LGV")
     assembly_error = "Please set the assembly before adding a track."
@@ -141,6 +162,7 @@ def test_data_frame_track():
 
 
 def test_check_track_data():
+    # Test track from dataframe 
     df_error = "Track data must be a DataFrame"
     invalid_df = {
         "refName": "1",
@@ -175,7 +197,6 @@ def test_check_columns():
 
 
 def test_get_df_features():
-    # TODO: test adding correct values types for dataframe
     data_frame = {
         "refName": ["1", "1"],
         "start": [123, 456],
