@@ -1,4 +1,4 @@
-from jbrowse_jupyter.util import is_url, guess_file_name, resolve_local_path
+from jbrowse_jupyter.util import is_url, guess_file_name
 
 
 def test_is_url():
@@ -11,10 +11,6 @@ def test_is_url():
     assert is_url(secure)
     assert not is_url(local)
 
-def test_resolve_local_path():
-    data = "Users/theuser/Desktop/"
-    local_path = resolve_local_path(data)
-    assert "file:///Users/theuser/Desktop/" == local_path
 
 def test_guess_file_name():
     url = "http://path/to/my/filename.gff"

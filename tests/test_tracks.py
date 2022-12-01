@@ -28,27 +28,7 @@ def test_make_location():
         make_location("./local/file/path", "invalidProtocol")
     assert "invalid protocol invalidProtocol" in str(excinfo)
 
-def test_make_location():
-    location_test = make_location("./local/file/path", "localPath")
-    expected = {
-        "uri": "./local/file/path",
-        "locationType": "UriLocation",
-        "internetAccountId": "jupyterLocalFile"
-    }
-    assert location_test["uri"] == expected["uri"]
-    assert location_test["locationType"] == expected["locationType"]
-    assert location_test["internetAccountId"] == expected["internetAccountId"]
 
-def test_make_location_colab():
-    location_test = make_location("./local/file/path", "localPath", colab=True)
-    expected = {
-        "uri": "./local/file/path",
-        "locationType": "UriLocation",
-        "internetAccountId": "colabLocalFile"
-    }
-    assert location_test["uri"] == expected["uri"]
-    assert location_test["locationType"] == expected["locationType"]
-    assert location_test["internetAccountId"] == expected["internetAccountId"]
     
 def test_add_track_fail():
     conf = create("LGV")

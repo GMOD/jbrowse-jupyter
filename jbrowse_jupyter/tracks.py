@@ -13,19 +13,22 @@ def make_location(location, protocol, colab=False):
     :raises ValueError: if a protocol other than `uri` is used.
 
     """
-    # note: additional check to see if it's using an internet account
-    # elif protocol == "localPath":
-    # return { "uri": location, "locationType": "LocalPathLocation"}
-    # {"uri": location,
-    # "locationType": "UriLocation", "internetAccountId": e.g: dropboxOauth }
-    internet_account_id = "colabLocalFile" if colab else "jupyterLocalFile"
     if protocol == "uri":
         return {"uri": location, "locationType": "UriLocation"}
     elif protocol == "localPath":
-        return {"uri": location, "locationType": "UriLocation", "internetAccountId": internet_account_id }
+        # return {"uri": location, "locationType": "UriLocation", "internetAccountId": internet_account_id }
+        return {
+            "uri": make_url_colab_jupyter(location, colab),
+            "locationType": "UriLocation"
+        }
     else:
         raise TypeError(f"invalid protocol {protocol}")
 
+def make_url_colab_jupyter(location, colab=False):
+    """Generates url from path based on env colab or jupyter"""
+    if colab:
+        return location
+    return location
 
 def supported_track_type(track_type):
     """Checks wether or not the given track type is supported."""
