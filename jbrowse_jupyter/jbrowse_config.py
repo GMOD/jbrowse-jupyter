@@ -1,5 +1,6 @@
 import os
 import base64
+import IPython
 from jbrowse_jupyter.util import (
     is_url, get_default,
     guess_file_name,
