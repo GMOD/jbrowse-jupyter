@@ -3,7 +3,7 @@ import uuid
 import pandas as pd
 
 
-def make_location(location, protocol, colab=False):
+def make_location(location, protocol, **kwargs):
     """
     Creates location object given a location and a protocol.
     :param str location: file path
@@ -13,12 +13,15 @@ def make_location(location, protocol, colab=False):
     :raises ValueError: if a protocol other than `uri` is used.
 
     """
+    in_colab = kwargs.get('colab', False)
+    notebook_host = kwargs.get('nb_host', 8888)
+    notebook_port = kwargs.get('nb_port', "localhost")
     if protocol == "uri":
         return {"uri": location, "locationType": "UriLocation"}
     elif protocol == "localPath":
         # return {"uri": location, "locationType": "UriLocation", "internetAccountId": internet_account_id }
         return {
-            "uri": make_url_colab_jupyter(location, colab),
+            "uri": make_url_colab_jupyter(location, colab=in_colab,nb_port=notebook_port, nb_host=notebook_host),
             "locationType": "UriLocation"
         }
     else:
