@@ -145,6 +145,8 @@ class JBrowseConfig:
         # environment
         self.colab = in_colab_notebook
         self.jupyter = not in_colab_notebook and in_jupyter_notebook
+        print("IN COLAB: ", self.colab)
+        print("IN JUPYTER: ", self.jupyter)
 
     def get_config(self):
         """
