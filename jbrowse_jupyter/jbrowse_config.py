@@ -37,15 +37,6 @@ def create(view_type="LGV", **kwargs):
     conf = kwargs.get('conf', {})
     genome = kwargs.get('genome', "empty")
     view = view_type
-    print(get_local_folder())
-    try:
-        from urlparse import urlparse
-    except ImportError:
-        from urllib.parse import urlparse
-
-    frontend_url = request.META.get('HTTP_REFERER')
-    url = urlparse(frontend_url)
-    print ("url",url)
     # view type (LGV or CGV)
     # make it backwards compatible
     if view_type == "view" or view_type == "conf":
@@ -143,6 +134,8 @@ class JBrowseConfig:
         self.tracks_ids_map = {}
         self.view = view
         # environment
+        self.nb_port = 8888
+        self.nb_host = "localhost"
         self.colab = in_colab_notebook
         self.jupyter = not in_colab_notebook and in_jupyter_notebook
         print("IN COLAB: ", self.colab)
@@ -168,7 +161,10 @@ class JBrowseConfig:
     def get_jupyter(self):
         return self.jupyter
     # ========== Assembly ===========
-
+    def set_env(self,notebook_host="localhost", notebook_port=8888):
+        self.nb_port = notebook_port
+        self.nb_host = notebook_host
+    
     def get_assembly(self):
         # Returns the JBrowseConfig assembly subconfiguration object
         return self.config["assembly"]
@@ -225,7 +221,7 @@ class JBrowseConfig:
                                 'Paths are supported in Jupyter notebooks and Jupyter lab.'
                                 'Please use a url for your assembly data. You can check out '
                                 'our local file support docs for more information')
-            assembly_adapter = guess_adapter_type(assembly_data, 'uri', indx, self.colab)
+            assembly_adapter = guess_adapter_type(assembly_data, 'uri', indx, **kwargs)
             name = kwargs.get('name', get_name(assembly_data))
             if (assembly_adapter["type"] == "UNKNOWN"):
                 raise TypeError("Adapter type is not recognized")
@@ -254,7 +250,7 @@ class JBrowseConfig:
                                 'Paths are supported in Jupyter notebooks and Jupyter lab.'
                                 'Please use a urls for your assembly and index data. You '
                                 'can check out our local file support docs for more information')
-            assembly_adapter = guess_adapter_type(assembly_data, 'localPath', indx, colab=self.colab)
+            assembly_adapter = guess_adapter_type(assembly_data, 'localPath', indx, colab=self.colab,nb_port=self.nb_port, nb_host=self.nb_host)
             name = kwargs.get('name', get_name(assembly_data))
             if (assembly_adapter["type"] == "UNKNOWN"):
                 raise TypeError("Adapter type is not recognized")
@@ -424,9 +420,9 @@ class JBrowseConfig:
                                 "Please use a url for your assembly data. You can check out"
                                 " our local file support docs for more information")
                 else:
-                    adapter = guess_adapter_type(data, 'localPath', index, self.colab)
+                    adapter = guess_adapter_type(data, 'localPath', index, colab=self.colab,nb_port=self.nb_port, nb_host=self.nb_host)
             else:
-                adapter = guess_adapter_type(data, 'uri', index, self.colab)
+                adapter = guess_adapter_type(data, 'uri', index)
             # adapter = guess_adapter_type(data, 'uri', index)
             if (adapter["type"] == "UNKNOWN"):
                 raise TypeError("Adapter type is not recognized")
@@ -476,7 +472,7 @@ class JBrowseConfig:
                                 "Paths are supported in Jupyter notebooks and Jupyter lab."
                                 "Please use a url for your assembly data. You can check out"
                                 " our local file support docs for more information")
-            adapter = guess_adapter_type(data, 'localPath', index, self.colab)
+            adapter = guess_adapter_type(data, 'localPath', index, colab=self.colab,nb_port=self.nb_port, nb_host=self.nb_host)
             if (adapter["type"] == "UNKNOWN"):
                 raise TypeError("Adapter type is not recognized")
             if (adapter["type"] == "UNSUPPORTED"):
