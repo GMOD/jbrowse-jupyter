@@ -38,6 +38,14 @@ def create(view_type="LGV", **kwargs):
     genome = kwargs.get('genome', "empty")
     view = view_type
     print(get_local_folder())
+    try:
+        from urlparse import urlparse
+    except ImportError:
+        from urllib.parse import urlparse
+
+    frontend_url = request.META.get('HTTP_REFERER')
+    url = urlparse(frontend_url)
+    print ("url",url)
     # view type (LGV or CGV)
     # make it backwards compatible
     if view_type == "view" or view_type == "conf":
