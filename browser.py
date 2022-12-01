@@ -19,6 +19,9 @@ ref_name_aliases = {
 
 # setting the assembly
 assembly_data = "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz"
+ix = "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/trix/hg38.ix"
+ixx = "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/trix/hg38.ixx"
+meta = "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/trix/meta.json"
 jbrowse_conf.set_assembly(assembly_data,
                           aliases=aliases,
                           refname_aliases=ref_name_aliases)
@@ -32,7 +35,7 @@ jbrowse_conf.add_track(track_data, name="test-demo", track_id="test-track")
 jbrowse_conf.add_track(track_data, name="delete", track_id="test-delete-track")
 jbrowse_conf.delete_track("test-delete-track")
 # set location
-
+jbrowse_conf.add_text_search_adapter(ix,ixx, meta)
 jbrowse_conf.set_location("10:1..19999")
 
 # add custom theme

@@ -1,5 +1,3 @@
-import os
-import base64
 import IPython
 from jbrowse_jupyter.util import (
     is_url, get_default,
@@ -14,9 +12,6 @@ from jbrowse_jupyter.tracks import (
     guess_display_type,
     make_url_colab_jupyter
 )
-
-def get_local_folder():
-    return os.path.dirname(os.path.realpath(__file__))
 
 def create(view_type="LGV", **kwargs):
     """
@@ -676,15 +671,15 @@ class JBrowseConfig:
             "type": "TrixTextSearchAdapter",
             "textSearchAdapterId": text_id,
             "ixFilePath": {
-                "uri":  make_url_colab_jupyter(ix_path, self.colab),
+                "uri":  make_url_colab_jupyter(ix_path, colab=self.colab,nb_host=self.nb_host, nb_port=self.nb_port),
                 "locationType": "UriLocation",
             },
             "ixxFilePath": {
-                "uri": make_url_colab_jupyter(ixx_path, self.colab),
+                "uri": make_url_colab_jupyter(ixx_path, colab=self.colab,nb_host=self.nb_host, nb_port=self.nb_port),
                 "locationType": "UriLocation",
             },
             "metaFilePath": {
-                "uri": make_url_colab_jupyter(meta_path, self.colab),
+                "uri": make_url_colab_jupyter(meta_path, colab=self.colab,nb_host=self.nb_host, nb_port=self.nb_port),
                 "locationType": "UriLocation",
             },
             "assemblyNames": [assembly_name]
