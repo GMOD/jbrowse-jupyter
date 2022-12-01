@@ -118,11 +118,11 @@ Find more information about the JBrowseConfig API [here](https://gmod.github.io/
 
 ## Other Examples
 
-You can find examples in the root of this repo, 
+You can find examples in the root of this repo or in the examples folder, 
 * `browser.py` - uses the Dash library to create a python application with the Dash JBrowse LinearGenomeView component
 * `browser.ipynb` - jupyter notebook using the JupyterDash library to embed a Dash JBrowse LinearGenomeView component in a cell
-* `cgv_examples.py` - uses the Dash library to create a python application with the Dash JBrowse CircularGenomeView component
-* `cgv_examples.ipynb` - jupyter notebook using the JupyterDash library to embed a Dash JBrowse CircularGenomeView component in a cell
+* `examples/cgv_examples.py` - uses the Dash library to create a python application with the Dash JBrowse CircularGenomeView component
+* `examples/cgv_examples.ipynb` - jupyter notebook using the JupyterDash library to embed a Dash JBrowse CircularGenomeView component in a cell
 * `local_support.ipynb` - jupyter notebook with tutorial on using your local data and passing it to JBrowse views
 
 ### To run a Python Dash application

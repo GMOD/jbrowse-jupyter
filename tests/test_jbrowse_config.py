@@ -53,10 +53,11 @@ def test_set_assembly():
     # raises an error, there is no local path support in non jupyter envs
     with pytest.raises(TypeError) as excinfo:
         conf.set_assembly("/hi/there")
-    err =(f'Local path for {"/hi/there"} is used in an unsupported environment.'
-            'Paths are supported in Jupyter notebooks and Jupyter lab.'
-            'Please use a url for your assembly data. You can check out '
-            'our local file support docs for more information')
+    err = (f'Local path for {"/hi/there"} is used'
+           ' in an unsupported environment.'
+           'Paths are supported in Jupyter notebooks and Jupyter lab.'
+           'Please use a url for your assembly data. You can check out '
+           'our local file support docs for more information')
     assert err == excinfo.value.args[0]
     aliases = ["hg38"]
     uri = "https://s3.amazonaws.com/jbrowse.org/genomes/" \
@@ -202,16 +203,6 @@ def test_create_view_from_conf():
     # can delete a track
     hg19_from_config.delete_track("delete-test")
     assert len(hg19_from_config.get_tracks()) == 0
-    # can set text search adapter
-    index_error = "Provide a url for your index file."\
-        "Checkout our local file support docs."
-    # with pytest.raises(TypeError) as excinfo:
-    #     hg19_from_config.add_text_search_adapter(
-    #         './path/to/ixname.ix',
-    #         "https://path/to/ixxname.ixx",
-    #         "https://path/to/meta.json"
-    #     )
-    # assert index_error in str(excinfo)
     hg19_from_config.add_text_search_adapter(ix, ixx, meta)
 
     adapter_list = hg19_from_config.get_text_search_adapters()
@@ -259,7 +250,8 @@ def test_create_view_cgv():
     # creates JBrowseConfig from default hg19 or hg38
     hg19 = create("CGV", genome="hg19")
     hg38 = create("CGV", genome="hg38")
-    assert hg19.colab == False
+    in_colab = hg19.colab
+    assert not in_colab
     assert hg19.get_assembly_name() == "hg19"
     assert len(hg19.get_tracks()) > 0
     assert hg19.get_default_session()

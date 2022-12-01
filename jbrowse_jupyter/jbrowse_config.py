@@ -13,6 +13,7 @@ from jbrowse_jupyter.tracks import (
     make_url_colab_jupyter
 )
 
+
 def create(view_type="LGV", **kwargs):
     """
     Creates a JBrowseConfig given a view type.
@@ -155,14 +156,30 @@ class JBrowseConfig:
 
     def get_colab(self):
         return self.colab
-    
+
     def get_jupyter(self):
         return self.jupyter
-    # ========== Assembly ===========
-    def set_env(self,notebook_host="localhost", notebook_port=8888):
+
+    def set_env(self, notebook_host="localhost", notebook_port=8888):
+        """
+        Changes the port and the host for creating links to files
+        found within the file tree of jupyter.
+
+        Usage: We want to be able to use paths to local files that
+        can be accessed within the file tree of jupyter notebook
+        and jupyter lab. The port and host should match those
+        configured in your jupyter config.
+
+        Args:
+        :param str notebook_host: host used in jupyter config for
+        for using paths to local files. Defaults to "localhost".
+        :param str notebook_port: port used in jupyter config for
+        for using paths to local files. Defaults to 8888.
+        """
         self.nb_port = notebook_port
         self.nb_host = notebook_host
-    
+
+    # ========== Assembly ===========
     def get_assembly(self):
         # Returns the JBrowseConfig assembly subconfiguration object
         return self.config["assembly"]
@@ -215,11 +232,17 @@ class JBrowseConfig:
         if is_url(assembly_data):
             if indx != 'defaultIndex':
                 if not is_url(indx) and not self.jupyter:
-                    raise TypeError(f'Local path for {assembly_data} is used in an unsupported environment.'
-                                'Paths are supported in Jupyter notebooks and Jupyter lab.'
-                                'Please use a url for your assembly data. You can check out '
-                                'our local file support docs for more information')
-            assembly_adapter = guess_adapter_type(assembly_data, 'uri', indx, **kwargs)
+                    raise TypeError(f'Local path for {assembly_data} '
+                                    "is used in an unsupported environment."
+                                    "Paths are supported in Jupyter"
+                                    " notebooks and Jupyter lab."
+                                    "Please use a url for your assembly "
+                                    "data. You can check out our local "
+                                    "file support docs for more information")
+            assembly_adapter = guess_adapter_type(assembly_data,
+                                                  'uri',
+                                                  indx,
+                                                  **kwargs)
             name = kwargs.get('name', get_name(assembly_data))
             if (assembly_adapter["type"] == "UNKNOWN"):
                 raise TypeError("Adapter type is not recognized")
@@ -238,17 +261,29 @@ class JBrowseConfig:
             self.config["assembly"] = assembly_config
         else:
             if not self.jupyter:
-                raise TypeError(f'Local path for {assembly_data} is used in an unsupported environment.'
-                                'Paths are supported in Jupyter notebooks and Jupyter lab.'
-                                'Please use a url for your assembly data. You can check out '
-                                'our local file support docs for more information')
+                raise TypeError(f'Local path for {assembly_data} '
+                                "is used in an unsupported environment."
+                                "Paths are supported in Jupyter notebooks"
+                                " and Jupyter lab.Please use a url for "
+                                "your assembly data. You can check out "
+                                "our local file support docs for more "
+                                "information")
             if indx != 'defaultIndex' and not is_url(indx):
                 if not self.jupyter:
-                    raise TypeError(f'Local paths are used in an unsupported environment.'
-                                'Paths are supported in Jupyter notebooks and Jupyter lab.'
-                                'Please use a urls for your assembly and index data. You '
-                                'can check out our local file support docs for more information')
-            assembly_adapter = guess_adapter_type(assembly_data, 'localPath', indx, colab=self.colab,nb_port=self.nb_port, nb_host=self.nb_host)
+                    raise TypeError("Local paths are used in an "
+                                    "unsupported environment."
+                                    "Paths are supported in Jupyter"
+                                    " notebooks and Jupyter lab."
+                                    "Please use a urls for your assembly"
+                                    " and index data. You can check out "
+                                    "our local file support docs for more"
+                                    " information")
+            assembly_adapter = guess_adapter_type(assembly_data,
+                                                  'localPath',
+                                                  indx,
+                                                  colab=self.colab,
+                                                  nb_port=self.nb_port,
+                                                  nb_host=self.nb_host)
             name = kwargs.get('name', get_name(assembly_data))
             if (assembly_adapter["type"] == "UNKNOWN"):
                 raise TypeError("Adapter type is not recognized")
@@ -413,12 +448,18 @@ class JBrowseConfig:
             # default to uri protocol until local files enabled
             if not is_url(index) and index != 'defaultIndex':
                 if not self.jupyter:
-                    raise TypeError(f'Local path for "{index}" is used in an unsupported environment. '
-                                "Paths are supported in Jupyter notebooks and Jupyter lab."
-                                "Please use a url for your assembly data. You can check out"
-                                " our local file support docs for more information")
+                    raise TypeError(f'Local path for "{index}" is used in an '
+                                    "unsupported environment. Paths are "
+                                    "supported in Jupyter notebooks and Jupy"
+                                    "ter lab.Please use a url for your "
+                                    "assembly data. You can check out "
+                                    "our local file support docs for more "
+                                    "information")
                 else:
-                    adapter = guess_adapter_type(data, 'localPath', index, colab=self.colab,nb_port=self.nb_port, nb_host=self.nb_host)
+                    adapter = guess_adapter_type(data, 'localPath', index,
+                                                 colab=self.colab,
+                                                 nb_port=self.nb_port,
+                                                 nb_host=self.nb_host)
             else:
                 adapter = guess_adapter_type(data, 'uri', index)
             # adapter = guess_adapter_type(data, 'uri', index)
@@ -466,11 +507,18 @@ class JBrowseConfig:
         else:
             if not is_url(index) and index != 'defaultIndex':
                 if not self.jupyter:
-                    raise TypeError(f'Local path for "{index}" is used in an unsupported environment. '
-                                "Paths are supported in Jupyter notebooks and Jupyter lab."
-                                "Please use a url for your assembly data. You can check out"
-                                " our local file support docs for more information")
-            adapter = guess_adapter_type(data, 'localPath', index, colab=self.colab,nb_port=self.nb_port, nb_host=self.nb_host)
+                    raise TypeError(f'Local path for "{index}" is used in an '
+                                    "unsupported environment.Paths are "
+                                    "supported in Jupyter notebooks and Jupyte"
+                                    "r lab.Please use a url for your assembly "
+                                    "data. You can check out our local file "
+                                    "support docs for more information")
+            adapter = guess_adapter_type(data, 'localPath',
+                                         index,
+                                         colab=self.colab,
+                                         nb_port=self.nb_port,
+                                         nb_host=self.nb_host
+                                         )
             if (adapter["type"] == "UNKNOWN"):
                 raise TypeError("Adapter type is not recognized")
             if (adapter["type"] == "UNSUPPORTED"):
@@ -657,10 +705,11 @@ class JBrowseConfig:
             raise Exception(err)
         local = is_url(ix_path) and is_url(ixx_path) and is_url(meta_path)
         if (local and not self.jupyter):
-            TypeError(f'Local path for "{ix_path}, {ixx_path}, and {meta_path}" are used in an unsupported environment. '
-                                "Paths are supported in Jupyter notebooks and Jupyter lab."
-                                "Please use a url for your assembly data. You can check out"
-                                " our local file support docs for more information")
+            TypeError(f'Local paths for "{ix_path},{ixx_path},and {meta_path}"'
+                      " are used in an unsupported environment. Paths are "
+                      "supported in Jupyter notebooks and Jupyter lab.Please"
+                      " use a url for your assembly data. You can check out"
+                      " our local file support docs for more information")
 
         if self.view == "CGV":
             raise TypeError("Text Searching not currently available in CGV")
@@ -671,15 +720,30 @@ class JBrowseConfig:
             "type": "TrixTextSearchAdapter",
             "textSearchAdapterId": text_id,
             "ixFilePath": {
-                "uri":  make_url_colab_jupyter(ix_path, colab=self.colab,nb_host=self.nb_host, nb_port=self.nb_port),
+                "uri":  make_url_colab_jupyter(
+                    ix_path,
+                    colab=self.colab,
+                    nb_host=self.nb_host,
+                    nb_port=self.nb_port
+                ),
                 "locationType": "UriLocation",
             },
             "ixxFilePath": {
-                "uri": make_url_colab_jupyter(ixx_path, colab=self.colab,nb_host=self.nb_host, nb_port=self.nb_port),
+                "uri": make_url_colab_jupyter(
+                    ixx_path,
+                    colab=self.colab,
+                    nb_host=self.nb_host,
+                    nb_port=self.nb_port
+                ),
                 "locationType": "UriLocation",
             },
             "metaFilePath": {
-                "uri": make_url_colab_jupyter(meta_path, colab=self.colab,nb_host=self.nb_host, nb_port=self.nb_port),
+                "uri": make_url_colab_jupyter(
+                    meta_path,
+                    colab=self.colab,
+                    nb_host=self.nb_host,
+                    nb_port=self.nb_port
+                ),
                 "locationType": "UriLocation",
             },
             "assemblyNames": [assembly_name]

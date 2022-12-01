@@ -29,7 +29,6 @@ def test_make_location():
     assert "invalid protocol invalidProtocol" in str(excinfo)
 
 
-    
 def test_add_track_fail():
     conf = create("LGV")
     assembly_error = "Please set the assembly before adding a track."
@@ -142,7 +141,7 @@ def test_data_frame_track():
 
 
 def test_check_track_data():
-    # Test track from dataframe 
+    # Test track from dataframe
     df_error = "Track data must be a DataFrame"
     invalid_df = {
         "refName": "1",

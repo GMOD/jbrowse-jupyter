@@ -35,7 +35,7 @@ jbrowse_conf.add_track(track_data, name="test-demo", track_id="test-track")
 jbrowse_conf.add_track(track_data, name="delete", track_id="test-delete-track")
 jbrowse_conf.delete_track("test-delete-track")
 # set location
-jbrowse_conf.add_text_search_adapter(ix,ixx, meta)
+jbrowse_conf.add_text_search_adapter(ix, ixx, meta)
 jbrowse_conf.set_location("10:1..19999")
 
 # add custom theme
