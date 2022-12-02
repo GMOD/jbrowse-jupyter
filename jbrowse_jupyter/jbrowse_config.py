@@ -165,16 +165,19 @@ class JBrowseConfig:
         Changes the port and the host for creating links to files
         found within the file tree of jupyter.
 
-        Usage: We want to be able to use paths to local files that
-        can be accessed within the file tree of jupyter notebook
-        and jupyter lab. The port and host should match those
-        configured in your jupyter config.
+        We want to be able to use paths to local files that can be
+        accessed within the file tree of jupyter notebook and jupyter
+        lab. The port and host should match those configured in your
+        jupyter config.
 
-        Args:
+        You can set_env after creating your view.
+        browser = create("LGV")
+        browser.set_env("localhost", 8989)
+
         :param str notebook_host: host used in jupyter config for
-        for using paths to local files. Defaults to "localhost".
+            for using paths to local files. (Defaults to "localhost")
         :param str notebook_port: port used in jupyter config for
-        for using paths to local files. Defaults to 8888.
+            for using paths to local files. (Defaults to 8888)
         """
         self.nb_port = notebook_port
         self.nb_host = notebook_host
@@ -211,14 +214,14 @@ class JBrowseConfig:
         For configuring assemblies check out our config docs
         https://jbrowse.org/jb2/docs/config_guide/#assembly-config
 
-        :param str assembly_data: path to the sequence data
+        :param str assembly_data: url/path to the sequence data
         :param str name: (optional) name for the assembly,
             defaults to name generated from assembly_data file name
         :param list aliases: (optional) list of aliases for the assembly
         :param obj refname_aliases: (optional) config for refname aliases.
         :param str overwrite: flag wether or not to overwrite
             existing assembly, default to False.
-        :raises TypeError: if assembly_data is a local path
+        :raises TypeError: Paths are only supported in jupyter.
         :raises TypeError: adapter used for file type is not supported or
             recognized
         """
@@ -232,7 +235,7 @@ class JBrowseConfig:
         if is_url(assembly_data):
             if indx != 'defaultIndex':
                 if not is_url(indx) and not self.jupyter:
-                    raise TypeError(f'Local path for {assembly_data} '
+                    raise TypeError(f'Path for {assembly_data} '
                                     "is used in an unsupported environment."
                                     "Paths are supported in Jupyter"
                                     " notebooks and Jupyter lab."
@@ -261,7 +264,7 @@ class JBrowseConfig:
             self.config["assembly"] = assembly_config
         else:
             if not self.jupyter:
-                raise TypeError(f'Local path for {assembly_data} '
+                raise TypeError(f'Path {assembly_data} for assembly data '
                                 "is used in an unsupported environment."
                                 "Paths are supported in Jupyter notebooks"
                                 " and Jupyter lab.Please use a url for "
@@ -270,7 +273,7 @@ class JBrowseConfig:
                                 "information")
             if indx != 'defaultIndex' and not is_url(indx):
                 if not self.jupyter:
-                    raise TypeError("Local paths are used in an "
+                    raise TypeError("Paths are used in an "
                                     "unsupported environment."
                                     "Paths are supported in Jupyter"
                                     " notebooks and Jupyter lab."
@@ -421,17 +424,17 @@ class JBrowseConfig:
         add_track("url.bam")
         assumes "url.bam.bai" also exists
 
-        :param str data: track file or url
-            (currently only supporting url)
+        :param str data: track file url/path
         :param str name: (optional) name for the track
             (defaults to data filename)
         :param str track_id: (optional) trackId for the track
-        :param str index: (optional) index file for the track
+        :param str index: (optional) file url/path for the track
         :param str track_type: (optional) track type
         :param boolean overwrite: (optional) defaults to False
         :raises Exception: if assembly has not been configured
         :raises TypeError: if track data is not provided
         :raises TypeError: if track type is not supported
+        :raises TypeError: Paths are only supported in jupyter.
         """
         if not data:
             raise TypeError(
@@ -448,7 +451,7 @@ class JBrowseConfig:
             # default to uri protocol until local files enabled
             if not is_url(index) and index != 'defaultIndex':
                 if not self.jupyter:
-                    raise TypeError(f'Local path for "{index}" is used in an '
+                    raise TypeError(f'Path {index} for index is used in an '
                                     "unsupported environment. Paths are "
                                     "supported in Jupyter notebooks and Jupy"
                                     "ter lab.Please use a url for your "
@@ -507,7 +510,7 @@ class JBrowseConfig:
         else:
             if not is_url(index) and index != 'defaultIndex':
                 if not self.jupyter:
-                    raise TypeError(f'Local path for "{index}" is used in an '
+                    raise TypeError(f'Path {index} for index is used in an '
                                     "unsupported environment.Paths are "
                                     "supported in Jupyter notebooks and Jupyte"
                                     "r lab.Please use a url for your assembly "
@@ -680,8 +683,8 @@ class JBrowseConfig:
         # Returns the aggregateTextSearchAdapters in the config
         return self.config["aggregateTextSearchAdapters"]
 
-    def add_text_search_adapter(self, ix_path,
-                                ixx_path, meta_path, adapter_id=None):
+    def add_text_search_adapter(self, ix,
+                                ixx, meta, adapter_id=None):
         """
         Adds an aggregate trix text search adapter.
         Currently not available for Circular Genome View
@@ -690,22 +693,22 @@ class JBrowseConfig:
         add_text_search_adapter("url/file.ix", url/file.ixx",
         "url/meta.json")
 
-        :param str ix_path: path to ix file
-        :param str ixx_path: path to ixx file
-        :param str meta_path: path to meta.json file
+        :param str ix: url/path to ix file
+        :param str ixx: url/path to ixx file
+        :param str meta: url/path to meta.json file
         :param str adapter_id: optional adapter_id
         :raises Exception: if assembly has not been configured
         :raises TypeError: if adapter with same adapter id
                 is already configured
-        :raises TypeError: local paths are not supported
+        :raises TypeError: Paths are only supported in jupyter.
         :raises TypeError: if view is CGV
         """
         err = "Please set the assembly before adding a text search adapter."
         if not self.get_assembly():
             raise Exception(err)
-        local = is_url(ix_path) and is_url(ixx_path) and is_url(meta_path)
+        local = is_url(ix) and is_url(ixx) and is_url(meta)
         if (local and not self.jupyter):
-            TypeError(f'Local paths for "{ix_path},{ixx_path},and {meta_path}"'
+            TypeError(f'Paths for "{ix},{ixx},and {meta}"'
                       " are used in an unsupported environment. Paths are "
                       "supported in Jupyter notebooks and Jupyter lab.Please"
                       " use a url for your assembly data. You can check out"
@@ -714,14 +717,14 @@ class JBrowseConfig:
         if self.view == "CGV":
             raise TypeError("Text Searching not currently available in CGV")
         assembly_name = self.get_assembly_name()
-        default_id = f'{assembly_name}-{guess_file_name(ix_path)}-index'
+        default_id = f'{assembly_name}-{guess_file_name(ix)}-index'
         text_id = default_id if adapter_id is None else adapter_id
         text_search_adapter = {
             "type": "TrixTextSearchAdapter",
             "textSearchAdapterId": text_id,
             "ixFilePath": {
                 "uri":  make_url_colab_jupyter(
-                    ix_path,
+                    ix,
                     colab=self.colab,
                     nb_host=self.nb_host,
                     nb_port=self.nb_port
@@ -730,7 +733,7 @@ class JBrowseConfig:
             },
             "ixxFilePath": {
                 "uri": make_url_colab_jupyter(
-                    ixx_path,
+                    ixx,
                     colab=self.colab,
                     nb_host=self.nb_host,
                     nb_port=self.nb_port
@@ -739,7 +742,7 @@ class JBrowseConfig:
             },
             "metaFilePath": {
                 "uri": make_url_colab_jupyter(
-                    meta_path,
+                    meta,
                     colab=self.colab,
                     nb_host=self.nb_host,
                     nb_port=self.nb_port

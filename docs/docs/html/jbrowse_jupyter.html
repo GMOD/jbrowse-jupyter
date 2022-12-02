@@ -48,6 +48,8 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorials and Demos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contact.html">Contact us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">JBrowse Jupyter vs Other tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="local.html">Local file support</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 </ul>
 
@@ -122,7 +124,7 @@ list of tracks</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.JBrowseConfig.add_text_search_adapter">
-<span class="sig-name descname"><span class="pre">add_text_search_adapter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ix_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ixx_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adapter_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.add_text_search_adapter" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">add_text_search_adapter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ixx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adapter_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.add_text_search_adapter" title="Permalink to this definition"></a></dt>
 <dd><p>Adds an aggregate trix text search adapter.
 Currently not available for Circular Genome View</p>
 <p>e.g:
@@ -131,9 +133,9 @@ add_text_search_adapter(“url/file.ix”, url/file.ixx”,
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ix_path</strong> (<em>str</em>) – path to ix file</p></li>
-<li><p><strong>ixx_path</strong> (<em>str</em>) – path to ixx file</p></li>
-<li><p><strong>meta_path</strong> (<em>str</em>) – path to meta.json file</p></li>
+<li><p><strong>ix</strong> (<em>str</em>) – url/path to ix file</p></li>
+<li><p><strong>ixx</strong> (<em>str</em>) – url/path to ixx file</p></li>
+<li><p><strong>meta</strong> (<em>str</em>) – url/path to meta.json file</p></li>
 <li><p><strong>adapter_id</strong> (<em>str</em>) – optional adapter_id</p></li>
 </ul>
 </dd>
@@ -142,7 +144,7 @@ add_text_search_adapter(“url/file.ix”, url/file.ixx”,
 <li><p><strong>Exception</strong> – if assembly has not been configured</p></li>
 <li><p><strong>TypeError</strong> – if adapter with same adapter id
 is already configured</p></li>
-<li><p><strong>TypeError</strong> – local paths are not supported</p></li>
+<li><p><strong>TypeError</strong> – Paths are only supported in jupyter.</p></li>
 <li><p><strong>TypeError</strong> – if view is CGV</p></li>
 </ul>
 </dd>
@@ -163,12 +165,11 @@ assumes “url.bam.bai” also exists</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>str</em>) – track file or url
-(currently only supporting url)</p></li>
+<li><p><strong>data</strong> (<em>str</em>) – track file url/path</p></li>
 <li><p><strong>name</strong> (<em>str</em>) – (optional) name for the track
 (defaults to data filename)</p></li>
 <li><p><strong>track_id</strong> (<em>str</em>) – (optional) trackId for the track</p></li>
-<li><p><strong>index</strong> (<em>str</em>) – (optional) index file for the track</p></li>
+<li><p><strong>index</strong> (<em>str</em>) – (optional) file url/path for the track</p></li>
 <li><p><strong>track_type</strong> (<em>str</em>) – (optional) track type</p></li>
 <li><p><strong>overwrite</strong> (<em>boolean</em>) – (optional) defaults to False</p></li>
 </ul>
@@ -178,6 +179,7 @@ assumes “url.bam.bai” also exists</p>
 <li><p><strong>Exception</strong> – if assembly has not been configured</p></li>
 <li><p><strong>TypeError</strong> – if track data is not provided</p></li>
 <li><p><strong>TypeError</strong> – if track type is not supported</p></li>
+<li><p><strong>TypeError</strong> – Paths are only supported in jupyter.</p></li>
 </ul>
 </dd>
 </dl>
@@ -235,7 +237,7 @@ assumes
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>assembly_data</strong> (<em>str</em>) – path to the sequence data</p></li>
+<li><p><strong>assembly_data</strong> (<em>str</em>) – url/path to the sequence data</p></li>
 <li><p><strong>name</strong> (<em>str</em>) – (optional) name for the assembly,
 defaults to name generated from assembly_data file name</p></li>
 <li><p><strong>aliases</strong> (<em>list</em>) – (optional) list of aliases for the assembly</p></li>
@@ -246,7 +248,7 @@ existing assembly, default to False.</p></li>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><ul class="simple">
-<li><p><strong>TypeError</strong> – if assembly_data is a local path</p></li>
+<li><p><strong>TypeError</strong> – Paths are only supported in jupyter.</p></li>
 <li><p><strong>TypeError</strong> – adapter used for file type is not supported or
 recognized</p></li>
 </ul>
@@ -279,15 +281,23 @@ sequence track. Defaults to True</p></li>
 <span class="sig-name descname"><span class="pre">set_env</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">notebook_host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'localhost'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notebook_port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8888</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.set_env" title="Permalink to this definition"></a></dt>
 <dd><p>Changes the port and the host for creating links to files
 found within the file tree of jupyter.</p>
-<p>Usage: We want to be able to use paths to local files that
-can be accessed within the file tree of jupyter notebook
-and jupyter lab. The port and host should match those
-configured in your jupyter config.</p>
-<p>Args:
-:param str notebook_host: host used in jupyter config for
-for using paths to local files. Defaults to “localhost”.
-:param str notebook_port: port used in jupyter config for
-for using paths to local files. Defaults to 8888.</p>
+<p>We want to be able to use paths to local files that can be
+accessed within the file tree of jupyter notebook and jupyter
+lab. The port and host should match those configured in your
+jupyter config.</p>
+<p>You can set_env after creating your view.
+browser = create(“LGV”)
+browser.set_env(“localhost”, 8989)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>notebook_host</strong> (<em>str</em>) – host used in jupyter config for
+for using paths to local files. (Defaults to “localhost”)</p></li>
+<li><p><strong>notebook_port</strong> (<em>str</em>) – port used in jupyter config for
+for using paths to local files. (Defaults to 8888)</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">

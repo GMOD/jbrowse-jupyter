@@ -12,7 +12,7 @@ def is_url(filePath):
     """
     Checks wether or not the file path
     is a valid url.
-    :param str filePath: file path
+    :param str filePath: file path/url
     :return: returns true if path matches pattern starting with
     http:// or https://
     :rtype: boolean

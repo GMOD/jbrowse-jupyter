@@ -32,8 +32,11 @@
 ![Custom Palette](https://github.com/GMOD/jbrowse-jupyter/raw/main/images/custom_palette.png)
 
 * Can I use local files/my own data?
-    - There are a couple of ways in which you can configure and use your own data from your local environment in jbrowse views. 
-        1.  make use of the jupyter notebook server as shown in the local_support.ipynb 
-        2. launch your own http server with CORS which will enable you to use local files in Google Colab notebooks and binder notebooks
+    - Yes, there are a couple of ways in which you can configure and use your own data from your local environment in jbrowse views. 
+        1. Make use of the jupyter notebook/lab server. Intended for those running their notebooks with jupyter lab or jupyter notebook.
+        2. Launch your own http server with CORS which will enable you to use local files. You can run our serve.py to launch our dev server. 
+    (Checkout our local_support.ipynb for tutorials on how to use your own data)
 
-    **_Note_:** that these solutions are recommended for your development environments and not supported in production.
+> **Note**: These solutions are recommended for your development environments and not supported in production.
+* I am running a colab notebook/binder notebook and wish to use my local data, how can I do this? 
+    - You can run JBrowse dev server to serve local files to use in your JBrowse views. More information on the dev server can be found in the local file support section of this readme.

@@ -18,7 +18,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Contact us" href="contact.html" /> 
+    <link rel="prev" title="Local file support" href="local.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,6 +42,8 @@
 <li class="toctree-l1"><a class="reference internal" href="modules.html">Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorials and Demos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contact.html">Contact us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">JBrowse Jupyter vs Other tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="local.html">Local file support</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">FAQ</a></li>
 </ul>
 
@@ -127,14 +129,24 @@
 </li>
 <li><p>Can I use local files/my own data?</p>
 <ul class="simple">
-<li><p>There are a couple of ways in which you can configure and use your own data from your local environment in jbrowse views.</p>
+<li><p>Yes, there are a couple of ways in which you can configure and use your own data from your local environment in jbrowse views.</p>
 <ol class="arabic simple">
-<li><p>make use of the jupyter notebook server as shown in the local_support.ipynb</p></li>
-<li><p>launch your own http server with CORS which will enable you to use local files in Google Colab notebooks and binder notebooks</p></li>
+<li><p>Make use of the jupyter notebook/lab server. Intended for those running their notebooks with jupyter lab or jupyter notebook.</p></li>
+<li><p>Launch your own http server with CORS which will enable you to use local files. You can run our serve.py to launch our dev server.
+(Checkout our local_support.ipynb for tutorials on how to use your own data)</p></li>
 </ol>
 </li>
 </ul>
-<p><strong><em>Note</em>:</strong> that these solutions are recommended for your development environments and not supported in production.</p>
+</li>
+</ul>
+<blockquote>
+<div><p><strong>Note</strong>: These solutions are recommended for your development environments and not supported in production.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>I am running a colab notebook/binder notebook and wish to use my local data, how can I do this?</p>
+<ul>
+<li><p>You can run JBrowse dev server to serve local files to use in your JBrowse views. More information on the dev server can be found in the local file support section of this readme.</p></li>
+</ul>
 </li>
 </ul>
 </section>
@@ -143,7 +155,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="contact.html" class="btn btn-neutral float-left" title="Contact us" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="local.html" class="btn btn-neutral float-left" title="Local file support" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

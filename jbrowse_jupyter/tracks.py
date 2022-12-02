@@ -6,7 +6,7 @@ import pandas as pd
 def make_location(location, protocol, **kwargs):
     """
     Creates location object given a location and a protocol.
-    :param str location: file path
+    :param str location: file path/url
     :param str protocol: protocol, for now only accepting `uri`
     :return: the location subconfiguration
     :rtype: obj
@@ -19,9 +19,6 @@ def make_location(location, protocol, **kwargs):
     if protocol == "uri":
         return {"uri": location, "locationType": "UriLocation"}
     elif protocol == "localPath":
-        # return {"uri": location,
-        # "locationType": "UriLocation",
-        # "internetAccountId": internet_account_id }
         return {
             "uri": make_url_colab_jupyter(location,
                                           colab=in_colab,
@@ -111,7 +108,7 @@ def guess_adapter_type(file_location,
     """
     Creates location object given a location and a protocol.
 
-    :param str file_location: file path
+    :param str file_location: file path/url
     :param str protocol: protocol, for now only accepting `uri`
     :param str index: (optional) path to index
     :return: the adapter track subconfiguration

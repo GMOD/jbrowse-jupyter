@@ -53,7 +53,7 @@ def test_set_assembly():
     # raises an error, there is no local path support in non jupyter envs
     with pytest.raises(TypeError) as excinfo:
         conf.set_assembly("/hi/there")
-    err = (f'Local path for {"/hi/there"} is used'
+    err = (f'Path {"/hi/there"} for assembly data is used'
            ' in an unsupported environment.'
            'Paths are supported in Jupyter notebooks and Jupyter lab.'
            'Please use a url for your assembly data. You can check out '
