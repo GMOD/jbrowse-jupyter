@@ -225,10 +225,10 @@ JBrowseConfig().
 ### Local file support
 We currently support two ways of passing your local data to JBrowse Views.
 
-For our **Jupyter lab and Jupyter notebook** users, you can create urls by leveraging the Jupyter server where your notebook is running or you can provide paths relative to root of the file tree. You can find a detailed example in our local_support.ipynb. 
+For our **Jupyter lab and Jupyter notebook** users, you can create urls by leveraging the Jupyter server where your notebook is running or you can provide paths relative to root of the file tree. You can also provide paths relative to the root of the Jupyter file tree. Examples of these can be found below or in the
+local_support.ipynb.
 
-
-For those using **colab notebooks and binder** (and even Jupyter) you can use the JBrowse dev server.
+For those using **colab notebooks and binder** (will also work in Jupyter) you can use the JBrowse dev server. An example of how to use the JBrowse dev server can be found below.
 
 ### Jupyter Server
 
@@ -276,7 +276,6 @@ config.add_track(
     name="track-name" # track name
 )
 ```
-
 
 Resources:
 * [Configuring the Jupyter Notebook server](https://jupyter-notebook.readthedocs.io/en/stable/config_overview.html#notebook-server)
