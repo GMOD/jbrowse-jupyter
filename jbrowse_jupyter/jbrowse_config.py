@@ -135,10 +135,6 @@ class JBrowseConfig:
         self.nb_host = "localhost"
         self.colab = in_colab_notebook
         self.jupyter = not in_colab_notebook and in_jupyter_notebook
-        print("IN COLAB: ", self.colab)
-        print("IN JUPYTER: ", self.jupyter)
-        print("NOTEBOOK_PORT: ", self.nb_port)
-        print("NOTEBOOK_HOST: ", self.nb_host)
 
     def get_config(self):
         """
@@ -159,6 +155,11 @@ class JBrowseConfig:
 
     def get_jupyter(self):
         return self.jupyter
+
+    def get_env(self):
+        print("notebook port: ", self.nb_port)
+        print("notebook host: ", self.nb_host)
+        return self.nb_host, self.nb_port
 
     def set_env(self, notebook_host="localhost", notebook_port=8888):
         """

@@ -227,6 +227,9 @@ def test_empty_config_lgv():
     with pytest.raises(Exception) as excinfo:
         empty_conf.get_assembly_name()
     assert assembly_error in str(excinfo)
+    empty_conf.set_env("localhost", 9999)
+    current_env = empty_conf.get_env()
+    assert current_env[1] == 9999
 
 
 def test_empty_cgv():
