@@ -102,7 +102,7 @@ add_df_track(df, “track_name”)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>df</strong> – panda DataFrame with the track data.</p></li>
+<li><p><strong>track_data</strong> – panda DataFrame with the track data.</p></li>
 <li><p><strong>name</strong> (<em>str</em>) – name for the track.</p></li>
 <li><p><strong>track_id</strong> (<em>str</em>) – (optional) trackId for the track</p></li>
 <li><p><strong>overwrite</strong> (<em>str</em>) – flag wether or not to overwrite existing track.</p></li>
@@ -272,6 +272,22 @@ sequence track. Defaults to True</p></li>
 <dd class="field-even"><p><strong>Exception</strong> – if assembly has not been configured</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jbrowse_jupyter.jbrowse_config.JBrowseConfig.set_env">
+<span class="sig-name descname"><span class="pre">set_env</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">notebook_host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'localhost'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notebook_port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8888</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jbrowse_jupyter.jbrowse_config.JBrowseConfig.set_env" title="Permalink to this definition"></a></dt>
+<dd><p>Changes the port and the host for creating links to files
+found within the file tree of jupyter.</p>
+<p>Usage: We want to be able to use paths to local files that
+can be accessed within the file tree of jupyter notebook
+and jupyter lab. The port and host should match those
+configured in your jupyter config.</p>
+<p>Args:
+:param str notebook_host: host used in jupyter config for
+for using paths to local files. Defaults to “localhost”.
+:param str notebook_port: port used in jupyter config for
+for using paths to local files. Defaults to 8888.</p>
 </dd></dl>
 
 <dl class="py method">
