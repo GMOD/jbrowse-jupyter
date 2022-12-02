@@ -21,50 +21,6 @@ def is_url(filePath):
     return re.match(regex, filePath) is not None
 
 
-# def resolve_local_path(data):
-#     return f'file:///{data}'
-
-# def register_notebook_callbacks():
-#     try:
-#         import google.colab.output # noqa
-#         _in_colab_session = True
-#         register_colab()
-#     except: # noqa
-#         _in_colab_session = False
-#     try:
-#         shell = IPython.get_ipython().__class__.__name__ # noqa
-#         if shell == 'ZMQInteractiveShell': # noqa
-#             _in_jupyter_session = True
-#         else:
-#             _in_jupyter_session = False
-#     except: # noqa
-#         _in_jupyter_session = False
-#     print("colab: ", _in_colab_session)
-#     print("jupyter: ", _in_jupyter_session)
-
-# def register_colab():
-#     def callback(path, start=None, end=None):
-#             if start != None:
-#                 start = int(start)
-#             if end != None:
-#                 end = int(end)
-#             binary_file_data = read_file(path, start, end)
-#             return base64.b64encode(binary_file_data)
-#             #return binary_file_data
-#     google.colab.output.register_callback('ColabLocalFile', callback)
-
-
-# def read_file(path, start=None, end=None):
-#     with open(path, 'rb') as binary_file:
-#         if start != None:
-#             size = end - start
-#             binary_file.seek(start)
-#             binary_file_data = binary_file.read(size)
-#         else:
-#             binary_file_data = binary_file.read()
-#     return binary_file_data
-
-
 def guess_file_name(data):
     """
     Guess the file name given a path.
