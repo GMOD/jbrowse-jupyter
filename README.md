@@ -366,7 +366,7 @@ e.g `jbrowse_conf.add_track("http://localhost:8080/<your-file-name>", name="test
 | Zooming in on regions of interest | :heavy_check_mark: &ast; | :heavy_check_mark:  | :heavy_check_mark: &ast;| :heavy_check_mark: &ast; | :heavy_check_mark: &ast;| :x: | :heavy_check_mark: &ast; |
 
 &ast; Feature is accessible via the component's UI and not by API.
-&ast;&ast; Path support for local files is only available when running notebook in Jupyter lab and Jupyter notebook. Local file support in colab and binder is available by running the JBrowse dev server to host your data. 
+&ast;&ast; Path support for local files is only available when running notebook in Jupyter lab and Jupyter notebook. Local file support in colab and binder is available by running the JBrowse dev server to host your data and creating urls to pass to the JBrowse view. More information available in the [local file suport section of this readme](#Local-file-support)
 
 * For more features of the JBrowse and JBrowse embedded components checkout 
 [our documentation](https://jbrowse.org/jb2/docs/embedded_components/)
