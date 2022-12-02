@@ -222,7 +222,7 @@ JBrowseConfig().
 
 
 
-### Local file support
+## Local file support
 We currently support two ways of passing your local data to JBrowse Views.
 
 For our **Jupyter lab and Jupyter notebook** users, you can create urls by leveraging the Jupyter server where your notebook is running or you can provide paths relative to root of the file tree. You can also provide paths relative to the root of the Jupyter file tree. Examples of these can be found below or in the
@@ -311,7 +311,7 @@ config.add_track(
 )
 ```
 
-#### JBrowse dev server
+### JBrowse dev server
 We also provide a simple http server configured with CORS that will allow you to serve your local files from a specified directory within your machine.
 
 > **Note** The use of local files or the dev server provided is not recommended for production environments. 
