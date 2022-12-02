@@ -40,3 +40,12 @@
 > **Note**: These solutions are recommended for your development environments and not supported in production.
 * I am running a colab notebook/binder notebook and wish to use my local data, how can I do this? 
     - You can run JBrowse dev server to serve local files to use in your JBrowse views. More information on the dev server can be found in the local file support section of this readme.
+
+* My paths are not working?
+    - If you are using paths, make sure you are in a jupyter environment (Jupyter lab or jupyter notebook). Additionally, make sure that the port and host match the ones in your config. If they are different, use the set_env(notebook_host, notebook_port) to change the default port and host used by JBrowse to configure paths in jupyter.
+
+* My data says it's is loading and never loads?
+    - If your view shows that it is loading and never loads, it could be a fetch error or CORS.
+        - the JBrowse Dev Server has CORS enabled.
+    - Make sure that your alias is correctly configured. Data that never loads could also indicate that the format is correct, but will not display anything for it if the assembly does not match.
+    - Data that never loads could also indicate that the port and host do not match where your data is hosted when using paths in jupyter envs

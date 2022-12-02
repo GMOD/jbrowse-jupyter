@@ -190,7 +190,7 @@ JBrowseConfig().
     - assumes an index exists within the same directory of the track data if no index url path is provided. 
     - currently supporting Wiggle, Variant, Feature and Alignments tracks
     - params:
-        * data (str) – track file or url (currently only supporting url)
+        * data (str) – track path or url
         * name (str) – (optional) name for the track
         * index (str) – (optional) index file for the track
         * track_type (str) – (optional) track type. If none is passed, the api will infer one based on the file type
@@ -209,7 +209,10 @@ JBrowseConfig().
         * display_assembly (boolean) – display the assembly reference sequence track. default=True
 * `set_theme`(primary, secondary=None, tertiary=None, quaternary=None)
     - sets the theme in the configuration given up to 4 hexadecimal colors
-* `add_text_search_adapter`(ix_path, ixx_path, meta_path, adapter_id=None)
+* `set_env`(notebook_host, notebook_port):
+    - Changes the port and the host for creating links to files found within the file tree of jupyter.
+    - The port and host should match those configured in your jupyter config.
+* `add_text_search_adapter`(ix, ixx, meta, adapter_id=None)
     - adds a trix text search adapter
     - not available for CGV
 * `get_config`() - returns the configuration object
@@ -240,6 +243,12 @@ Once you have the data within the file tree where the notebook is running, then 
 To verify that your data is in the correct place, you can navigate to *http://your-host:your-port/tree* . Make sure that you use the same port and host that is used in your jupyter configuration. 
 
 e.g http://localhost:8888/tree is the url your should navigate to if you are running your jupyter notebook in localhost in port 8888
+
+If you have a different port or host, you can change the port and host used by JBrowse with the use of the set_env(notebook_host, notebook_port). 
+
+Example:
+config = create("LGV)
+config.set_env("host", 9999).
 
 #### Using Jupyter URLS
 
@@ -449,3 +458,12 @@ We **really** love talking to our users. Please reach out with any thoughts you 
 > **Note**: These solutions are recommended for your development environments and not supported in production.
 * I am running a colab notebook/binder notebook and wish to use my local data, how can I do this? 
     - You can run JBrowse dev server to serve local files to use in your JBrowse views. More information on the dev server can be found in the local file support section of this readme.
+
+* My paths are not working?
+    - If you are using paths, make sure you are in a jupyter environment (Jupyter lab or jupyter notebook). Additionally, make sure that the port and host match the ones in your config. If they are different, use the set_env(notebook_host, notebook_port) to change the default port and host used by JBrowse to configure paths in jupyter.
+
+* My data says it's is loading and never loads?
+    - If your view shows that it is loading and never loads, it could be a fetch error or CORS.
+        - the JBrowse Dev Server has CORS enabled.
+    - Make sure that your alias is correctly configured. Data that never loads could also indicate that the format is correct, but will not display anything for it if the assembly does not match.
+    - Data that never loads could also indicate that the port and host do not match where your data is hosted when using paths in jupyter envs

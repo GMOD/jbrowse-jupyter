@@ -89,12 +89,17 @@ local_support.ipynb.</p>
 <blockquote>
 <div><p><strong>Note</strong>: These solutions are recommended for your development environments and not supported in production.</p>
 </div></blockquote>
+<p>A tutorial can be found in the root of the directory named <a class="reference external" href="https://github.com/GMOD/jbrowse-jupyter/blob/main/local_support.ipynb">local_support.ipynb</a></p>
 <section id="jupyter-server">
 <h2>Jupyter Server<a class="headerlink" href="#jupyter-server" title="Permalink to this headline"></a></h2>
 <p>Jupyter Lab and Jupyter Notebook users can leverage the Jupyter server to create urls or paths to pass to JBrowse Jupyter view configs.</p>
 <p>Once you have the data within the file tree where the notebook is running, then you will be able to format the urls or paths to pass to the API. (Note: you will need to serve your entire project where the notebook is running.)</p>
 <p>To verify that your data is in the correct place, you can navigate to <em>http://your-host:your-port/tree</em> . Make sure that you use the same port and host that is used in your jupyter configuration.</p>
 <p>e.g http://localhost:8888/tree is the url your should navigate to if you are running your jupyter notebook in localhost in port 8888</p>
+<p>If you have a different port or host, you can change the port and host used by JBrowse with the use of the set_env(notebook_host, notebook_port).</p>
+<p>Example:
+config = create(“LGV)
+config.set_env(“host”, 9999).</p>
 <section id="using-jupyter-urls">
 <h3>Using Jupyter URLS<a class="headerlink" href="#using-jupyter-urls" title="Permalink to this headline"></a></h3>
 <p>In this example, the notebook is configured to run in localhost in port 8888. It is assumed that you have Jupyter lab installed in your venv.</p>

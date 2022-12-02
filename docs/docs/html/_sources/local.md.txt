@@ -7,6 +7,8 @@ local_support.ipynb.
 For those using **colab notebooks and binder** (will also work in Jupyter) you can use the JBrowse dev server. An example of how to use the JBrowse dev server can be found below.
 
 > **Note**: These solutions are recommended for your development environments and not supported in production.
+
+A tutorial can be found in the root of the directory named [local_support.ipynb](https://github.com/GMOD/jbrowse-jupyter/blob/main/local_support.ipynb)
 ### Jupyter Server
 
 Jupyter Lab and Jupyter Notebook users can leverage the Jupyter server to create urls or paths to pass to JBrowse Jupyter view configs. 
@@ -16,6 +18,12 @@ Once you have the data within the file tree where the notebook is running, then 
 To verify that your data is in the correct place, you can navigate to *http://your-host:your-port/tree* . Make sure that you use the same port and host that is used in your jupyter configuration. 
 
 e.g http://localhost:8888/tree is the url your should navigate to if you are running your jupyter notebook in localhost in port 8888
+
+If you have a different port or host, you can change the port and host used by JBrowse with the use of the set_env(notebook_host, notebook_port). 
+
+Example:
+config = create("LGV)
+config.set_env("host", 9999).
 
 #### Using Jupyter URLS
 
