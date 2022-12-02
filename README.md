@@ -230,11 +230,12 @@ local_support.ipynb.
 
 For those using **colab notebooks and binder** (will also work in Jupyter) you can use the JBrowse dev server. An example of how to use the JBrowse dev server can be found below.
 
+> **Note**: These solutions are recommended for your development environments and not supported in production.
 ### Jupyter Server
 
-Jupyter Lab and Jupyter Notebook users can leverage the Jupyter server to create urls to pass to JBrowse Jupyter view configs. 
+Jupyter Lab and Jupyter Notebook users can leverage the Jupyter server to create urls or paths to pass to JBrowse Jupyter view configs. 
 
-Once you have the data within the file tree where the notebook is running, then you will be able to format the urls to pass to the API. 
+Once you have the data within the file tree where the notebook is running, then you will be able to format the urls or paths to pass to the API. (Note: you will need to serve your entire project where the notebook is running.)
 
 To verify that your data is in the correct place, you can navigate to *http://your-host:your-port/tree* . Make sure that you use the same port and host that is used in your jupyter configuration. 
 
@@ -385,8 +386,8 @@ e.g `jbrowse_conf.add_track("http://localhost:8080/<your-file-name>", name="test
 * [JBrowse React Linear Genome View Docs](https://jbrowse.org/storybook/lgv/main/?path=/story/getting-started--page) - storybook docs of React LGV
 * [Dash Applications](https://dash.plotly.com/layout) how to get started to custumize Dash applications.
 * [Dash HTML components](https://dash.plotly.com/dash-html-components) Dash html components to build the Dash aplication layout.
-* [DashJupyter](https://github.com/plotly/jupyter-dash) library to enable embedding Dash components in jupyter notebooks.
-* [DashJbrowse](https://github.com/GMOD/dash_jbrowse) suite of Dash components for JBrowse views. (JBrowse Linear Genome View)
+* [Dash Jupyter](https://github.com/plotly/jupyter-dash) library to enable embedding Dash components in jupyter notebooks.
+* [Dash Jbrowse](https://github.com/GMOD/dash_jbrowse) suite of Dash components for JBrowse views. (JBrowse Linear Genome View)
 
 ## Contributing
 
