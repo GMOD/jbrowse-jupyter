@@ -509,6 +509,14 @@ class JBrowseConfig:
             self.config["tracks"] = current_tracks
             self.tracks_ids_map[track_id] = track_config
         else:
+            if not self.jupyter:
+                raise TypeError(f'Path {data} for track data '
+                                "is used in an unsupported environment."
+                                "Paths are supported in Jupyter notebooks"
+                                " and Jupyter lab.Please use a url for "
+                                "your assembly data. You can check out "
+                                "our local file support docs for more "
+                                "information")
             if not is_url(index) and index != 'defaultIndex':
                 if not self.jupyter:
                     raise TypeError(f'Path {index} for index is used in an '
