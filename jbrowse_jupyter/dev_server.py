@@ -111,7 +111,7 @@ class CustomRequestHandler (SimpleHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
         self.send_header('Access-Control-Expose-Headers', '*')
         self.send_header('Accept-Ranges', 'bytes')
-        # self.send_header('Content-Type', 'application/octet-stream')
+        self.send_header('Content-Type', 'application/octet-stream')
         SimpleHTTPRequestHandler.end_headers(self)
 
     def translate_path(self, path):

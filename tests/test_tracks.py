@@ -25,8 +25,8 @@ gff3_tabix_index = gff3Tabix + ".tbi"
 
 def test_make_location():
     with pytest.raises(TypeError) as excinfo:
-        make_location("./local/file/path", "local")
-    assert "invalid protocol local" in str(excinfo)
+        make_location("./local/file/path", "invalidProtocol")
+    assert "invalid protocol invalidProtocol" in str(excinfo)
 
 
 def test_add_track_fail():
@@ -141,6 +141,7 @@ def test_data_frame_track():
 
 
 def test_check_track_data():
+    # Test track from dataframe
     df_error = "Track data must be a DataFrame"
     invalid_df = {
         "refName": "1",
@@ -175,7 +176,6 @@ def test_check_columns():
 
 
 def test_get_df_features():
-    # TODO: test adding correct values types for dataframe
     data_frame = {
         "refName": ["1", "1"],
         "start": [123, 456],

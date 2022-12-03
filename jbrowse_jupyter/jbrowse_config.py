@@ -1,10 +1,16 @@
-from jbrowse_jupyter.util import is_url, get_default, guess_file_name, get_name
+import IPython
+from jbrowse_jupyter.util import (
+    is_url, get_default,
+    guess_file_name,
+    get_name,
+)
 from jbrowse_jupyter.tracks import (
     guess_adapter_type,
     guess_track_type,
     check_track_data,
     get_from_config_adapter,
-    guess_display_type
+    guess_display_type,
+    make_url_colab_jupyter
 )
 
 
@@ -73,6 +79,22 @@ class JBrowseConfig:
             defaults to LGV
         :param obj conf: optional conf obj
         """
+        in_colab_notebook = False
+        in_jupyter_notebook = False
+        try:
+            import google.colab.output # noqa
+            in_colab_notebook = True
+        except: # noqa
+            in_colab_notebook = False
+        try:
+            shell = IPython.get_ipython().__class__.__name__ # noqa
+            if shell == 'ZMQInteractiveShell': # noqa
+                in_jupyter_notebook = True
+            else:
+                in_jupyter_notebook = False
+        except: # noqa
+            in_jupyter_notebook = False
+        # =====================
         view_default = {
             "id": 'linearGenomeView',
             "type": 'LinearGenomeView',
@@ -95,7 +117,8 @@ class JBrowseConfig:
             "location": "",
             "configuration": {
                 "theme": {}
-            }
+            },
+            # internetAccounts
         }
         if conf is not None:
             for r in default.keys():
@@ -107,6 +130,11 @@ class JBrowseConfig:
             self.tracks_ids_map = ids
         self.tracks_ids_map = {}
         self.view = view
+        # environment
+        self.nb_port = 8888
+        self.nb_host = "localhost"
+        self.colab = in_colab_notebook
+        self.jupyter = not in_colab_notebook and in_jupyter_notebook
 
     def get_config(self):
         """
@@ -122,8 +150,40 @@ class JBrowseConfig:
         """
         return self.config
 
-    # ========== Assembly ===========
+    def get_colab(self):
+        return self.colab
 
+    def get_jupyter(self):
+        return self.jupyter
+
+    def get_env(self):
+        print("notebook port: ", self.nb_port)
+        print("notebook host: ", self.nb_host)
+        return self.nb_host, self.nb_port
+
+    def set_env(self, notebook_host="localhost", notebook_port=8888):
+        """
+        Changes the port and the host for creating links to files
+        found within the file tree of jupyter.
+
+        We want to be able to use paths to local files that can be
+        accessed within the file tree of jupyter notebook and jupyter
+        lab. The port and host should match those configured in your
+        jupyter config.
+
+        You can set_env after creating your view.
+        browser = create("LGV")
+        browser.set_env("localhost", 8989)
+
+        :param str notebook_host: host used in jupyter config for
+            for using paths to local files. (Defaults to "localhost")
+        :param str notebook_port: port used in jupyter config for
+            for using paths to local files. (Defaults to 8888)
+        """
+        self.nb_port = notebook_port
+        self.nb_host = notebook_host
+
+    # ========== Assembly ===========
     def get_assembly(self):
         # Returns the JBrowseConfig assembly subconfiguration object
         return self.config["assembly"]
@@ -155,14 +215,14 @@ class JBrowseConfig:
         For configuring assemblies check out our config docs
         https://jbrowse.org/jb2/docs/config_guide/#assembly-config
 
-        :param str assembly_data: path to the sequence data
+        :param str assembly_data: url/path to the sequence data
         :param str name: (optional) name for the assembly,
             defaults to name generated from assembly_data file name
         :param list aliases: (optional) list of aliases for the assembly
         :param obj refname_aliases: (optional) config for refname aliases.
         :param str overwrite: flag wether or not to overwrite
             existing assembly, default to False.
-        :raises TypeError: if assembly_data is a local path
+        :raises TypeError: Paths are only supported in jupyter.
         :raises TypeError: adapter used for file type is not supported or
             recognized
         """
@@ -173,13 +233,21 @@ class JBrowseConfig:
             raise TypeError(err)
         aliases = kwargs.get('aliases', [])
         refname_aliases = kwargs.get('refname_aliases', {})
-        if (is_url(assembly_data)):
-            if (indx != 'defaultIndex'):
-                if not is_url(indx):
-                    raise TypeError("Provide a url for your index file."
-                                    "Checkout our local file support docs.")
+        if is_url(assembly_data):
+            if indx != 'defaultIndex':
+                if not is_url(indx) and not self.jupyter:
+                    raise TypeError(f'Path for {assembly_data} '
+                                    "is used in an unsupported environment."
+                                    "Paths are supported in Jupyter"
+                                    " notebooks and Jupyter lab."
+                                    "Please use a url for your assembly "
+                                    "data. You can check out our local "
+                                    "file support docs for more information")
+            assembly_adapter = guess_adapter_type(assembly_data,
+                                                  'uri',
+                                                  indx,
+                                                  **kwargs)
             name = kwargs.get('name', get_name(assembly_data))
-            assembly_adapter = guess_adapter_type(assembly_data, 'uri', indx)
             if (assembly_adapter["type"] == "UNKNOWN"):
                 raise TypeError("Adapter type is not recognized")
             if (assembly_adapter["type"] == "UNSUPPORTED"):
@@ -196,8 +264,46 @@ class JBrowseConfig:
             }
             self.config["assembly"] = assembly_config
         else:
-            raise TypeError("Provide a url for your index file."
-                            "Checkout our local file support docs.")
+            if not self.jupyter:
+                raise TypeError(f'Path {assembly_data} for assembly data '
+                                "is used in an unsupported environment."
+                                "Paths are supported in Jupyter notebooks"
+                                " and Jupyter lab.Please use a url for "
+                                "your assembly data. You can check out "
+                                "our local file support docs for more "
+                                "information")
+            if indx != 'defaultIndex' and not is_url(indx):
+                if not self.jupyter:
+                    raise TypeError("Paths are used in an "
+                                    "unsupported environment."
+                                    "Paths are supported in Jupyter"
+                                    " notebooks and Jupyter lab."
+                                    "Please use a urls for your assembly"
+                                    " and index data. You can check out "
+                                    "our local file support docs for more"
+                                    " information")
+            assembly_adapter = guess_adapter_type(assembly_data,
+                                                  'localPath',
+                                                  indx,
+                                                  colab=self.colab,
+                                                  nb_port=self.nb_port,
+                                                  nb_host=self.nb_host)
+            name = kwargs.get('name', get_name(assembly_data))
+            if (assembly_adapter["type"] == "UNKNOWN"):
+                raise TypeError("Adapter type is not recognized")
+            if (assembly_adapter["type"] == "UNSUPPORTED"):
+                raise TypeError("Adapter type is not supported")
+            assembly_config = {
+                "name": name,
+                "sequence": {
+                    "type": "ReferenceSequenceTrack",
+                    "trackId": f'{name}-ReferenceSequenceTrack',
+                    "adapter": assembly_adapter
+                },
+                "aliases": aliases,
+                "refNameAliases": refname_aliases,
+            }
+            self.config["assembly"] = assembly_config
 
     # ============ Tracks =============
 
@@ -258,7 +364,7 @@ class JBrowseConfig:
         e.g:
         add_df_track(df, "track_name")
 
-        :param df: panda DataFrame with the track data.
+        :param track_data: panda DataFrame with the track data.
         :param str name: name for the track.
         :param str track_id: (optional) trackId for the track
         :param str overwrite: flag wether or not to overwrite existing track.
@@ -319,23 +425,21 @@ class JBrowseConfig:
         add_track("url.bam")
         assumes "url.bam.bai" also exists
 
-        :param str data: track file or url
-            (currently only supporting url)
+        :param str data: track file url/path
         :param str name: (optional) name for the track
             (defaults to data filename)
         :param str track_id: (optional) trackId for the track
-        :param str index: (optional) index file for the track
+        :param str index: (optional) file url/path for the track
         :param str track_type: (optional) track type
         :param boolean overwrite: (optional) defaults to False
         :raises Exception: if assembly has not been configured
         :raises TypeError: if track data is not provided
         :raises TypeError: if track type is not supported
+        :raises TypeError: Paths are only supported in jupyter.
         """
-        # TODO: get effective/working locations for track data
-        # and track index when
         if not data:
             raise TypeError(
-                "A path to the track data is required. None was provided.")
+                "Track data is required. None was provided.")
         if not self.get_assembly():
             raise Exception("Please set the assembly before adding a track.")
 
@@ -346,10 +450,23 @@ class JBrowseConfig:
         current_tracks = self.get_tracks()
         if is_url(data):
             # default to uri protocol until local files enabled
-            if not is_url(index) and index != "defaultIndex":
-                raise TypeError("Provide a url for your index file."
-                                "Checkout our local file support docs.")
-            adapter = guess_adapter_type(data, 'uri', index)
+            if not is_url(index) and index != 'defaultIndex':
+                if not self.jupyter:
+                    raise TypeError(f'Path {index} for index is used in an '
+                                    "unsupported environment. Paths are "
+                                    "supported in Jupyter notebooks and Jupy"
+                                    "ter lab.Please use a url for your "
+                                    "assembly data. You can check out "
+                                    "our local file support docs for more "
+                                    "information")
+                else:
+                    adapter = guess_adapter_type(data, 'localPath', index,
+                                                 colab=self.colab,
+                                                 nb_port=self.nb_port,
+                                                 nb_host=self.nb_host)
+            else:
+                adapter = guess_adapter_type(data, 'uri', index)
+            # adapter = guess_adapter_type(data, 'uri', index)
             if (adapter["type"] == "UNKNOWN"):
                 raise TypeError("Adapter type is not recognized")
             if (adapter["type"] == "UNSUPPORTED"):
@@ -392,8 +509,61 @@ class JBrowseConfig:
             self.config["tracks"] = current_tracks
             self.tracks_ids_map[track_id] = track_config
         else:
-            raise TypeError("Provide a url for your index file."
-                            "Checkout our local file support docs.")
+            if not is_url(index) and index != 'defaultIndex':
+                if not self.jupyter:
+                    raise TypeError(f'Path {index} for index is used in an '
+                                    "unsupported environment.Paths are "
+                                    "supported in Jupyter notebooks and Jupyte"
+                                    "r lab.Please use a url for your assembly "
+                                    "data. You can check out our local file "
+                                    "support docs for more information")
+            adapter = guess_adapter_type(data, 'localPath',
+                                         index,
+                                         colab=self.colab,
+                                         nb_port=self.nb_port,
+                                         nb_host=self.nb_host
+                                         )
+            if (adapter["type"] == "UNKNOWN"):
+                raise TypeError("Adapter type is not recognized")
+            if (adapter["type"] == "UNSUPPORTED"):
+                raise TypeError("Adapter type is not supported")
+            # get sequence adapter for cram adapter track
+            if adapter["type"] == "CramAdapter":
+                extra_config = self.get_assembly()["sequence"]["adapter"]
+                adapter["sequenceAdapter"] = extra_config
+            t_type = kwargs.get('track_type',
+                                guess_track_type(adapter["type"]))
+            supported_track_types = set({
+                'AlignmentsTrack',
+                'QuantitativeTrack',
+                'VariantTrack',
+                'FeatureTrack',
+                'ReferenceSequenceTrack'
+            })
+            if t_type not in supported_track_types:
+                raise TypeError(f'Track type: "{t_type}" is not supported.')
+            default_track_id = f'{self.get_assembly_name()}-{name}'
+            track_id = kwargs.get('track_id', default_track_id)
+            track_config = {
+                "type": t_type,
+                "trackId": track_id,
+                "name": name,
+                "assemblyNames": assembly_names,
+                "adapter": adapter
+            }
+            if track_id in self.tracks_ids_map.keys() and not overwrite:
+                raise TypeError(
+                    (
+                        f'track with trackId: "{track_id}" already exists in'
+                        f'config. Set overwrite to True to overwrite it.')
+                    )
+            if track_id in self.tracks_ids_map.keys() and overwrite:
+                current_tracks = [
+                    t for t in current_tracks if t["trackId"] != track_id]
+
+            current_tracks.append(track_config)
+            self.config["tracks"] = current_tracks
+            self.tracks_ids_map[track_id] = track_config
 
     def delete_track(self, track_id):
         """
@@ -514,8 +684,8 @@ class JBrowseConfig:
         # Returns the aggregateTextSearchAdapters in the config
         return self.config["aggregateTextSearchAdapters"]
 
-    def add_text_search_adapter(self, ix_path,
-                                ixx_path, meta_path, adapter_id=None):
+    def add_text_search_adapter(self, ix,
+                                ixx, meta, adapter_id=None):
         """
         Adds an aggregate trix text search adapter.
         Currently not available for Circular Genome View
@@ -524,41 +694,61 @@ class JBrowseConfig:
         add_text_search_adapter("url/file.ix", url/file.ixx",
         "url/meta.json")
 
-        :param str ix_path: path to ix file
-        :param str ixx_path: path to ixx file
-        :param str meta_path: path to meta.json file
+        :param str ix: url/path to ix file
+        :param str ixx: url/path to ixx file
+        :param str meta: url/path to meta.json file
         :param str adapter_id: optional adapter_id
         :raises Exception: if assembly has not been configured
         :raises TypeError: if adapter with same adapter id
                 is already configured
-        :raises TypeError: local paths are not supported
+        :raises TypeError: Paths are only supported in jupyter.
         :raises TypeError: if view is CGV
         """
         err = "Please set the assembly before adding a text search adapter."
         if not self.get_assembly():
             raise Exception(err)
-        if (not (is_url(ix_path) and is_url(ixx_path) and is_url(meta_path))):
-            raise TypeError("Provide a url for your index file."
-                            "Checkout our local file support docs.")
+        local = is_url(ix) and is_url(ixx) and is_url(meta)
+        if (local and not self.jupyter):
+            TypeError(f'Paths for "{ix},{ixx},and {meta}"'
+                      " are used in an unsupported environment. Paths are "
+                      "supported in Jupyter notebooks and Jupyter lab.Please"
+                      " use a url for your assembly data. You can check out"
+                      " our local file support docs for more information")
+
         if self.view == "CGV":
             raise TypeError("Text Searching not currently available in CGV")
         assembly_name = self.get_assembly_name()
-        default_id = f'{assembly_name}-{guess_file_name(ix_path)}-index'
+        default_id = f'{assembly_name}-{guess_file_name(ix)}-index'
         text_id = default_id if adapter_id is None else adapter_id
         text_search_adapter = {
             "type": "TrixTextSearchAdapter",
             "textSearchAdapterId": text_id,
             "ixFilePath": {
-                "uri": ix_path,
-                "locationType": "UriLocation"
+                "uri":  make_url_colab_jupyter(
+                    ix,
+                    colab=self.colab,
+                    nb_host=self.nb_host,
+                    nb_port=self.nb_port
+                ),
+                "locationType": "UriLocation",
             },
             "ixxFilePath": {
-                "uri": ixx_path,
-                "locationType": "UriLocation"
+                "uri": make_url_colab_jupyter(
+                    ixx,
+                    colab=self.colab,
+                    nb_host=self.nb_host,
+                    nb_port=self.nb_port
+                ),
+                "locationType": "UriLocation",
             },
             "metaFilePath": {
-                "uri": meta_path,
-                "locationType": "UriLocation"
+                "uri": make_url_colab_jupyter(
+                    meta,
+                    colab=self.colab,
+                    nb_host=self.nb_host,
+                    nb_port=self.nb_port
+                ),
+                "locationType": "UriLocation",
             },
             "assemblyNames": [assembly_name]
         }

@@ -118,11 +118,11 @@ Find more information about the JBrowseConfig API [here](https://gmod.github.io/
 
 ## Other Examples
 
-You can find examples in the root of this repo, 
+You can find examples in the root of this repo or in the examples folder, 
 * `browser.py` - uses the Dash library to create a python application with the Dash JBrowse LinearGenomeView component
 * `browser.ipynb` - jupyter notebook using the JupyterDash library to embed a Dash JBrowse LinearGenomeView component in a cell
-* `cgv_examples.py` - uses the Dash library to create a python application with the Dash JBrowse CircularGenomeView component
-* `cgv_examples.ipynb` - jupyter notebook using the JupyterDash library to embed a Dash JBrowse CircularGenomeView component in a cell
+* `examples/cgv_examples.py` - uses the Dash library to create a python application with the Dash JBrowse CircularGenomeView component
+* `examples/cgv_examples.ipynb` - jupyter notebook using the JupyterDash library to embed a Dash JBrowse CircularGenomeView component in a cell
 * `local_support.ipynb` - jupyter notebook with tutorial on using your local data and passing it to JBrowse views
 
 ### To run a Python Dash application
@@ -190,7 +190,7 @@ JBrowseConfig().
     - assumes an index exists within the same directory of the track data if no index url path is provided. 
     - currently supporting Wiggle, Variant, Feature and Alignments tracks
     - params:
-        * data (str) – track file or url (currently only supporting url)
+        * data (str) – track path or url
         * name (str) – (optional) name for the track
         * index (str) – (optional) index file for the track
         * track_type (str) – (optional) track type. If none is passed, the api will infer one based on the file type
@@ -209,7 +209,10 @@ JBrowseConfig().
         * display_assembly (boolean) – display the assembly reference sequence track. default=True
 * `set_theme`(primary, secondary=None, tertiary=None, quaternary=None)
     - sets the theme in the configuration given up to 4 hexadecimal colors
-* `add_text_search_adapter`(ix_path, ixx_path, meta_path, adapter_id=None)
+* `set_env`(notebook_host, notebook_port):
+    - Changes the port and the host for creating links to files found within the file tree of jupyter.
+    - The port and host should match those configured in your jupyter config.
+* `add_text_search_adapter`(ix, ixx, meta, adapter_id=None)
     - adds a trix text search adapter
     - not available for CGV
 * `get_config`() - returns the configuration object
@@ -222,14 +225,103 @@ JBrowseConfig().
 
 
 
-### Local file support
+## Local file support
 We currently support two ways of passing your local data to JBrowse Views.
 
-For our Jupyter users, you can leverage the Jupyter server to host your files and pass those urls to the JBrowse views. You can find a detailed example in our local_support.ipynb
+For our **Jupyter lab and Jupyter notebook** users, you can create urls by leveraging the Jupyter server where your notebook is running or you can provide paths relative to root of the file tree. You can also provide paths relative to the root of the Jupyter file tree. Examples of these can be found below or in the
+local_support.ipynb.
 
-For those using colab notebooks, binder, jupyter and more you can use the JBrowse dev server.
+For those using **colab notebooks and binder** (will also work in Jupyter) you can use the JBrowse dev server. An example of how to use the JBrowse dev server can be found below.
 
-#### JBrowse dev server
+> **Note**: These solutions are recommended for your development environments and not supported in production.
+### Jupyter Server
+
+Jupyter Lab and Jupyter Notebook users can leverage the Jupyter server to create urls or paths to pass to JBrowse Jupyter view configs. 
+
+Once you have the data within the file tree where the notebook is running, then you will be able to format the urls or paths to pass to the API. (Note: you will need to serve your entire project where the notebook is running.)
+
+To verify that your data is in the correct place, you can navigate to *http://your-host:your-port/tree* . Make sure that you use the same port and host that is used in your jupyter configuration. 
+
+e.g http://localhost:8888/tree is the url your should navigate to if you are running your jupyter notebook in localhost in port 8888
+
+If you have a different port or host, you can change the port and host used by JBrowse with the use of the set_env(notebook_host, notebook_port). 
+
+Example:
+config = create("LGV)
+config.set_env("host", 9999).
+
+#### Using Jupyter URLS
+
+In this example, the notebook is configured to run in localhost in port 8888. It is assumed that you have Jupyter lab installed in your venv.
+
+File tree of the project: 
+```
+- example_dir/
+    - example.ipynb
+    - data1.gff.gz
+    - data2.gff.gz.tbi
+```
+Running Jupyter
+```
+(venv)$ cd example_dir
+(venv)$ jupyter lab
+```
+
+This will be the url that you should see at the top of your browser if you opened the example.ipynb
+http://localhost:8888/lab/tree/example.ipynb
+
+Urls for file `data1.gff.gz` and `data2.gff.gz.tbi`
+would be in the form `http://localhost:8888/files/<your_file_name>`.
+* `http://localhost:8888/files/data1.gff.gz`
+* `http://localhost:8888/files/data2.gff.gz.tbi`
+Note that you do not need to add lab or tree to this url.
+
+You can use these urls. For example, you could add a track with thse urls like this:
+```python
+
+config.add_track(
+    "http://localhost:8888/files/data1.gff.gz", # track data
+    index="http://localhost:8888/files/data2.gff.gz.tbi", # track index
+    track_id="example-track", # track id
+    name="track-name" # track name
+)
+```
+
+Resources:
+* [Configuring the Jupyter Notebook server](https://jupyter-notebook.readthedocs.io/en/stable/config_overview.html#notebook-server)
+* [Getting started with Jupyter Lab](https://jupyterlab.readthedocs.io/en/stable/getting_started/starting.html)
+
+#### Using Jupyter paths
+JBrowse also supports paths to files are within the Jupyter file tree (this only works if you are running your notebook in Jupyter lab or Jupyter notebook).
+
+You can repeat the steps in the previous section to ensure that your files are in the correct place. Instead of formatting the urls yourself, you can pass paths **relative to the root of the Jupyter file tree** .
+
+Using the same structure of the previous example...
+
+File tree of the project: 
+```
+- example_dir/
+    - example.ipynb
+    - data1.gff.gz
+    - data2.gff.gz.tbi
+```
+Running Jupyter
+```
+(venv)$ cd example_dir
+(venv)$ jupyter lab
+```
+A user could then specify paths to data1 and data2 like this
+```python
+
+config.add_track(
+    "/data1.gff.gz", # track data
+    index="/data2.gff.gz.tbi", # track index
+    track_id="example-track", # track id
+    name="track-name" # track name
+)
+```
+
+### JBrowse dev server
 We also provide a simple http server configured with CORS that will allow you to serve your local files from a specified directory within your machine.
 
 > **Note** The use of local files or the dev server provided is not recommended for production environments. 
@@ -277,13 +369,14 @@ e.g `jbrowse_conf.add_track("http://localhost:8080/<your-file-name>", name="test
 | Custom Color Theming      | :heavy_check_mark: | :x:                  | :x:                | :heavy_check_mark: | :x: | :x: | :x: |
 | Deletion of tracks        | :heavy_check_mark: | :x:                  | :heavy_check_mark: | :x: | :x: | :x: | :x: |
 | Export view as SVG        | :heavy_check_mark: &ast; | :heavy_check_mark:   | :heavy_check_mark:| :x: | :x: | :x: | :heavy_check_mark:|
-| Local file support        | :heavy_check_mark: | :heavy_check_mark:   | :heavy_check_mark: | :heavy_check_mark:| :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Local file support        | :heavy_check_mark: &ast;&ast; | :heavy_check_mark:   | :heavy_check_mark: | :heavy_check_mark:| :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Supports Circular Genome View | :heavy_check_mark: | :x: | :x: | :heavy_check_mark: | :x: | :x: | :x: |
 | Ability to enable text searching from indexed files | :heavy_check_mark: | :x: | :x: | :x: | :x: | :x: | :x: |
 | Ability to add tracks from Dataframes  | :heavy_check_mark: | :x: | :x: | :x: | :x: | :heavy_check_mark: | :x:| 
 | Zooming in on regions of interest | :heavy_check_mark: &ast; | :heavy_check_mark:  | :heavy_check_mark: &ast;| :heavy_check_mark: &ast; | :heavy_check_mark: &ast;| :x: | :heavy_check_mark: &ast; |
 
 &ast; Feature is accessible via the component's UI and not by API.
+&ast;&ast; Path support for local files is only available when running notebook in Jupyter lab and Jupyter notebook. Local file support in colab and binder is available by running the JBrowse dev server to host your data and creating urls to pass to the JBrowse view. More information available in the [local file suport section of this readme](#Local-file-support)
 
 * For more features of the JBrowse and JBrowse embedded components checkout 
 [our documentation](https://jbrowse.org/jb2/docs/embedded_components/)
@@ -302,8 +395,8 @@ e.g `jbrowse_conf.add_track("http://localhost:8080/<your-file-name>", name="test
 * [JBrowse React Linear Genome View Docs](https://jbrowse.org/storybook/lgv/main/?path=/story/getting-started--page) - storybook docs of React LGV
 * [Dash Applications](https://dash.plotly.com/layout) how to get started to custumize Dash applications.
 * [Dash HTML components](https://dash.plotly.com/dash-html-components) Dash html components to build the Dash aplication layout.
-* [DashJupyter](https://github.com/plotly/jupyter-dash) library to enable embedding Dash components in jupyter notebooks.
-* [DashJbrowse](https://github.com/GMOD/dash_jbrowse) suite of Dash components for JBrowse views. (JBrowse Linear Genome View)
+* [Dash Jupyter](https://github.com/plotly/jupyter-dash) library to enable embedding Dash components in jupyter notebooks.
+* [Dash Jbrowse](https://github.com/GMOD/dash_jbrowse) suite of Dash components for JBrowse views. (JBrowse Linear Genome View)
 
 ## Contributing
 
@@ -365,3 +458,12 @@ We **really** love talking to our users. Please reach out with any thoughts you 
 > **Note**: These solutions are recommended for your development environments and not supported in production.
 * I am running a colab notebook/binder notebook and wish to use my local data, how can I do this? 
     - You can run JBrowse dev server to serve local files to use in your JBrowse views. More information on the dev server can be found in the local file support section of this readme.
+
+* My paths are not working?
+    - If you are using paths, make sure you are in a jupyter environment (Jupyter lab or jupyter notebook). Additionally, make sure that the port and host match the ones in your config. If they are different, use the set_env(notebook_host, notebook_port) to change the default port and host used by JBrowse to configure paths in jupyter.
+
+* My data says it's is loading and never loads?
+    - If your view shows that it is loading and never loads, it could be a fetch error or CORS.
+        - the JBrowse Dev Server has CORS enabled.
+    - Make sure that your alias is correctly configured. Data that never loads could also indicate that the format is correct, but will not display anything for it if the assembly does not match.
+    - Data that never loads could also indicate that the port and host do not match where your data is hosted when using paths in jupyter envs

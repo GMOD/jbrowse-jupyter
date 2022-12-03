@@ -3,22 +3,41 @@ import uuid
 import pandas as pd
 
 
-def make_location(location, protocol):
+def make_location(location, protocol, **kwargs):
     """
     Creates location object given a location and a protocol.
-    :param str location: file path
+    :param str location: file path/url
     :param str protocol: protocol, for now only accepting `uri`
     :return: the location subconfiguration
     :rtype: obj
     :raises ValueError: if a protocol other than `uri` is used.
 
     """
-    # elif protocol == "localPath":
-    # return { "uri": location, "locationType": "LocalPathLocation"}
+    in_colab = kwargs.get('colab', False)
+    notebook_host = kwargs.get('nb_host', 8888)
+    notebook_port = kwargs.get('nb_port', "localhost")
     if protocol == "uri":
         return {"uri": location, "locationType": "UriLocation"}
+    elif protocol == "localPath":
+        return {
+            "uri": make_url_colab_jupyter(location,
+                                          colab=in_colab,
+                                          nb_port=notebook_port,
+                                          nb_host=notebook_host),
+            "locationType": "UriLocation"
+        }
     else:
         raise TypeError(f"invalid protocol {protocol}")
+
+
+def make_url_colab_jupyter(location, **kwargs):
+    """Generates url from path based on env colab or jupyter"""
+    in_colab = kwargs.get('colab', False)
+    notebook_host = kwargs.get('nb_host', 8888)
+    notebook_port = kwargs.get('nb_port', "localhost")
+    if in_colab:
+        return location
+    return f'http://{notebook_host}:{notebook_port}/files' + location
 
 
 def supported_track_type(track_type):
@@ -84,16 +103,20 @@ def guess_track_type(adapter_type):
         return "FeatureTrack"
 
 
-def guess_adapter_type(file_location, protocol, index="defaultIndex"):
+def guess_adapter_type(file_location,
+                       protocol, index="defaultIndex", **kwargs):
     """
     Creates location object given a location and a protocol.
 
-    :param str file_location: file path
+    :param str file_location: file path/url
     :param str protocol: protocol, for now only accepting `uri`
     :param str index: (optional) path to index
     :return: the adapter track subconfiguration
     :rtype: obj
     """
+    notebook_host = kwargs.get('nb_host', 8888)
+    notebook_port = kwargs.get('nb_port', "localhost")
+    in_colab = kwargs.get('colab', False)
     bam = re.compile(r"\.bam$", re.IGNORECASE)
     bed = re.compile(r"\.bed$", re.IGNORECASE)
     bed_tabix = re.compile(r"\.bed\.b?gz$", re.IGNORECASE)
@@ -119,9 +142,17 @@ def guess_adapter_type(file_location, protocol, index="defaultIndex"):
     if bool(re.search(bam, file_location)):
         return {
             "type": "BamAdapter",
-            "bamLocation": make_location(file_location, protocol),
+            "bamLocation": make_location(file_location,
+                                         protocol,
+                                         colab=in_colab,
+                                         nb_host=notebook_host,
+                                         nb_port=notebook_port),
             "index": {
-                "location": make_location(f"{file_location}.bai", protocol),
+                "location": make_location(f"{file_location}.bai",
+                                          protocol,
+                                          colab=in_colab,
+                                          nb_host=notebook_host,
+                                          nb_port=notebook_port),
                 "indexType": "CSI"
                 if (index != "defaultIndex" and index.upper().endswith("CSI"))
                 else "BAI",
@@ -131,8 +162,16 @@ def guess_adapter_type(file_location, protocol, index="defaultIndex"):
     if bool(re.search(cram, file_location)):
         return {
             "type": "CramAdapter",
-            "cramLocation": make_location(file_location, protocol),
-            "craiLocation": make_location(f"{file_location}.crai", protocol),
+            "cramLocation": make_location(file_location,
+                                          protocol,
+                                          colab=in_colab,
+                                          nb_host=notebook_host,
+                                          nb_port=notebook_port),
+            "craiLocation": make_location(f"{file_location}.crai",
+                                          protocol,
+                                          colab=in_colab,
+                                          nb_host=notebook_host,
+                                          nb_port=notebook_port),
         }
 
     # gff3
@@ -151,9 +190,17 @@ def guess_adapter_type(file_location, protocol, index="defaultIndex"):
     if bool(re.search(gff3_tabix, file_location)):
         return {
             "type": "Gff3TabixAdapter",
-            "gffGzLocation": make_location(file_location, protocol),
+            "gffGzLocation": make_location(file_location,
+                                           protocol,
+                                           colab=in_colab,
+                                           nb_host=notebook_host,
+                                           nb_port=notebook_port),
             "index": {
-                "location": make_location(f"{file_location}.tbi", protocol),
+                "location": make_location(f"{file_location}.tbi",
+                                          protocol,
+                                          colab=in_colab,
+                                          nb_host=notebook_host,
+                                          nb_port=notebook_port),
                 "indexType": "TBI",
             },
         }
@@ -162,7 +209,11 @@ def guess_adapter_type(file_location, protocol, index="defaultIndex"):
     if bool(re.search(vcf, file_location)):
         return {
             "type": "VcfAdapter",
-            "vcfLocation": make_location(file_location, protocol),
+            "vcfLocation": make_location(file_location,
+                                         protocol,
+                                         colab=in_colab,
+                                         nb_host=notebook_host,
+                                         nb_port=notebook_port),
         }
 
     # vcf idx
@@ -175,9 +226,17 @@ def guess_adapter_type(file_location, protocol, index="defaultIndex"):
     if bool(re.search(vcf_gzp, file_location)):
         return {
             "type": "VcfTabixAdapter",
-            "vcfGzLocation": make_location(file_location, protocol),
+            "vcfGzLocation": make_location(file_location,
+                                           protocol,
+                                           colab=in_colab,
+                                           nb_host=notebook_host,
+                                           nb_port=notebook_port),
             "index": {
-                "location": make_location(f"{file_location}.tbi", protocol),
+                "location": make_location(f"{file_location}.tbi",
+                                          protocol,
+                                          colab=in_colab,
+                                          nb_host=notebook_host,
+                                          nb_port=notebook_port),
                 "indexType": "CSI"
                 if (index != "defaultIndex" and index.upper().endswith("CSI"))
                 else "TBI",
@@ -188,7 +247,11 @@ def guess_adapter_type(file_location, protocol, index="defaultIndex"):
     if bool(re.search(big_wig, file_location)):
         return {
             "type": "BigWigAdapter",
-            "bigWigLocation": make_location(file_location, protocol),
+            "bigWigLocation": make_location(file_location,
+                                            protocol,
+                                            colab=in_colab,
+                                            nb_host=notebook_host,
+                                            nb_port=notebook_port),
         }
     # bed
     if bool(re.search(bed, file_location)):
@@ -200,9 +263,17 @@ def guess_adapter_type(file_location, protocol, index="defaultIndex"):
     if bool(re.search(bed_tabix, file_location)):
         return {
             "type": "BedTabixAdapter",
-            "bedGzLocation": make_location(file_location, protocol),
+            "bedGzLocation": make_location(file_location,
+                                           protocol,
+                                           colab=in_colab,
+                                           nb_host=notebook_host,
+                                           nb_port=notebook_port),
             "index": {
-                "location": make_location(f"{file_location}.tbi", protocol),
+                "location": make_location(f"{file_location}.tbi",
+                                          protocol,
+                                          colab=in_colab,
+                                          nb_host=notebook_host,
+                                          nb_port=notebook_port),
                 "indexType": "CSI"
                 if (index != "defaultIndex" and index.upper().endswith("CSI"))
                 else "TBI",
@@ -213,7 +284,11 @@ def guess_adapter_type(file_location, protocol, index="defaultIndex"):
     if bool(re.search(big_bed, file_location)):
         return {
             "type": "BigBedAdapter",
-            "bigBedLocation": make_location(file_location, protocol),
+            "bigBedLocation": make_location(file_location,
+                                            protocol,
+                                            colab=in_colab,
+                                            nb_host=notebook_host,
+                                            nb_port=notebook_port),
         }
 
     # fasta indexed
@@ -221,24 +296,47 @@ def guess_adapter_type(file_location, protocol, index="defaultIndex"):
         fai = index if index != "defaultIndex" else f"{file_location}.fai"
         return {
             "type": "IndexedFastaAdapter",
-            "fastaLocation": make_location(file_location, protocol),
-            "faiLocation": make_location(fai, protocol),
+            "fastaLocation": make_location(file_location,
+                                           protocol,
+                                           colab=in_colab,
+                                           nb_host=notebook_host,
+                                           nb_port=notebook_port),
+            "faiLocation": make_location(fai, protocol,
+                                         colab=in_colab,
+                                         nb_host=notebook_host,
+                                         nb_port=notebook_port),
         }
 
     # Bgzipped fasta
     if bool(re.search(fasta_gz, file_location)):
         return {
             "type": "BgzipFastaAdapter",
-            "fastaLocation": make_location(file_location, protocol),
-            "faiLocation": make_location(f"{file_location}.fai", protocol),
-            "gziLocation": make_location(f"{file_location}.gzi", protocol),
+            "fastaLocation": make_location(file_location,
+                                           protocol,
+                                           colab=in_colab,
+                                           nb_host=notebook_host,
+                                           nb_port=notebook_port),
+            "faiLocation": make_location(f"{file_location}.fai",
+                                         protocol,
+                                         colab=in_colab,
+                                         nb_host=notebook_host,
+                                         nb_port=notebook_port),
+            "gziLocation": make_location(f"{file_location}.gzi",
+                                         protocol,
+                                         colab=in_colab,
+                                         nb_host=notebook_host,
+                                         nb_port=notebook_port),
         }
 
     # twobit
     if bool(re.search(twobit, file_location)):
         return {
             "type": "TwoBitAdapter",
-            "twoBitLocation": make_location(file_location, protocol),
+            "twoBitLocation": make_location(file_location,
+                                            protocol,
+                                            colab=in_colab,
+                                            nb_host=notebook_host,
+                                            nb_port=notebook_port),
         }
     # sizes
     if bool(re.search(sizes, file_location)):
@@ -249,27 +347,43 @@ def guess_adapter_type(file_location, protocol, index="defaultIndex"):
     if bool(re.search(nclist, file_location)):
         return {
             "type": "NCListAdapter",
-            "rootUrlTemplate": make_location(file_location, protocol),
+            "rootUrlTemplate": make_location(file_location,
+                                             protocol,
+                                             colab=in_colab,
+                                             nb_host=notebook_host,
+                                             nb_port=notebook_port),
         }
 
     # sparql
     if bool(re.search(sparql, file_location)):
         return {
             "type": "SPARQLAdapter",
-            "endpoint": make_location(file_location, protocol),
+            "endpoint": make_location(file_location,
+                                      protocol,
+                                      colab=in_colab,
+                                      nb_host=notebook_host,
+                                      nb_port=notebook_port),
         }
     # hic
     if bool(re.search(hic, file_location)):
         return {
             "type": "HicAdapter",
-            "hicLocation": make_location(file_location, protocol),
+            "hicLocation": make_location(file_location,
+                                         protocol,
+                                         colab=in_colab,
+                                         nb_host=notebook_host,
+                                         nb_port=notebook_port),
         }
 
     # paf
     if bool(re.search(paf, file_location)):
         return {
             "type": "PAFAdapter",
-            "pafLocation": make_location(file_location, protocol),
+            "pafLocation": make_location(file_location,
+                                         protocol,
+                                         colab=in_colab,
+                                         nb_host=notebook_host,
+                                         nb_port=notebook_port),
         }
 
     return {

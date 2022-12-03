@@ -14,6 +14,8 @@ Welcome to JBrowse Jupyter's documentation!
    modules
    tutorial
    contact
+   features
+   local 
    faq
 
 Indices and tables

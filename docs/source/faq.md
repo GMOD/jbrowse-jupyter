@@ -32,8 +32,20 @@
 ![Custom Palette](https://github.com/GMOD/jbrowse-jupyter/raw/main/images/custom_palette.png)
 
 * Can I use local files/my own data?
-    - There are a couple of ways in which you can configure and use your own data from your local environment in jbrowse views. 
-        1.  make use of the jupyter notebook server as shown in the local_support.ipynb 
-        2. launch your own http server with CORS which will enable you to use local files in Google Colab notebooks and binder notebooks
+    - Yes, there are a couple of ways in which you can configure and use your own data from your local environment in jbrowse views. 
+        1. Make use of the jupyter notebook/lab server. Intended for those running their notebooks with jupyter lab or jupyter notebook.
+        2. Launch your own http server with CORS which will enable you to use local files. You can run our serve.py to launch our dev server. 
+    (Checkout our local_support.ipynb for tutorials on how to use your own data)
 
-    **_Note_:** that these solutions are recommended for your development environments and not supported in production.
+> **Note**: These solutions are recommended for your development environments and not supported in production.
+* I am running a colab notebook/binder notebook and wish to use my local data, how can I do this? 
+    - You can run JBrowse dev server to serve local files to use in your JBrowse views. More information on the dev server can be found in the local file support section of this readme.
+
+* My paths are not working?
+    - If you are using paths, make sure you are in a jupyter environment (Jupyter lab or jupyter notebook). Additionally, make sure that the port and host match the ones in your config. If they are different, use the set_env(notebook_host, notebook_port) to change the default port and host used by JBrowse to configure paths in jupyter.
+
+* My data says it's is loading and never loads?
+    - If your view shows that it is loading and never loads, it could be a fetch error or CORS.
+        - the JBrowse Dev Server has CORS enabled.
+    - Make sure that your alias is correctly configured. Data that never loads could also indicate that the format is correct, but will not display anything for it if the assembly does not match.
+    - Data that never loads could also indicate that the port and host do not match where your data is hosted when using paths in jupyter envs

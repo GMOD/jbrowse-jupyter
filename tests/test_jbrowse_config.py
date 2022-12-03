@@ -50,12 +50,15 @@ def test_set_assembly():
             name="test-demo",
         )
     assert "Please set the assembly before adding a track." in str(excinfo)
-    # raises an error, there is no local file support yet
+    # raises an error, there is no local path support in non jupyter envs
     with pytest.raises(TypeError) as excinfo:
-        conf.set_assembly("./path/to/local/file")
-    err = "Provide a url for your index file." \
-        "Checkout our local file support docs."
-    assert err in str(excinfo)
+        conf.set_assembly("/hi/there")
+    err = (f'Path {"/hi/there"} for assembly data is used'
+           ' in an unsupported environment.'
+           'Paths are supported in Jupyter notebooks and Jupyter lab.'
+           'Please use a url for your assembly data. You can check out '
+           'our local file support docs for more information')
+    assert err == excinfo.value.args[0]
     aliases = ["hg38"]
     uri = "https://s3.amazonaws.com/jbrowse.org/genomes/" \
         "GRCh38/hg38_aliases.txt"
@@ -200,16 +203,6 @@ def test_create_view_from_conf():
     # can delete a track
     hg19_from_config.delete_track("delete-test")
     assert len(hg19_from_config.get_tracks()) == 0
-    # can set text search adapter
-    index_error = "Provide a url for your index file."\
-        "Checkout our local file support docs."
-    with pytest.raises(TypeError) as excinfo:
-        hg19_from_config.add_text_search_adapter(
-            './path/to/ixname.ix',
-            "https://path/to/ixxname.ixx",
-            "https://path/to/meta.json"
-        )
-    assert index_error in str(excinfo)
     hg19_from_config.add_text_search_adapter(ix, ixx, meta)
 
     adapter_list = hg19_from_config.get_text_search_adapters()
@@ -234,6 +227,9 @@ def test_empty_config_lgv():
     with pytest.raises(Exception) as excinfo:
         empty_conf.get_assembly_name()
     assert assembly_error in str(excinfo)
+    empty_conf.set_env("localhost", 9999)
+    current_env = empty_conf.get_env()
+    assert current_env[1] == 9999
 
 
 def test_empty_cgv():
@@ -257,6 +253,8 @@ def test_create_view_cgv():
     # creates JBrowseConfig from default hg19 or hg38
     hg19 = create("CGV", genome="hg19")
     hg38 = create("CGV", genome="hg38")
+    in_colab = hg19.colab
+    assert not in_colab
     assert hg19.get_assembly_name() == "hg19"
     assert len(hg19.get_tracks()) > 0
     assert hg19.get_default_session()
