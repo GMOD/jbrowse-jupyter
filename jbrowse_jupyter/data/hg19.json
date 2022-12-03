@@ -65,19 +65,5 @@
             ]
         }
     },
-    "location": "1:68654694..68654738",
-    "internet_accounts": [
-        {
-        "type": "ColabLocalFileInternetAccount",
-        "internetAccountId": "colabLocalFile",
-        "name": "Colab",
-        "description": "Account to access local files in Colab"
-        },
-        {
-        "type": "JupyterNotebookLocalFileInternetAccount",
-        "internetAccountId": "jupyterLocalFile",
-        "name": "Jupyter",
-        "description": "Account to access local files in Jupyter notebook"
-        }
-    ]
+    "location": "1:68654694..68654738"
 }

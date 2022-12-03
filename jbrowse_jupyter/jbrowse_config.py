@@ -118,7 +118,6 @@ class JBrowseConfig:
             "configuration": {
                 "theme": {}
             },
-            # internetAccounts
         }
         if conf is not None:
             for r in default.keys():
