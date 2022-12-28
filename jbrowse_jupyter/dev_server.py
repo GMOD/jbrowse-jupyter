@@ -121,7 +121,7 @@ class CustomRequestHandler (SimpleHTTPRequestHandler):
         return fullpath
 
     def do_OPTIONS(self):
-        self.sendResponse(200)
+        self.send_response(200)
         
     def do_GET(self):
         self.send_response(200)
