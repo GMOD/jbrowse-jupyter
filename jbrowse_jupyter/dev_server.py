@@ -108,23 +108,25 @@ class CustomRequestHandler (SimpleHTTPRequestHandler):
 
     def end_headers(self):
         self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
         self.send_header('Access-Control-Expose-Headers', '*')
         self.send_header('Accept-Ranges', 'bytes')
         self.send_header('Content-Type', 'application/octet-stream')
         SimpleHTTPRequestHandler.end_headers(self)
 
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.end_headers()
+
+    # def do_GET(self):
+    #     self.end_headers()
+        
     def translate_path(self, path):
         path = SimpleHTTPRequestHandler.translate_path(self, path)
         relpath = os.path.relpath(path, os.getcwd())
         fullpath = os.path.join(self.server.base_path, relpath)
         return fullpath
 
-    def do_OPTIONS(self):
-        self.send_response(200)
-        
-    def do_GET(self):
-        self.send_response(200)
 
 class DevServer(HTTPServer):
     def __init__(self, base_path, server_address,
