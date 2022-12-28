@@ -121,20 +121,17 @@ class CustomRequestHandler (SimpleHTTPRequestHandler):
         fullpath = os.path.join(self.server.base_path, relpath)
         return fullpath
 
+    def do_OPTIONS(self):
+        self.send_head()
+
+    def do_GET(self):
+        self.send_head()
 
 class DevServer(HTTPServer):
     def __init__(self, base_path, server_address,
                  RequestHandlerClass=CustomRequestHandler):
         self.base_path = base_path
         HTTPServer.__init__(self, server_address, RequestHandlerClass)
-
-    def do_OPTIONS(self):
-        self.send_response(200, "ok")
-        self.end_headers()
-
-    def do_GET(self):
-        self.send_response(200, "ok")
-        self.end_headers()
 
 def serve(data_path, **kwargs):
     """
