@@ -108,7 +108,7 @@ class CustomRequestHandler (SimpleHTTPRequestHandler):
 
     def end_headers(self):
         self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
+        self.send_header('Access-Control-Allow-Methods', '*')
         self.send_header('Access-Control-Expose-Headers', '*')
         self.send_header('Accept-Ranges', 'bytes')
         self.send_header('Content-Type', 'application/octet-stream')
