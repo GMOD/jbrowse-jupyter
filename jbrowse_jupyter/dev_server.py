@@ -114,12 +114,6 @@ class CustomRequestHandler (SimpleHTTPRequestHandler):
         self.send_header('Content-Type', 'application/octet-stream')
         SimpleHTTPRequestHandler.end_headers(self)
 
-    def do_OPTIONS(self):
-        self.send_response(200)
-        self.end_headers()
-
-    # def do_GET(self):
-    #     self.end_headers()
         
     def translate_path(self, path):
         path = SimpleHTTPRequestHandler.translate_path(self, path)
@@ -134,6 +128,13 @@ class DevServer(HTTPServer):
         self.base_path = base_path
         HTTPServer.__init__(self, server_address, RequestHandlerClass)
 
+    def do_OPTIONS(self):
+        self.send_response(200, "ok")
+        self.end_headers()
+
+    def do_GET(self):
+        self.send_response(200, "ok")
+        self.end_headers()
 
 def serve(data_path, **kwargs):
     """
