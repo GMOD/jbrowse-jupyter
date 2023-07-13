@@ -1,4 +1,4 @@
-name: Publish Python 🐍 distributions 📦 PyPI
+name: Publish to PyPI
 # Controls when the action will run.
 on:
   # Triggers the workflow when a release is created
@@ -11,9 +11,9 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.6'
       - name: Install dependencies
