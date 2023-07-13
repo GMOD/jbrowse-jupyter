@@ -8,13 +8,13 @@ for getting started with conda.
 
 ## Development
 
-1. Clone this directory and cd into jbrowse-jupyter
+### Clone this directory and cd into jbrowse-jupyter
 
 ```
 $ cd jbrowse-jupyter
 ```
 
-2. Create a conda environment and install the dependencies
+### Create a conda environment and install the dependencies
 
 ```
 $ conda create -n myenv
@@ -24,19 +24,19 @@ $ python -m pip install -r requirements.txt
 
 This command will create a conda env with python 3.6.
 
-3. Now you are ready to run the the example
+### Run the the example
 
 ```
 $ python browser.py
 ```
 
-4. For development with jupyter lab or jupyter notebooks, install jupyter lab or
-   jupyter notebook following [these docs](https://jupyter.org/install) More
-   about configuring your
-   [jupyter notebook env](https://softwarejargon.com/jupyterlab-and-conda-environment-installation-and-setup/).
+### For development with jupyter lab or jupyter notebooks
 
-5. You can now test the package by installing it in dev mode. This command will
-   install the package in dev mode
+Install jupyter lab or jupyter notebook following
+[these docs](https://jupyter.org/install) More about configuring your
+[jupyter notebook env](https://softwarejargon.com/jupyterlab-and-conda-environment-installation-and-setup/).
+
+### Test package in dev mode
 
 ```
 $ python -m pip install -e .
@@ -54,8 +54,9 @@ This will display the list of packages in your conda env. Look for the
 You can read more about working in
 [development mode here](https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/#working-in-development-mode).
 
-6. For testing the package in another environment, you can pip install a
-   specific branch with this command
+### Testing the package in other environments
+
+You can pip install a specific branch with this command
 
 ```
 $ pip install git+https://github.com/GMOD/jbrowse-jupyter.git@branch
@@ -82,12 +83,13 @@ from the root of this repo to see any lint errors
 
 ## Sphinx Docs
 
-https://gmod.github.io/jbrowse-jupyter/ We store the docs in `docs/` directory.
-Our docs are created with Sphinx. Check
+https://gmod.github.io/jbrowse-jupyter/
+
+We store the docs in `docs/` directory. Our docs are created with Sphinx. Check
 [this](https://www.sphinx-doc.org/en/master/contents.html) out for Sphinx
 documentation.
 
-First,
+### Generate docs
 
 ```
 $ cd docs
@@ -96,7 +98,7 @@ $ cd docs
 You should see a requirements.txt,a Makefile, a make.bat file, the source/
 directory, the docs/ directory which stores the build etc.
 
-1. Create an environment and install the dependencies.
+### Create an environment and install the dependencies.
 
 ```
 $ conda create -n myenv
@@ -104,10 +106,10 @@ $ source activate myenv
 $ python -m pip install -r requirements.txt
 ```
 
-2. Now you are ready to make modifications. Make any modifications to the docs
-   in the `source` directory
-   - the main entry point for the docs is the source/index.rst
-3. After making any modifications,
+### Make any modifications to the docs in the `source` directory
+
+The main entry point for the docs is the source/index.rst After making any
+modifications,
 
 ```
 $ make clean
@@ -130,8 +132,10 @@ and docs/make.bat files.
 directory stores the build of the docs when running make html. The source child
 directory stores the actualy configuration and contents of the sphinx docs.
 
-5. To view your changes, you can checkout `docs/docs/html/index.html`
-6. When you are ready to publish any changes, make a PR against the gh-pages
-   branch. We host our sphinx docs in github pages, and pushing to the gh-pages
-   will publish the updated docs. Once those are published, you can check out
-   this link to view your live docs https://gmod.github.io/jbrowse-jupyter/
+## View your changes at `docs/docs/html/index.html`
+
+## Publish docs by making a PR against the gh-pages
+
+We host our sphinx docs in github pages, and pushing to the gh-pages will
+publish the updated docs. Once those are published, you can check out this link
+to view your live docs https://gmod.github.io/jbrowse-jupyter/

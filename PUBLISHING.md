@@ -1,6 +1,20 @@
 ## Publishing
 
-### Testing release in test PyPI
+General publishing involves creating a new tag
+
+```bash
+# e.g.
+git tag v1.2.3
+git push --tags
+```
+
+And then going to https://github.com/GMOD/jbrowse-jupyter/tags and doing "create
+release" from the new tag. Then a github action will automatically create the
+tags
+
+The below is just for when you don't want to use the github actions process
+
+### Testing release in test PyPI without github action
 
 1. Create an account with [test PyPI](https://test.pypi.org/) and
    `pip install twine`
@@ -67,37 +81,6 @@ This will upload to pypi. The command will prompt you for your username. Simply
 enter `__token__` and paste the API token that you generated for step 2. 8. Test
 that it works by pip installing in a new env and running the python app. 10. Add
 your tar and wheel files to your github release, and link to the new version on
-pypi. 11. Publish the github release.
+pypi.
 
-## Maintenance
-
-This package depends on `Dash JBrowse`. The repo can be found
-[here](https://github.com/GMOD/dash_jbrowse). The [Dash JBrowse] package
-currently has a dependency on the JBrowse React Linear Genome View npm package.
-In order to keep up with the dependencies, the version of the Browse React
-Linear Genome View npm package was set up to allow newer versions. If there are
-any breaking changes, we will need to update the version in Dash JBrowse
-
-1. Checkout the
-   [dash_jbrowse](https://github.com/GMOD/dash_jbrowse/blob/main/CONTRIBUTING.md)
-   repo
-2. install the dependencies with npm
-3. Update the
-   [JBrowse React Linear Genome View npm package](https://www.npmjs.com/package/@jbrowse/react-linear-genome-view)
-4. Make sure the package.json was updated with the latest version of the React
-   Linear Genome View package
-5. Test everything works appropriately by running
-
-```
-$ npm run build
-$ python usage.py
-```
-
-Verify the app works appropriately Run the tests and make a pr to main. We can
-draft a release following the contributing docs found
-[here](https://github.com/GMOD/dash_jbrowse/blob/main/CONTRIBUTING.md)
-
-6. Now you can update this package and upgrade the python dash-jbrowse package
-   dependency to the latest version of dash jbrowse.
-7. Follow the release steps mentioned above for jupyter jbrowse
-8. Test that everything works as expected, and you are done!
+11. Publish the github release.
