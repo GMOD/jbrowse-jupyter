@@ -10,7 +10,7 @@ from jupyter_dash import JupyterDash
 
 def is_url(filePath):
     """
-    Checks wether or not the file path
+    Checks whether or not the file path
     is a valid url.
     :param str filePath: file path/url
     :return: returns true if path matches pattern starting with
@@ -58,7 +58,7 @@ def get_name_regex(assembly_file):
 
 
 def get_default(name, view_type="LGV"):
-    """Returns the configuration oject given a genome name."""
+    """Returns the configuration object given a genome name."""
     base = pkg_resources.resource_filename("jbrowse_jupyter", "data")
     file_name = f'{base}/{name}.json'
     if view_type == "CGV":

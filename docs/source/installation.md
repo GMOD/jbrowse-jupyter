@@ -12,7 +12,7 @@ Clone the GMOD/jbrowse-jupyter
 [repository](https://github.com/GMOD/jbrowse-jupyter) and
 [install conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html).
 Once you have conda installed, follow the steps found below to create a conda
-envirnment and install the dependecies.
+environment and install the dependencies.
 
 ```
 $ cd jbrowse-jupyter
@@ -58,7 +58,7 @@ For more information about Dash and Dash applications check out these articles.
 - [Dash Applications](https://dash.plotly.com/layout) how to get started to
   custumize Dash applications.
 - [Dash HTML components](https://dash.plotly.com/dash-html-components) Dash html
-  components to build the Dash aplication layout.
+  components to build the Dash application layout.
 - [DashJupyter](https://github.com/plotly/jupyter-dash) library to enable
   embedding Dash components in jupyter notebooks.
 - [DashJbrowse](https://github.com/GMOD/dash_jbrowse) suite of Dash components

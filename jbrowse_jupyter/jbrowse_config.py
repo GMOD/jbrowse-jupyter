@@ -219,7 +219,7 @@ class JBrowseConfig:
             defaults to name generated from assembly_data file name
         :param list aliases: (optional) list of aliases for the assembly
         :param obj refname_aliases: (optional) config for refname aliases.
-        :param str overwrite: flag wether or not to overwrite
+        :param str overwrite: flag whether or not to overwrite
             existing assembly, default to False.
         :raises TypeError: Paths are only supported in jupyter.
         :raises TypeError: adapter used for file type is not supported or
@@ -366,7 +366,7 @@ class JBrowseConfig:
         :param track_data: panda DataFrame with the track data.
         :param str name: name for the track.
         :param str track_id: (optional) trackId for the track
-        :param str overwrite: flag wether or not to overwrite existing track.
+        :param str overwrite: flag whether or not to overwrite existing track.
         :raises Exception: if assembly has not been configured.
         :raises TypeError: if track data is invalid
         :raises TypeError: if view is not LGV
@@ -577,7 +577,7 @@ class JBrowseConfig:
         Deletes a track from the config.
 
         e.g:
-        delte_track("test_track_id")
+        delete_track("test_track_id")
 
         Will delete track with track_id test_track_id.
 

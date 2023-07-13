@@ -26,7 +26,7 @@ the JBrowse view.
 - ipyIgv [documentation](https://github.com/QuantStack/ipyigv)
 - D3GB [documentation](http://d3gb.usal.es/index.html)
 - PygBrowse [documentation](https://github.com/phageghost/python-genome-browser)
-- Gosling [documentaiton](https://github.com/gosling-lang/gosling.js)
+- Gosling [documentation](https://github.com/gosling-lang/gosling.js)
 - Gos [documentation](https://gosling-lang.github.io/gos/)
 - Mango
   [documentation](https://bdg-mango.readthedocs.io/en/latest/jupyterWidgets/usage.html)

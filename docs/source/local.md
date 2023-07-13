@@ -70,7 +70,7 @@ Urls for file `data1.gff.gz` and `data2.gff.gz.tbi` would be in the form
 - `http://localhost:8888/files/data2.gff.gz.tbi` Note that you do not need to
   add lab or tree to this url.
 
-You can use these urls. For example, you could add a track with thse urls like
+You can use these urls. For example, you could add a track with these urls like
 this:
 
 ```python

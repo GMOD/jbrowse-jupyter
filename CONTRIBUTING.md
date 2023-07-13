@@ -130,7 +130,7 @@ and docs/make.bat files.
 
 **_Note:_** there parent docs directory stores all the docs. The docs child
 directory stores the build of the docs when running make html. The source child
-directory stores the actualy configuration and contents of the sphinx docs.
+directory stores the actually configuration and contents of the sphinx docs.
 
 ## View your changes at `docs/docs/html/index.html`
 

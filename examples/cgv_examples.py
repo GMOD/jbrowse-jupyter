@@ -81,7 +81,7 @@ my_default_session = {
     },
 }
 
-# ===== Aproach 1 ======
+# ===== Approach 1 ======
 
 # Creating my own conf obj to use when creating a JBrowseConfig
 config = {
@@ -91,14 +91,14 @@ config = {
 }
 cgv_with_conf = create(view_type="CGV", conf=config)
 component = create_component(cgv_with_conf.get_config(), dash_comp="CGV")
-# ===== Aproach 2 ======
+# ===== Approach 2 ======
 
 # Using one of the provided default genomes
 cvg_default = create("CGV", genome="hg19").get_config()
 component2 = create_component(cvg_default, id="test2", dash_comp="CGV")
 
 
-# ===== Aproach 3 ======
+# ===== Approach 3 ======
 
 # Using the JBrowseConfig API to build a CGV conf from scratch
 cgv_with_api = create(view_type="CGV")

@@ -41,7 +41,7 @@ def make_url_colab_jupyter(location, **kwargs):
 
 
 def supported_track_type(track_type):
-    """Checks wether or not the given track type is supported."""
+    """Checks whether or not the given track type is supported."""
     return track_type in {
         "AlignmentsTrack",
         "QuantitativeTrack",
@@ -428,7 +428,7 @@ def check_track_data(df):
 
 def check_columns(df):
     """
-    Checks wether dataframe contains the required columns.
+    Checks whether dataframe contains the required columns.
 
     :param df: the data frame with track data.
     :return: whether or not df contains all the required columns.
@@ -464,7 +464,7 @@ def get_track_data(df):
 
     :param df: the data frame with track data.
     :return: features
-    :rtype: ist[obj]
+    :rtype: list[obj]
     """
     required = ["refName", "start", "end", "name", "additional", "type"]
     df["type"] = ""

@@ -227,7 +227,7 @@ JBrowseConfig().
   - params:
     - df – pandas DataFrame with the track data.
     - name (str) – (optional) name for the track
-    - overwrite (str) – (optional) flag wether or not to overwrite existing
+    - overwrite (str) – (optional) flag whether or not to overwrite existing
       track.
     - track_id (str) - (optional) trackId for the track
 
@@ -346,7 +346,7 @@ Urls for file `data1.gff.gz` and `data2.gff.gz.tbi` would be in the form
 - `http://localhost:8888/files/data2.gff.gz.tbi` Note that you do not need to
   add lab or tree to this url.
 
-You can use these urls. For example, you could add a track with thse urls like
+You can use these urls. For example, you could add a track with these urls like
 this:
 
 ```python
@@ -478,7 +478,7 @@ support for local files is only available when running notebook in Jupyter lab
 and Jupyter notebook. Local file support in colab and binder is available by
 running the JBrowse dev server to host your data and creating urls to pass to
 the JBrowse view. More information available in the
-[local file suport section of this readme](#Local-file-support)
+[local file support section of this readme](#Local-file-support)
 
 - For more features of the JBrowse and JBrowse embedded components checkout
   [our documentation](https://jbrowse.org/jb2/docs/embedded_components/)
@@ -487,7 +487,7 @@ the JBrowse view. More information available in the
 - ipyIgv [documentation](https://github.com/QuantStack/ipyigv)
 - D3GB [documentation](http://d3gb.usal.es/index.html)
 - PygBrowse [documentation](https://github.com/phageghost/python-genome-browser)
-- Gosling [documentaiton](https://github.com/gosling-lang/gosling.js)
+- Gosling [documentation](https://github.com/gosling-lang/gosling.js)
 - Gos [documentation](https://gosling-lang.github.io/gos/)
 - Mango
   [documentation](https://bdg-mango.readthedocs.io/en/latest/jupyterWidgets/usage.html)
@@ -502,7 +502,7 @@ the JBrowse view. More information available in the
 - [Dash Applications](https://dash.plotly.com/layout) how to get started to
   custumize Dash applications.
 - [Dash HTML components](https://dash.plotly.com/dash-html-components) Dash html
-  components to build the Dash aplication layout.
+  components to build the Dash application layout.
 - [Dash Jupyter](https://github.com/plotly/jupyter-dash) library to enable
   embedding Dash components in jupyter notebooks.
 - [Dash Jbrowse](https://github.com/GMOD/dash_jbrowse) suite of Dash components
