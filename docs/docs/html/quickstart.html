@@ -1,119 +1,325 @@
-<!DOCTYPE html>
-<html class="writer-html5" lang="en" >
-<head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<!doctype html>
+<html class="writer-html5" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="generator"
+      content="Docutils 0.17.1: http://docutils.sourceforge.net/"
+    />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quickstart &mdash; JBrowse Jupyter</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quickstart &mdash; JBrowse Jupyter</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <!--[if lt IE 9]>
+      <script src="_static/js/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <script
+      data-url_root="./"
+      id="documentation_options"
+      src="_static/documentation_options.js"
+    ></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Reference" href="modules.html" />
-    <link rel="prev" title="Installation" href="installation.html" /> 
-</head>
+    <link rel="prev" title="Installation" href="installation.html" />
+  </head>
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> JBrowse Jupyter
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#jupyter-notebook">Jupyter Notebook</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#python-dash-application">Python Dash Application</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorials and Demos</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact us</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html">JBrowse Jupyter vs Other tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="local.html">Local file support</a></li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
-</ul>
-
+  <body class="wy-body-for-nav">
+    <div class="wy-grid-for-nav">
+      <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+        <div class="wy-side-scroll">
+          <div class="wy-side-nav-search">
+            <a href="index.html" class="icon icon-home"> JBrowse Jupyter </a>
+            <div role="search">
+              <form
+                id="rtd-search-form"
+                class="wy-form"
+                action="search.html"
+                method="get"
+              >
+                <input type="text" name="q" placeholder="Search docs" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+            </div>
+          </div>
+          <div
+            class="wy-menu wy-menu-vertical"
+            data-spy="affix"
+            role="navigation"
+            aria-label="Navigation menu"
+          >
+            <ul class="current">
+              <li class="toctree-l1">
+                <a class="reference internal" href="installation.html"
+                  >Installation</a
+                >
+              </li>
+              <li class="toctree-l1 current">
+                <a class="current reference internal" href="#">Quickstart</a>
+                <ul>
+                  <li class="toctree-l2">
+                    <a class="reference internal" href="#jupyter-notebook"
+                      >Jupyter Notebook</a
+                    >
+                  </li>
+                  <li class="toctree-l2">
+                    <a
+                      class="reference internal"
+                      href="#python-dash-application"
+                      >Python Dash Application</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="toctree-l1">
+                <a class="reference internal" href="modules.html">Reference</a>
+              </li>
+              <li class="toctree-l1">
+                <a class="reference internal" href="tutorial.html"
+                  >Tutorials and Demos</a
+                >
+              </li>
+              <li class="toctree-l1">
+                <a class="reference internal" href="contact.html">Contact us</a>
+              </li>
+              <li class="toctree-l1">
+                <a class="reference internal" href="features.html"
+                  >JBrowse Jupyter vs Other tools</a
+                >
+              </li>
+              <li class="toctree-l1">
+                <a class="reference internal" href="local.html"
+                  >Local file support</a
+                >
+              </li>
+              <li class="toctree-l1">
+                <a class="reference internal" href="faq.html">FAQ</a>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">JBrowse Jupyter</a>
       </nav>
 
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Quickstart</li>
-      <li class="wy-breadcrumbs-aside">
-            <a href="_sources/quickstart.md.txt" rel="nofollow"> View page source</a>
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
-  <section id="quickstart">
-<h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline"></a></h1>
-<p>JBrowse Jupyter is a python package that provides a python interface to JBrowse 2 views.</p>
-<p>The package provides a JBrowseConfig API to facilitate the customization of JBrowse 2 React embeddable component’s state configuration objects. It also provides utility functions to create Dash JBrowse components to embed in Dash applications and others to embed them in jupyter notebooks.</p>
-<p>First,</p>
-<p>install the jupyter-jbrowse package</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install jupyter-jbrowse
-</pre></div>
-</div>
-<section id="jupyter-notebook">
-<h2>Jupyter Notebook<a class="headerlink" href="#jupyter-notebook" title="Permalink to this headline"></a></h2>
-<p>Using the package, we can create a Dash JBrowse LinearGenomeView  to embed in a jupyter cell.</p>
-<ol class="arabic simple">
-<li><p>Import the package’s <code class="docutils literal notranslate"><span class="pre">create</span></code> and <code class="docutils literal notranslate"><span class="pre">launch</span></code> methods.</p></li>
-<li><p>Use the <code class="docutils literal notranslate"><span class="pre">create(view_type,</span> <span class="pre">**kwargs)</span></code> to create a <code class="docutils literal notranslate"><span class="pre">JBrowseConfig</span></code> from one of the provided default assemblies/genomes. Currently providing hg38 and hg19. For more information about the default, you can checkout the data directory in our repo <a class="reference external" href="https://github.com/GMOD/jbrowse-jupyter/tree/doc_updates/jbrowse_jupyter/data">here</a></p>
-<ul class="simple">
-<li><p>for further customization of the config, check functions that the JBrowseConfig provides</p></li>
-</ul>
-</li>
-<li><p>Use the <code class="docutils literal notranslate"><span class="pre">launch</span></code> utility function with the hg38 config to create and launch a Dash JBrowse Linear Genome View in a jupyter notebook cell.</p></li>
-</ol>
-<p><img alt="Launching hg38 LGV in python notebook" src="_images/quickstart.png" />
-<em>Launching a Linear Genome View in Jupyter Notebook</em></p>
-<p><img alt="Launching hg19 CGV in python notebook" src="_images/quickstart2.png" />
-<em>Launching a Circular Genome View in Jupyter Notebook</em></p>
-</section>
-<section id="python-dash-application">
-<h2>Python Dash Application<a class="headerlink" href="#python-dash-application" title="Permalink to this headline"></a></h2>
-<ol class="arabic simple">
-<li><p>Import the package’s <code class="docutils literal notranslate"><span class="pre">create</span></code> and  <code class="docutils literal notranslate"><span class="pre">create_component</span></code></p></li>
-<li><p>Use the <code class="docutils literal notranslate"><span class="pre">create(view_type,</span> <span class="pre">**kwargs)</span></code> to create a <code class="docutils literal notranslate"><span class="pre">JBrowseConfig</span></code> from one of the provided default assemblies/genomes. Currently providing hg38 and hg19. For more information about the default, you can checkout the data directory in our repo <a class="reference external" href="https://github.com/GMOD/jbrowse-jupyter/tree/doc_updates/jbrowse_jupyter/data">here</a></p>
-<ul class="simple">
-<li><p>for further customization of the config, check functions that the JBrowseConfig provides</p></li>
-</ul>
-</li>
-<li><p>Use <code class="docutils literal notranslate"><span class="pre">create_component</span></code> to create a Dash JBrowse Linear Genome View component. The example below uses dash and dash_html_components to create a python application.</p></li>
-</ol>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dash</span> <span class="kn">import</span> <span class="n">html</span><span class="p">,</span> <span class="n">Dash</span>
+      <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+        <nav class="wy-nav-top" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">JBrowse Jupyter</a>
+        </nav>
+
+        <div class="wy-nav-content">
+          <div class="rst-content">
+            <div role="navigation" aria-label="Page navigation">
+              <ul class="wy-breadcrumbs">
+                <li>
+                  <a href="index.html" class="icon icon-home"></a> &raquo;
+                </li>
+                <li>Quickstart</li>
+                <li class="wy-breadcrumbs-aside">
+                  <a href="_sources/quickstart.md.txt" rel="nofollow">
+                    View page source</a
+                  >
+                </li>
+              </ul>
+              <hr />
+            </div>
+            <div
+              role="main"
+              class="document"
+              itemscope="itemscope"
+              itemtype="http://schema.org/Article"
+            >
+              <div itemprop="articleBody">
+                <section id="quickstart">
+                  <h1>
+                    Quickstart<a
+                      class="headerlink"
+                      href="#quickstart"
+                      title="Permalink to this headline"
+                      ></a
+                    >
+                  </h1>
+                  <p>
+                    JBrowse Jupyter is a python package that provides a python
+                    interface to JBrowse 2 views.
+                  </p>
+                  <p>
+                    The package provides a JBrowseConfig API to facilitate the
+                    customization of JBrowse 2 React embeddable component’s
+                    state configuration objects. It also provides utility
+                    functions to create Dash JBrowse components to embed in Dash
+                    applications and others to embed them in jupyter notebooks.
+                  </p>
+                  <p>First,</p>
+                  <p>install the jupyter-jbrowse package</p>
+                  <div class="highlight-default notranslate">
+                    <div class="highlight">
+                      <pre><span></span>$ pip install jupyter-jbrowse
+</pre>
+                    </div>
+                  </div>
+                  <section id="jupyter-notebook">
+                    <h2>
+                      Jupyter Notebook<a
+                        class="headerlink"
+                        href="#jupyter-notebook"
+                        title="Permalink to this headline"
+                        ></a
+                      >
+                    </h2>
+                    <p>
+                      Using the package, we can create a Dash JBrowse
+                      LinearGenomeView to embed in a jupyter cell.
+                    </p>
+                    <ol class="arabic simple">
+                      <li>
+                        <p>
+                          Import the package’s
+                          <code class="docutils literal notranslate"
+                            ><span class="pre">create</span></code
+                          >
+                          and
+                          <code class="docutils literal notranslate"
+                            ><span class="pre">launch</span></code
+                          >
+                          methods.
+                        </p>
+                      </li>
+                      <li>
+                        <p>
+                          Use the
+                          <code class="docutils literal notranslate"
+                            ><span class="pre">create(view_type,</span>
+                            <span class="pre">**kwargs)</span></code
+                          >
+                          to create a
+                          <code class="docutils literal notranslate"
+                            ><span class="pre">JBrowseConfig</span></code
+                          >
+                          from one of the provided default assemblies/genomes.
+                          Currently providing hg38 and hg19. For more
+                          information about the default, you can checkout the
+                          data directory in our repo
+                          <a
+                            class="reference external"
+                            href="https://github.com/GMOD/jbrowse-jupyter/tree/doc_updates/jbrowse_jupyter/data"
+                            >here</a
+                          >
+                        </p>
+                        <ul class="simple">
+                          <li>
+                            <p>
+                              for further customization of the config, check
+                              functions that the JBrowseConfig provides
+                            </p>
+                          </li>
+                        </ul>
+                      </li>
+                      <li>
+                        <p>
+                          Use the
+                          <code class="docutils literal notranslate"
+                            ><span class="pre">launch</span></code
+                          >
+                          utility function with the hg38 config to create and
+                          launch a Dash JBrowse Linear Genome View in a jupyter
+                          notebook cell.
+                        </p>
+                      </li>
+                    </ol>
+                    <p>
+                      <img
+                        alt="Launching hg38 LGV in python notebook"
+                        src="_images/quickstart.png"
+                      />
+                      <em
+                        >Launching a Linear Genome View in Jupyter Notebook</em
+                      >
+                    </p>
+                    <p>
+                      <img
+                        alt="Launching hg19 CGV in python notebook"
+                        src="_images/quickstart2.png"
+                      />
+                      <em
+                        >Launching a Circular Genome View in Jupyter
+                        Notebook</em
+                      >
+                    </p>
+                  </section>
+                  <section id="python-dash-application">
+                    <h2>
+                      Python Dash Application<a
+                        class="headerlink"
+                        href="#python-dash-application"
+                        title="Permalink to this headline"
+                        ></a
+                      >
+                    </h2>
+                    <ol class="arabic simple">
+                      <li>
+                        <p>
+                          Import the package’s
+                          <code class="docutils literal notranslate"
+                            ><span class="pre">create</span></code
+                          >
+                          and
+                          <code class="docutils literal notranslate"
+                            ><span class="pre">create_component</span></code
+                          >
+                        </p>
+                      </li>
+                      <li>
+                        <p>
+                          Use the
+                          <code class="docutils literal notranslate"
+                            ><span class="pre">create(view_type,</span>
+                            <span class="pre">**kwargs)</span></code
+                          >
+                          to create a
+                          <code class="docutils literal notranslate"
+                            ><span class="pre">JBrowseConfig</span></code
+                          >
+                          from one of the provided default assemblies/genomes.
+                          Currently providing hg38 and hg19. For more
+                          information about the default, you can checkout the
+                          data directory in our repo
+                          <a
+                            class="reference external"
+                            href="https://github.com/GMOD/jbrowse-jupyter/tree/doc_updates/jbrowse_jupyter/data"
+                            >here</a
+                          >
+                        </p>
+                        <ul class="simple">
+                          <li>
+                            <p>
+                              for further customization of the config, check
+                              functions that the JBrowseConfig provides
+                            </p>
+                          </li>
+                        </ul>
+                      </li>
+                      <li>
+                        <p>
+                          Use
+                          <code class="docutils literal notranslate"
+                            ><span class="pre">create_component</span></code
+                          >
+                          to create a Dash JBrowse Linear Genome View component.
+                          The example below uses dash and dash_html_components
+                          to create a python application.
+                        </p>
+                      </li>
+                    </ol>
+                    <div class="highlight-python notranslate">
+                      <div class="highlight">
+                        <pre><span></span><span class="kn">from</span> <span class="nn">dash</span> <span class="kn">import</span> <span class="n">html</span><span class="p">,</span> <span class="n">Dash</span>
 <span class="kn">from</span> <span class="nn">jbrowse_jupyter</span> <span class="kn">import</span> <span class="n">create</span><span class="p">,</span> <span class="n">create_component</span>
 
 <span class="n">app</span> <span class="o">=</span> <span class="n">Dash</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -132,42 +338,78 @@
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">app</span><span class="o">.</span><span class="n">run_server</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">8081</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-</pre></div>
-</div>
-<p><img alt="Launching hg38 LGV in python dash app" src="_images/python_app_conf.png" />
-<em>Launching a Linear Genome View in python Dash application</em></p>
-</section>
-</section>
+</pre>
+                      </div>
+                    </div>
+                    <p>
+                      <img
+                        alt="Launching hg38 LGV in python dash app"
+                        src="_images/python_app_conf.png"
+                      />
+                      <em
+                        >Launching a Linear Genome View in python Dash
+                        application</em
+                      >
+                    </p>
+                  </section>
+                </section>
+              </div>
+            </div>
+            <footer>
+              <div
+                class="rst-footer-buttons"
+                role="navigation"
+                aria-label="Footer"
+              >
+                <a
+                  href="installation.html"
+                  class="btn btn-neutral float-left"
+                  title="Installation"
+                  accesskey="p"
+                  rel="prev"
+                  ><span
+                    class="fa fa-arrow-circle-left"
+                    aria-hidden="true"
+                  ></span>
+                  Previous</a
+                >
+                <a
+                  href="modules.html"
+                  class="btn btn-neutral float-right"
+                  title="Reference"
+                  accesskey="n"
+                  rel="next"
+                  >Next
+                  <span
+                    class="fa fa-arrow-circle-right"
+                    aria-hidden="true"
+                  ></span
+                ></a>
+              </div>
 
+              <hr />
 
-           </div>
+              <div role="contentinfo">
+                <p>
+                  &#169; Copyright 2021, Teresa De Jesus Martinez, JBrowse Team.
+                </p>
+              </div>
+
+              Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using
+              a
+              <a href="https://github.com/readthedocs/sphinx_rtd_theme"
+                >theme</a
+              >
+              provided by <a href="https://readthedocs.org">Read the Docs</a>.
+            </footer>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="modules.html" class="btn btn-neutral float-right" title="Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright 2021, Teresa De Jesus Martinez, JBrowse Team.</p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
         </div>
-      </div>
-    </section>
-  </div>
-  <script>
+      </section>
+    </div>
+    <script>
       jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
-
-</body>
+        SphinxRtdTheme.Navigation.enable(true)
+      })
+    </script>
+  </body>
 </html>

@@ -7,26 +7,26 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     steps:
-     - uses: actions/checkout@v2
-     - name: Set up Python
-       uses: actions/setup-python@v2
-       with:
-         python-version: '3.6'
-     - name: Install dependencies
-       run: |
-         python3 -m pip install --upgrade pip
-         python3 -m pip install setuptools wheel twine
-         pip install -r requirements.txt
-         pip install pytest
-     - name: Test with pytest
-       run: |
-         pytest tests -v
-     - name: Build and publish to TestPyPI
-       run: |
-         # Install the package from setup.py
-         python3 setup.py install
-         python3 setup.py sdist bdist_wheel
-         python3 -m twine upload --skip-existing --repository-url https://test.pypi.org/legacy/ dist/*
-       env:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.6'
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install setuptools wheel twine
+          pip install -r requirements.txt
+          pip install pytest
+      - name: Test with pytest
+        run: |
+          pytest tests -v
+      - name: Build and publish to TestPyPI
+        run: |
+          # Install the package from setup.py
+          python3 setup.py install
+          python3 setup.py sdist bdist_wheel
+          python3 -m twine upload --skip-existing --repository-url https://test.pypi.org/legacy/ dist/*
+        env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.TWINE_TEST_TOKEN }}
