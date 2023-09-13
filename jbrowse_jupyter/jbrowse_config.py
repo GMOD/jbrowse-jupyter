@@ -161,7 +161,7 @@ class JBrowseConfig:
         print("notebook host: ", self.nb_host)
         print("notebook scheme: ", self.nb_scheme)
         
-        return self.nb_host, self.nb_port, nb_scheme
+        return nb_scheme, self.nb_host, self.nb_port 
 
     def set_env(self, notebook_scheme="http", notebook_host="localhost", notebook_port=8888):
         """
