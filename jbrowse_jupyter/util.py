@@ -3,10 +3,8 @@ import os
 import json
 import pkg_resources
 import dash_jbrowse as jb
-from dash import html
+from dash import html, Dash
 from urllib.parse import urlparse
-from jupyter_dash import JupyterDash
-
 
 def is_url(filePath):
     """
@@ -128,7 +126,7 @@ def create_component(conf, **kwargs):
 def launch(conf, **kwargs):
     """
     Launches a LinearGenomeView Dash JBrowse component in a
-    server with the help of JupyterDash.
+    server.
 
     e.g
     launch(conf, dash_comp="CGV",height=400, port=8002)
@@ -141,11 +139,11 @@ def launch(conf, **kwargs):
         launch. Currently supporting LGV and CGV.
         defaults to `LGV` when no dash_comp= is specified
     :param int port: (optional) port to utilize when running
-        the JupyterDash app
+        the Dash app
     :param int height: (optional) the height to utilize for
-        the JupyterDash app
+        the Dash app
     """
-    app = JupyterDash(__name__)
+    app = Dash(__name__)
     # could add other JBrowse view types e.g Circular, Dotplot
     supported = set({"LGV", "CGV"})
     dash_comp = kwargs.get("dash_comp", "LGV")
