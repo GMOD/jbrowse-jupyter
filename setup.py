@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import setuptools
 
-with open('requirements.txt') as f:
+with open("requirements.txt") as f:
     requires = f.read().splitlines()
 
 with open("README.md", "r", encoding="utf-8") as fh:
@@ -9,7 +9,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="jbrowse-jupyter",
-    version="1.4.0",
+    version="1.5.1",
     author="Teresa De Jesus Martinez",
     author_email="tere486martinez@gmail.com",
     maintainer="Teresa De Jesus Martinez; JBrowse Team",
@@ -24,9 +24,9 @@ setuptools.setup(
     project_urls={
         "Bug Tracker": "https://github.com/GMOD/jbrowse-jupyter/issues",
     },
-    packages=['jbrowse_jupyter'],
+    packages=["jbrowse_jupyter"],
     python_requires=">=3.6",
-    tests_require=['pytest'],
+    tests_require=["pytest"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "Topic :: Scientific/Engineering",
