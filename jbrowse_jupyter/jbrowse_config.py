@@ -132,6 +132,7 @@ class JBrowseConfig:
         # environment
         self.nb_port = 8888
         self.nb_host = "localhost"
+        self.nb_scheme = "http"
         self.colab = in_colab_notebook
         self.jupyter = not in_colab_notebook and in_jupyter_notebook
 
@@ -156,13 +157,15 @@ class JBrowseConfig:
         return self.jupyter
 
     def get_env(self):
-        print("notebook port: ", self.nb_port)
+        print("notebook scheme: ", self.nb_scheme)
         print("notebook host: ", self.nb_host)
-        return self.nb_host, self.nb_port
+        print("notebook port: ", self.nb_port)
+        
+        return self.nb_scheme, self.nb_host, self.nb_port 
 
-    def set_env(self, notebook_host="localhost", notebook_port=8888):
+    def set_env(self, notebook_scheme="http", notebook_host="localhost", notebook_port=8888):
         """
-        Changes the port and the host for creating links to files
+        Changes the schemen, port and the host for creating links to files
         found within the file tree of jupyter.
 
         We want to be able to use paths to local files that can be
@@ -174,11 +177,18 @@ class JBrowseConfig:
         browser = create("LGV")
         browser.set_env("localhost", 8989)
 
+        or alternatively
+        browser.set_env(notebook_scheme="https", notebook_host="example.org", notebook_port=8989)
+
+        :param str notebook_scheme: scheme used in jupyter config for
+            for using paths to local files. (Defaults to http)
         :param str notebook_host: host used in jupyter config for
             for using paths to local files. (Defaults to "localhost")
         :param str notebook_port: port used in jupyter config for
             for using paths to local files. (Defaults to 8888)
+
         """
+        self.nb_scheme = notebook_scheme
         self.nb_port = notebook_port
         self.nb_host = notebook_host
 
@@ -285,6 +295,7 @@ class JBrowseConfig:
                                                   'localPath',
                                                   indx,
                                                   colab=self.colab,
+                                                  nb_scheme=self.nb_scheme,
                                                   nb_port=self.nb_port,
                                                   nb_host=self.nb_host)
             name = kwargs.get('name', get_name(assembly_data))
@@ -461,6 +472,7 @@ class JBrowseConfig:
                 else:
                     adapter = guess_adapter_type(data, 'localPath', index,
                                                  colab=self.colab,
+                                                 nb_scheme=self.nb_scheme,
                                                  nb_port=self.nb_port,
                                                  nb_host=self.nb_host)
             else:
@@ -527,6 +539,7 @@ class JBrowseConfig:
             adapter = guess_adapter_type(data, 'localPath',
                                          index,
                                          colab=self.colab,
+                                         nb_scheme=self.nb_scheme,
                                          nb_port=self.nb_port,
                                          nb_host=self.nb_host
                                          )
@@ -734,6 +747,7 @@ class JBrowseConfig:
                 "uri":  make_url_colab_jupyter(
                     ix,
                     colab=self.colab,
+                    nb_scheme=self.nb_scheme,
                     nb_host=self.nb_host,
                     nb_port=self.nb_port
                 ),
@@ -743,6 +757,7 @@ class JBrowseConfig:
                 "uri": make_url_colab_jupyter(
                     ixx,
                     colab=self.colab,
+                    nb_scheme=self.nb_scheme,
                     nb_host=self.nb_host,
                     nb_port=self.nb_port
                 ),
@@ -752,6 +767,7 @@ class JBrowseConfig:
                 "uri": make_url_colab_jupyter(
                     meta,
                     colab=self.colab,
+                    nb_scheme=self.nb_scheme,
                     nb_host=self.nb_host,
                     nb_port=self.nb_port
                 ),

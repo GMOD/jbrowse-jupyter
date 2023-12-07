@@ -14,6 +14,7 @@ def make_location(location, protocol, **kwargs):
 
     """
     in_colab = kwargs.get('colab', False)
+    notebook_scheme = kwargs.get('nb_scheme', "http")
     notebook_host = kwargs.get('nb_host', 8888)
     notebook_port = kwargs.get('nb_port', "localhost")
     if protocol == "uri":
@@ -22,6 +23,7 @@ def make_location(location, protocol, **kwargs):
         return {
             "uri": make_url_colab_jupyter(location,
                                           colab=in_colab,
+                                          nb_scheme=notebook_scheme,
                                           nb_port=notebook_port,
                                           nb_host=notebook_host),
             "locationType": "UriLocation"
@@ -33,11 +35,13 @@ def make_location(location, protocol, **kwargs):
 def make_url_colab_jupyter(location, **kwargs):
     """Generates url from path based on env colab or jupyter"""
     in_colab = kwargs.get('colab', False)
+    notebook_scheme = kwargs.get('nb_scheme', "http")
     notebook_host = kwargs.get('nb_host', 8888)
     notebook_port = kwargs.get('nb_port', "localhost")
+
     if in_colab:
         return location
-    return f'http://{notebook_host}:{notebook_port}/files' + location
+    return f'{notebook_scheme}://{notebook_host}:{notebook_port}/files' + location
 
 
 def supported_track_type(track_type):
@@ -114,6 +118,7 @@ def guess_adapter_type(file_location,
     :return: the adapter track subconfiguration
     :rtype: obj
     """
+    notebook_scheme = kwargs.get('nb_scheme', "http")
     notebook_host = kwargs.get('nb_host', 8888)
     notebook_port = kwargs.get('nb_port', "localhost")
     in_colab = kwargs.get('colab', False)
@@ -145,12 +150,14 @@ def guess_adapter_type(file_location,
             "bamLocation": make_location(file_location,
                                          protocol,
                                          colab=in_colab,
+                                         nb_scheme=notebook_scheme,
                                          nb_host=notebook_host,
                                          nb_port=notebook_port),
             "index": {
                 "location": make_location(f"{file_location}.bai",
                                           protocol,
                                           colab=in_colab,
+                                          nb_scheme=notebook_scheme,
                                           nb_host=notebook_host,
                                           nb_port=notebook_port),
                 "indexType": "CSI"
@@ -165,11 +172,13 @@ def guess_adapter_type(file_location,
             "cramLocation": make_location(file_location,
                                           protocol,
                                           colab=in_colab,
+                                          nb_scheme=notebook_scheme,
                                           nb_host=notebook_host,
                                           nb_port=notebook_port),
             "craiLocation": make_location(f"{file_location}.crai",
                                           protocol,
                                           colab=in_colab,
+                                          nb_scheme=notebook_scheme,
                                           nb_host=notebook_host,
                                           nb_port=notebook_port),
         }
@@ -193,12 +202,14 @@ def guess_adapter_type(file_location,
             "gffGzLocation": make_location(file_location,
                                            protocol,
                                            colab=in_colab,
+                                           nb_scheme=notebook_scheme,
                                            nb_host=notebook_host,
                                            nb_port=notebook_port),
             "index": {
                 "location": make_location(f"{file_location}.tbi",
                                           protocol,
                                           colab=in_colab,
+                                          nb_scheme=notebook_scheme,
                                           nb_host=notebook_host,
                                           nb_port=notebook_port),
                 "indexType": "TBI",
@@ -212,6 +223,7 @@ def guess_adapter_type(file_location,
             "vcfLocation": make_location(file_location,
                                          protocol,
                                          colab=in_colab,
+                                         nb_scheme=notebook_scheme,
                                          nb_host=notebook_host,
                                          nb_port=notebook_port),
         }
@@ -229,12 +241,14 @@ def guess_adapter_type(file_location,
             "vcfGzLocation": make_location(file_location,
                                            protocol,
                                            colab=in_colab,
+                                           nb_scheme=notebook_scheme,
                                            nb_host=notebook_host,
                                            nb_port=notebook_port),
             "index": {
                 "location": make_location(f"{file_location}.tbi",
                                           protocol,
                                           colab=in_colab,
+                                          nb_scheme=notebook_scheme,
                                           nb_host=notebook_host,
                                           nb_port=notebook_port),
                 "indexType": "CSI"
@@ -250,6 +264,7 @@ def guess_adapter_type(file_location,
             "bigWigLocation": make_location(file_location,
                                             protocol,
                                             colab=in_colab,
+                                            nb_scheme=notebook_scheme,
                                             nb_host=notebook_host,
                                             nb_port=notebook_port),
         }
@@ -266,12 +281,14 @@ def guess_adapter_type(file_location,
             "bedGzLocation": make_location(file_location,
                                            protocol,
                                            colab=in_colab,
+                                           nb_scheme=notebook_scheme,
                                            nb_host=notebook_host,
                                            nb_port=notebook_port),
             "index": {
                 "location": make_location(f"{file_location}.tbi",
                                           protocol,
                                           colab=in_colab,
+                                          nb_scheme=notebook_scheme,
                                           nb_host=notebook_host,
                                           nb_port=notebook_port),
                 "indexType": "CSI"
@@ -287,6 +304,7 @@ def guess_adapter_type(file_location,
             "bigBedLocation": make_location(file_location,
                                             protocol,
                                             colab=in_colab,
+                                            nb_scheme=notebook_scheme,
                                             nb_host=notebook_host,
                                             nb_port=notebook_port),
         }
@@ -299,10 +317,12 @@ def guess_adapter_type(file_location,
             "fastaLocation": make_location(file_location,
                                            protocol,
                                            colab=in_colab,
+                                           nb_scheme=notebook_scheme,
                                            nb_host=notebook_host,
                                            nb_port=notebook_port),
             "faiLocation": make_location(fai, protocol,
                                          colab=in_colab,
+                                         nb_scheme=notebook_scheme,
                                          nb_host=notebook_host,
                                          nb_port=notebook_port),
         }
@@ -314,16 +334,19 @@ def guess_adapter_type(file_location,
             "fastaLocation": make_location(file_location,
                                            protocol,
                                            colab=in_colab,
+                                           nb_scheme=notebook_scheme,
                                            nb_host=notebook_host,
                                            nb_port=notebook_port),
             "faiLocation": make_location(f"{file_location}.fai",
                                          protocol,
                                          colab=in_colab,
+                                         nb_scheme=notebook_scheme,
                                          nb_host=notebook_host,
                                          nb_port=notebook_port),
             "gziLocation": make_location(f"{file_location}.gzi",
                                          protocol,
                                          colab=in_colab,
+                                         nb_scheme=notebook_scheme,
                                          nb_host=notebook_host,
                                          nb_port=notebook_port),
         }
@@ -335,6 +358,7 @@ def guess_adapter_type(file_location,
             "twoBitLocation": make_location(file_location,
                                             protocol,
                                             colab=in_colab,
+                                            nb_scheme=notebook_scheme,
                                             nb_host=notebook_host,
                                             nb_port=notebook_port),
         }
@@ -350,6 +374,7 @@ def guess_adapter_type(file_location,
             "rootUrlTemplate": make_location(file_location,
                                              protocol,
                                              colab=in_colab,
+                                             nb_scheme=notebook_scheme,
                                              nb_host=notebook_host,
                                              nb_port=notebook_port),
         }
@@ -361,6 +386,7 @@ def guess_adapter_type(file_location,
             "endpoint": make_location(file_location,
                                       protocol,
                                       colab=in_colab,
+                                      nb_scheme=notebook_scheme,
                                       nb_host=notebook_host,
                                       nb_port=notebook_port),
         }
@@ -371,6 +397,7 @@ def guess_adapter_type(file_location,
             "hicLocation": make_location(file_location,
                                          protocol,
                                          colab=in_colab,
+                                         nb_scheme=notebook_scheme,
                                          nb_host=notebook_host,
                                          nb_port=notebook_port),
         }
@@ -382,6 +409,7 @@ def guess_adapter_type(file_location,
             "pafLocation": make_location(file_location,
                                          protocol,
                                          colab=in_colab,
+                                         nb_scheme=notebook_scheme,
                                          nb_host=notebook_host,
                                          nb_port=notebook_port),
         }
