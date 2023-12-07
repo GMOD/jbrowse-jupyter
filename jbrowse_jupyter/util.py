@@ -1,7 +1,8 @@
 import re
 import os
 import json
-import pkg_resources
+import importlib
+
 import dash_jbrowse as jb
 from dash import html, Dash
 from urllib.parse import urlparse
@@ -55,14 +56,14 @@ def get_name_regex(assembly_file):
 
 def get_default(name, view_type="LGV"):
     """Returns the configuration object given a genome name."""
-    base = pkg_resources.resource_filename("jbrowse_jupyter")
-    file_name = f"{base}/{name}.json"
     if view_type == "CGV":
-        file_name = f"{base}/{name}_cgv.json"
-    conf = {}
-    with open(file_name) as json_data:
-        conf = json.load(json_data)
-    return conf
+        with importlib.resources.open_text(
+            "jbrowse_jupyter", f"{name}_cgv.json"
+        ) as file:
+            return json.load(file)
+    else:
+        with importlib.resources.open_text("jbrowse_jupyter", f"{name}.json") as file:
+            return json.load(file)
 
 
 def create_component(conf, **kwargs):
