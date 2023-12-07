@@ -58,11 +58,13 @@ def get_default(name, view_type="LGV"):
     """Returns the configuration object given a genome name."""
     if view_type == "CGV":
         with importlib.resources.open_text(
-            "jbrowse_jupyter", f"{name}_cgv.json"
+            "jbrowse_jupyter.data", f"{name}_cgv.json"
         ) as file:
             return json.load(file)
     else:
-        with importlib.resources.open_text("jbrowse_jupyter", f"{name}.json") as file:
+        with importlib.resources.open_text(
+            "jbrowse_jupyter.data", f"{name}.json"
+        ) as file:
             return json.load(file)
 
 
