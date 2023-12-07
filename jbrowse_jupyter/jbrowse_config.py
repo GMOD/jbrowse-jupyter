@@ -1,6 +1,7 @@
 import IPython
 from jbrowse_jupyter.util import (
-    is_url, get_default,
+    is_url,
+    get_default,
     guess_file_name,
     get_name,
 )
@@ -10,7 +11,7 @@ from jbrowse_jupyter.tracks import (
     check_track_data,
     get_from_config_adapter,
     guess_display_type,
-    make_url_colab_jupyter
+    make_url_colab_jupyter,
 )
 
 
@@ -31,26 +32,25 @@ def create(view_type="LGV", **kwargs):
     :raises TypeError: if view type is not `LGV` or `CGV`
     """
     available_genomes = {"hg19", "hg38"}
-    conf = kwargs.get('conf', {})
-    genome = kwargs.get('genome', "empty")
+    conf = kwargs.get("conf", {})
+    genome = kwargs.get("genome", "empty")
     view = view_type
     # view type (LGV or CGV)
     # make it backwards compatible
     if view_type == "view" or view_type == "conf":
         view = "LGV"
     if view != "LGV" and view != "CGV":
-        raise TypeError(f'Currently not supporting view_type: {view}.')
+        raise TypeError(f"Currently not supporting view_type: {view}.")
     # configuration
     # 1) genomes available
     # 2) with own conf obj OR
     # 3) empty default config to customize)
-    no_configuration = (genome != "empty" and not conf)
+    no_configuration = genome != "empty" and not conf
     # Check passed genome is available
     message1 = "is not a valid default genome to view"
     message2 = "Choose from hg19 or hg38 or pass your own conf"
     if genome not in available_genomes and no_configuration:
-        raise TypeError(
-                    f'"{genome}" {message1}.{message2}.')
+        raise TypeError(f'"{genome}" {message1}.{message2}.')
     #  genome
     if genome in available_genomes:
         conf = get_default(genome, view)
@@ -71,6 +71,7 @@ class JBrowseConfig:
     https://jbrowse.org/storybook/cgv/main/
 
     """
+
     def __init__(self, view="LGV", conf=None):
         """
         Initializes class.
@@ -82,42 +83,34 @@ class JBrowseConfig:
         in_colab_notebook = False
         in_jupyter_notebook = False
         try:
-            import google.colab.output # noqa
+            import google.colab.output  # noqa
+
             in_colab_notebook = True
-        except: # noqa
+        except:  # noqa
             in_colab_notebook = False
         try:
-            shell = IPython.get_ipython().__class__.__name__ # noqa
-            if shell == 'ZMQInteractiveShell': # noqa
+            shell = IPython.get_ipython().__class__.__name__  # noqa
+            if shell == "ZMQInteractiveShell":  # noqa
                 in_jupyter_notebook = True
             else:
                 in_jupyter_notebook = False
-        except: # noqa
+        except:  # noqa
             in_jupyter_notebook = False
         # =====================
         view_default = {
-            "id": 'linearGenomeView',
-            "type": 'LinearGenomeView',
-            "tracks": []
+            "id": "linearGenomeView",
+            "type": "LinearGenomeView",
+            "tracks": [],
         }
         if view != "LGV" and view == "CGV":
-            view_default = {
-                "id": 'circularView',
-                "type": 'CircularView',
-                "tracks": []
-            }
+            view_default = {"id": "circularView", "type": "CircularView", "tracks": []}
         default = {
             "assembly": {},
             "tracks": [],
-            "defaultSession": {
-                "name": "default-session",
-                "view": view_default
-            },
+            "defaultSession": {"name": "default-session", "view": view_default},
             "aggregateTextSearchAdapters": [],
             "location": "",
-            "configuration": {
-                "theme": {}
-            },
+            "configuration": {"theme": {}},
         }
         if conf is not None:
             for r in default.keys():
@@ -189,8 +182,9 @@ class JBrowseConfig:
 
     def get_assembly_name(self):
         # Returns the assembly name.
-        assembly_error = "Can not get assembly name. " \
-            "Please configure the assembly first."
+        assembly_error = (
+            "Can not get assembly name. " "Please configure the assembly first."
+        )
         if self.get_assembly():
             return self.get_assembly()["name"]
         else:
@@ -225,38 +219,37 @@ class JBrowseConfig:
         :raises TypeError: adapter used for file type is not supported or
             recognized
         """
-        overwrite = kwargs.get('overwrite', False)
-        indx = kwargs.get('index', "defaultIndex")
-        err = 'assembly is already set, set overwrite to True to overwrite'
+        overwrite = kwargs.get("overwrite", False)
+        indx = kwargs.get("index", "defaultIndex")
+        err = "assembly is already set, set overwrite to True to overwrite"
         if self.get_assembly() and not overwrite:
             raise TypeError(err)
-        aliases = kwargs.get('aliases', [])
-        refname_aliases = kwargs.get('refname_aliases', {})
+        aliases = kwargs.get("aliases", [])
+        refname_aliases = kwargs.get("refname_aliases", {})
         if is_url(assembly_data):
-            if indx != 'defaultIndex':
+            if indx != "defaultIndex":
                 if not is_url(indx) and not self.jupyter:
-                    raise TypeError(f'Path for {assembly_data} '
-                                    "is used in an unsupported environment."
-                                    "Paths are supported in Jupyter"
-                                    " notebooks and Jupyter lab."
-                                    "Please use a url for your assembly "
-                                    "data. You can check out our local "
-                                    "file support docs for more information")
-            assembly_adapter = guess_adapter_type(assembly_data,
-                                                  'uri',
-                                                  indx,
-                                                  **kwargs)
-            name = kwargs.get('name', get_name(assembly_data))
-            if (assembly_adapter["type"] == "UNKNOWN"):
+                    raise TypeError(
+                        f"Path for {assembly_data} "
+                        "is used in an unsupported environment."
+                        "Paths are supported in Jupyter"
+                        " notebooks and Jupyter lab."
+                        "Please use a url for your assembly "
+                        "data. You can check out our local "
+                        "file support docs for more information"
+                    )
+            assembly_adapter = guess_adapter_type(assembly_data, "uri", indx, **kwargs)
+            name = kwargs.get("name", get_name(assembly_data))
+            if assembly_adapter["type"] == "UNKNOWN":
                 raise TypeError("Adapter type is not recognized")
-            if (assembly_adapter["type"] == "UNSUPPORTED"):
+            if assembly_adapter["type"] == "UNSUPPORTED":
                 raise TypeError("Adapter type is not supported")
             assembly_config = {
                 "name": name,
                 "sequence": {
                     "type": "ReferenceSequenceTrack",
-                    "trackId": f'{name}-ReferenceSequenceTrack',
-                    "adapter": assembly_adapter
+                    "trackId": f"{name}-ReferenceSequenceTrack",
+                    "adapter": assembly_adapter,
                 },
                 "aliases": aliases,
                 "refNameAliases": refname_aliases,
@@ -264,40 +257,46 @@ class JBrowseConfig:
             self.config["assembly"] = assembly_config
         else:
             if not self.jupyter:
-                raise TypeError(f'Path {assembly_data} for assembly data '
-                                "is used in an unsupported environment."
-                                "Paths are supported in Jupyter notebooks"
-                                " and Jupyter lab.Please use a url for "
-                                "your assembly data. You can check out "
-                                "our local file support docs for more "
-                                "information")
-            if indx != 'defaultIndex' and not is_url(indx):
+                raise TypeError(
+                    f"Path {assembly_data} for assembly data "
+                    "is used in an unsupported environment."
+                    "Paths are supported in Jupyter notebooks"
+                    " and Jupyter lab.Please use a url for "
+                    "your assembly data. You can check out "
+                    "our local file support docs for more "
+                    "information"
+                )
+            if indx != "defaultIndex" and not is_url(indx):
                 if not self.jupyter:
-                    raise TypeError("Paths are used in an "
-                                    "unsupported environment."
-                                    "Paths are supported in Jupyter"
-                                    " notebooks and Jupyter lab."
-                                    "Please use a urls for your assembly"
-                                    " and index data. You can check out "
-                                    "our local file support docs for more"
-                                    " information")
-            assembly_adapter = guess_adapter_type(assembly_data,
-                                                  'localPath',
-                                                  indx,
-                                                  colab=self.colab,
-                                                  nb_port=self.nb_port,
-                                                  nb_host=self.nb_host)
-            name = kwargs.get('name', get_name(assembly_data))
-            if (assembly_adapter["type"] == "UNKNOWN"):
+                    raise TypeError(
+                        "Paths are used in an "
+                        "unsupported environment."
+                        "Paths are supported in Jupyter"
+                        " notebooks and Jupyter lab."
+                        "Please use a urls for your assembly"
+                        " and index data. You can check out "
+                        "our local file support docs for more"
+                        " information"
+                    )
+            assembly_adapter = guess_adapter_type(
+                assembly_data,
+                "localPath",
+                indx,
+                colab=self.colab,
+                nb_port=self.nb_port,
+                nb_host=self.nb_host,
+            )
+            name = kwargs.get("name", get_name(assembly_data))
+            if assembly_adapter["type"] == "UNKNOWN":
                 raise TypeError("Adapter type is not recognized")
-            if (assembly_adapter["type"] == "UNSUPPORTED"):
+            if assembly_adapter["type"] == "UNSUPPORTED":
                 raise TypeError("Adapter type is not supported")
             assembly_config = {
                 "name": name,
                 "sequence": {
                     "type": "ReferenceSequenceTrack",
-                    "trackId": f'{name}-ReferenceSequenceTrack',
-                    "adapter": assembly_adapter
+                    "trackId": f"{name}-ReferenceSequenceTrack",
+                    "adapter": assembly_adapter,
                 },
                 "aliases": aliases,
                 "refNameAliases": refname_aliases,
@@ -309,8 +308,8 @@ class JBrowseConfig:
     def get_reference_track(self):
         # Returns the reference track for the configured assembly.
         assembly_name = self.get_assembly_name()
-        configuration = f'{assembly_name}-ReferenceSequenceTrack'
-        conf_str = f'{configuration}-LinearReferenceSequenceDisplay'
+        configuration = f"{assembly_name}-ReferenceSequenceTrack"
+        conf_str = f"{configuration}-LinearReferenceSequenceDisplay"
         return {
             "type": "ReferenceSequenceTrack",
             "configuration": configuration,
@@ -331,17 +330,13 @@ class JBrowseConfig:
             "type": track_type,
             "configuration": track_id,
             "displays": [
-                {
-                    "type": display_type,
-                    "configuration": f'{track_id}-{display_type}'
-                }
-            ]
+                {"type": display_type, "configuration": f"{track_id}-{display_type}"}
+            ],
         }
 
     def get_track(self, track_name):
         # Return the list of track configurations with that name
-        tracks = [track for track in self.get_tracks() if track["name"]
-                  == track_name]
+        tracks = [track for track in self.get_tracks() if track["name"] == track_name]
         return tracks
 
     def get_tracks(self):
@@ -379,9 +374,9 @@ class JBrowseConfig:
             raise TypeError("Can not add a data frame track to a CGV conf.")
         check_track_data(track_data)
 
-        overwrite = kwargs.get('overwrite', False)
+        overwrite = kwargs.get("overwrite", False)
         assembly_name = self.get_assembly_name()
-        track_id = kwargs.get('track_id', f'{assembly_name}-{name}')
+        track_id = kwargs.get("track_id", f"{assembly_name}-{name}")
         current_tracks = self.config["tracks"]
         # if score column is present => QuantitativeTrack, else FeatureTrack
         track_type = "FeatureTrack"
@@ -394,18 +389,17 @@ class JBrowseConfig:
             "trackId": track_id,
             "name": name,
             "assemblyNames": [assembly_name],
-            "adapter": adapter
+            "adapter": adapter,
         }
         err = (
             f'track with trackId: "{track_id}" already exists in config.',
-            'Set overwrite to True if you want to overwrite it.'
+            "Set overwrite to True if you want to overwrite it.",
         )
         if track_id in self.tracks_ids_map.keys() and not overwrite:
             raise TypeError(err)
         if track_id in self.tracks_ids_map.keys() and overwrite:
             # delete track and overwrite it
-            current_tracks = [
-                t for t in current_tracks if t["trackId"] != track_id]
+            current_tracks = [t for t in current_tracks if t["trackId"] != track_id]
 
         current_tracks.append(df_track_config)
         self.config["tracks"] = current_tracks
@@ -437,136 +431,149 @@ class JBrowseConfig:
         :raises TypeError: Paths are only supported in jupyter.
         """
         if not data:
-            raise TypeError(
-                "Track data is required. None was provided.")
+            raise TypeError("Track data is required. None was provided.")
         if not self.get_assembly():
             raise Exception("Please set the assembly before adding a track.")
 
         assembly_names = [self.get_assembly_name()]
-        name = kwargs.get('name', guess_file_name(data))
-        index = kwargs.get('index', "defaultIndex")
-        overwrite = kwargs.get('overwrite', False)
+        name = kwargs.get("name", guess_file_name(data))
+        index = kwargs.get("index", "defaultIndex")
+        overwrite = kwargs.get("overwrite", False)
         current_tracks = self.get_tracks()
         if is_url(data):
             # default to uri protocol until local files enabled
-            if not is_url(index) and index != 'defaultIndex':
+            if not is_url(index) and index != "defaultIndex":
                 if not self.jupyter:
-                    raise TypeError(f'Path {index} for index is used in an '
-                                    "unsupported environment. Paths are "
-                                    "supported in Jupyter notebooks and Jupy"
-                                    "ter lab.Please use a url for your "
-                                    "assembly data. You can check out "
-                                    "our local file support docs for more "
-                                    "information")
+                    raise TypeError(
+                        f"Path {index} for index is used in an "
+                        "unsupported environment. Paths are "
+                        "supported in Jupyter notebooks and Jupy"
+                        "ter lab.Please use a url for your "
+                        "assembly data. You can check out "
+                        "our local file support docs for more "
+                        "information"
+                    )
                 else:
-                    adapter = guess_adapter_type(data, 'localPath', index,
-                                                 colab=self.colab,
-                                                 nb_port=self.nb_port,
-                                                 nb_host=self.nb_host)
+                    adapter = guess_adapter_type(
+                        data,
+                        "localPath",
+                        index,
+                        colab=self.colab,
+                        nb_port=self.nb_port,
+                        nb_host=self.nb_host,
+                    )
             else:
-                adapter = guess_adapter_type(data, 'uri', index)
+                adapter = guess_adapter_type(data, "uri", index)
             # adapter = guess_adapter_type(data, 'uri', index)
-            if (adapter["type"] == "UNKNOWN"):
+            if adapter["type"] == "UNKNOWN":
                 raise TypeError("Adapter type is not recognized")
-            if (adapter["type"] == "UNSUPPORTED"):
+            if adapter["type"] == "UNSUPPORTED":
                 raise TypeError("Adapter type is not supported")
             # get sequence adapter for cram adapter track
             if adapter["type"] == "CramAdapter":
                 extra_config = self.get_assembly()["sequence"]["adapter"]
                 adapter["sequenceAdapter"] = extra_config
-            t_type = kwargs.get('track_type',
-                                guess_track_type(adapter["type"]))
-            supported_track_types = set({
-                'AlignmentsTrack',
-                'QuantitativeTrack',
-                'VariantTrack',
-                'FeatureTrack',
-                'ReferenceSequenceTrack'
-            })
+            t_type = kwargs.get("track_type", guess_track_type(adapter["type"]))
+            supported_track_types = set(
+                {
+                    "AlignmentsTrack",
+                    "QuantitativeTrack",
+                    "VariantTrack",
+                    "FeatureTrack",
+                    "ReferenceSequenceTrack",
+                }
+            )
             if t_type not in supported_track_types:
                 raise TypeError(f'Track type: "{t_type}" is not supported.')
-            default_track_id = f'{self.get_assembly_name()}-{name}'
-            track_id = kwargs.get('track_id', default_track_id)
+            default_track_id = f"{self.get_assembly_name()}-{name}"
+            track_id = kwargs.get("track_id", default_track_id)
             track_config = {
                 "type": t_type,
                 "trackId": track_id,
                 "name": name,
                 "assemblyNames": assembly_names,
-                "adapter": adapter
+                "adapter": adapter,
             }
             if track_id in self.tracks_ids_map.keys() and not overwrite:
                 raise TypeError(
                     (
                         f'track with trackId: "{track_id}" already exists in'
-                        f'config. Set overwrite to True to overwrite it.')
+                        f"config. Set overwrite to True to overwrite it."
                     )
+                )
             if track_id in self.tracks_ids_map.keys() and overwrite:
-                current_tracks = [
-                    t for t in current_tracks if t["trackId"] != track_id]
+                current_tracks = [t for t in current_tracks if t["trackId"] != track_id]
 
             current_tracks.append(track_config)
             self.config["tracks"] = current_tracks
             self.tracks_ids_map[track_id] = track_config
         else:
             if not self.jupyter:
-                raise TypeError(f'Path {data} for track data '
-                                "is used in an unsupported environment."
-                                "Paths are supported in Jupyter notebooks"
-                                " and Jupyter lab.Please use a url for "
-                                "your assembly data. You can check out "
-                                "our local file support docs for more "
-                                "information")
-            if not is_url(index) and index != 'defaultIndex':
+                raise TypeError(
+                    f"Path {data} for track data "
+                    "is used in an unsupported environment."
+                    "Paths are supported in Jupyter notebooks"
+                    " and Jupyter lab.Please use a url for "
+                    "your assembly data. You can check out "
+                    "our local file support docs for more "
+                    "information"
+                )
+            if not is_url(index) and index != "defaultIndex":
                 if not self.jupyter:
-                    raise TypeError(f'Path {index} for index is used in an '
-                                    "unsupported environment.Paths are "
-                                    "supported in Jupyter notebooks and Jupyte"
-                                    "r lab.Please use a url for your assembly "
-                                    "data. You can check out our local file "
-                                    "support docs for more information")
-            adapter = guess_adapter_type(data, 'localPath',
-                                         index,
-                                         colab=self.colab,
-                                         nb_port=self.nb_port,
-                                         nb_host=self.nb_host
-                                         )
-            if (adapter["type"] == "UNKNOWN"):
+                    raise TypeError(
+                        f"Path {index} for index is used in an "
+                        "unsupported environment.Paths are "
+                        "supported in Jupyter notebooks and Jupyte"
+                        "r lab.Please use a url for your assembly "
+                        "data. You can check out our local file "
+                        "support docs for more information"
+                    )
+            adapter = guess_adapter_type(
+                data,
+                "localPath",
+                index,
+                colab=self.colab,
+                nb_port=self.nb_port,
+                nb_host=self.nb_host,
+            )
+            if adapter["type"] == "UNKNOWN":
                 raise TypeError("Adapter type is not recognized")
-            if (adapter["type"] == "UNSUPPORTED"):
+            if adapter["type"] == "UNSUPPORTED":
                 raise TypeError("Adapter type is not supported")
             # get sequence adapter for cram adapter track
             if adapter["type"] == "CramAdapter":
                 extra_config = self.get_assembly()["sequence"]["adapter"]
                 adapter["sequenceAdapter"] = extra_config
-            t_type = kwargs.get('track_type',
-                                guess_track_type(adapter["type"]))
-            supported_track_types = set({
-                'AlignmentsTrack',
-                'QuantitativeTrack',
-                'VariantTrack',
-                'FeatureTrack',
-                'ReferenceSequenceTrack'
-            })
+            t_type = kwargs.get("track_type", guess_track_type(adapter["type"]))
+            supported_track_types = set(
+                {
+                    "AlignmentsTrack",
+                    "QuantitativeTrack",
+                    "VariantTrack",
+                    "FeatureTrack",
+                    "ReferenceSequenceTrack",
+                }
+            )
             if t_type not in supported_track_types:
                 raise TypeError(f'Track type: "{t_type}" is not supported.')
-            default_track_id = f'{self.get_assembly_name()}-{name}'
-            track_id = kwargs.get('track_id', default_track_id)
+            default_track_id = f"{self.get_assembly_name()}-{name}"
+            track_id = kwargs.get("track_id", default_track_id)
             track_config = {
                 "type": t_type,
                 "trackId": track_id,
                 "name": name,
                 "assemblyNames": assembly_names,
-                "adapter": adapter
+                "adapter": adapter,
             }
             if track_id in self.tracks_ids_map.keys() and not overwrite:
                 raise TypeError(
                     (
                         f'track with trackId: "{track_id}" already exists in'
-                        f'config. Set overwrite to True to overwrite it.')
+                        f"config. Set overwrite to True to overwrite it."
                     )
+                )
             if track_id in self.tracks_ids_map.keys() and overwrite:
-                current_tracks = [
-                    t for t in current_tracks if t["trackId"] != track_id]
+                current_tracks = [t for t in current_tracks if t["trackId"] != track_id]
 
             current_tracks.append(track_config)
             self.config["tracks"] = current_tracks
@@ -589,27 +596,23 @@ class JBrowseConfig:
         current_tracks = self.get_tracks()
         if track_id not in self.tracks_ids_map.keys():
             raise TypeError(
-                (
-                    f'track with trackId: "{track_id}" does not exist in'
-                    f'config.')
-                )
+                (f'track with trackId: "{track_id}" does not exist in' f"config.")
+            )
         else:
-            new_tracks = [
-                    t for t in current_tracks if t["trackId"] != track_id]
+            new_tracks = [t for t in current_tracks if t["trackId"] != track_id]
             self.config["tracks"] = new_tracks
             # clear from default session
             default_sess = self.get_default_session()
             tracks_sess = default_sess["view"]["tracks"]
-            new_tracks_sess = [
-                t for t in tracks_sess if t["configuration"] != track_id]
-            if (self.view == "CGV"):
+            new_tracks_sess = [t for t in tracks_sess if t["configuration"] != track_id]
+            if self.view == "CGV":
                 self.config["defaultSession"] = {
                     "name": "my session",
                     "view": {
                         "id": "circularView",
                         "type": "CircularView",
-                        "tracks": new_tracks_sess
-                    }
+                        "tracks": new_tracks_sess,
+                    },
                 }
             else:
                 self.config["defaultSession"] = {
@@ -617,8 +620,8 @@ class JBrowseConfig:
                     "view": {
                         "id": "LinearGenomeView",
                         "type": "LinearGenomeView",
-                        "tracks": new_tracks_sess
-                    }
+                        "tracks": new_tracks_sess,
+                    },
                 }
 
     # ======= location ===========
@@ -632,7 +635,7 @@ class JBrowseConfig:
         :param str location: location, syntax 'refName:start-end'
         :raises TypeError: if view is CGV, location not supported in CGV
         """
-        if (self.view == 'CGV'):
+        if self.view == "CGV":
             raise TypeError("Location is not available to set on a CGV")
         else:
             self.config["location"] = location
@@ -655,22 +658,21 @@ class JBrowseConfig:
             raise Exception(err)
         reference_track = {}
         tracks_configs = []
-        if (display_assembly):
+        if display_assembly:
             reference_track = self.get_reference_track()
             tracks_configs.append(reference_track)
-        tracks_to_display = [
-            t for t in self.get_tracks() if t["trackId"] in tracks_ids]
+        tracks_to_display = [t for t in self.get_tracks() if t["trackId"] in tracks_ids]
         # guess the display type
         for t in tracks_to_display:
             tracks_configs.append(self.get_track_display(t))
-        if (self.view == "CGV"):
+        if self.view == "CGV":
             self.config["defaultSession"] = {
                 "name": "my session",
                 "view": {
                     "id": "circularView",
                     "type": "CircularView",
-                    "tracks": tracks_configs
-                }
+                    "tracks": tracks_configs,
+                },
             }
         else:
             self.config["defaultSession"] = {
@@ -678,8 +680,8 @@ class JBrowseConfig:
                 "view": {
                     "id": "LinearGenomeView",
                     "type": "LinearGenomeView",
-                    "tracks": tracks_configs
-                }
+                    "tracks": tracks_configs,
+                },
             }
 
     def get_default_session(self):
@@ -691,8 +693,7 @@ class JBrowseConfig:
         # Returns the aggregateTextSearchAdapters in the config
         return self.config["aggregateTextSearchAdapters"]
 
-    def add_text_search_adapter(self, ix,
-                                ixx, meta, adapter_id=None):
+    def add_text_search_adapter(self, ix, ixx, meta, adapter_id=None):
         """
         Adds an aggregate trix text search adapter.
         Currently not available for Circular Genome View
@@ -715,56 +716,50 @@ class JBrowseConfig:
         if not self.get_assembly():
             raise Exception(err)
         local = is_url(ix) and is_url(ixx) and is_url(meta)
-        if (local and not self.jupyter):
-            TypeError(f'Paths for "{ix},{ixx},and {meta}"'
-                      " are used in an unsupported environment. Paths are "
-                      "supported in Jupyter notebooks and Jupyter lab.Please"
-                      " use a url for your assembly data. You can check out"
-                      " our local file support docs for more information")
+        if local and not self.jupyter:
+            TypeError(
+                f'Paths for "{ix},{ixx},and {meta}"'
+                " are used in an unsupported environment. Paths are "
+                "supported in Jupyter notebooks and Jupyter lab.Please"
+                " use a url for your assembly data. You can check out"
+                " our local file support docs for more information"
+            )
 
         if self.view == "CGV":
             raise TypeError("Text Searching not currently available in CGV")
         assembly_name = self.get_assembly_name()
-        default_id = f'{assembly_name}-{guess_file_name(ix)}-index'
+        default_id = f"{assembly_name}-{guess_file_name(ix)}-index"
         text_id = default_id if adapter_id is None else adapter_id
         text_search_adapter = {
             "type": "TrixTextSearchAdapter",
             "textSearchAdapterId": text_id,
             "ixFilePath": {
-                "uri":  make_url_colab_jupyter(
-                    ix,
-                    colab=self.colab,
-                    nb_host=self.nb_host,
-                    nb_port=self.nb_port
+                "uri": make_url_colab_jupyter(
+                    ix, colab=self.colab, nb_host=self.nb_host, nb_port=self.nb_port
                 ),
                 "locationType": "UriLocation",
             },
             "ixxFilePath": {
                 "uri": make_url_colab_jupyter(
-                    ixx,
-                    colab=self.colab,
-                    nb_host=self.nb_host,
-                    nb_port=self.nb_port
+                    ixx, colab=self.colab, nb_host=self.nb_host, nb_port=self.nb_port
                 ),
                 "locationType": "UriLocation",
             },
             "metaFilePath": {
                 "uri": make_url_colab_jupyter(
-                    meta,
-                    colab=self.colab,
-                    nb_host=self.nb_host,
-                    nb_port=self.nb_port
+                    meta, colab=self.colab, nb_host=self.nb_host, nb_port=self.nb_port
                 ),
                 "locationType": "UriLocation",
             },
-            "assemblyNames": [assembly_name]
+            "assemblyNames": [assembly_name],
         }
         adapters = self.get_text_search_adapters()
         exists = [a for a in adapters if a["textSearchAdapterId"] == text_id]
         if len(exists) > 0:
-            raise TypeError("Adapter already exists for given adapterId: "
-                            f'{text_id}.Provide a different adapter_id'
-                            )
+            raise TypeError(
+                "Adapter already exists for given adapterId: "
+                f"{text_id}.Provide a different adapter_id"
+            )
         adapters.append(text_search_adapter)
         self.config["aggregateTextSearchAdapters"] = adapters
 
@@ -773,8 +768,7 @@ class JBrowseConfig:
         subconfiguration = self.config["configuration"]
         return subconfiguration["theme"]
 
-    def set_theme(self, primary,
-                  secondary=None, tertiary=None, quaternary=None):
+    def set_theme(self, primary, secondary=None, tertiary=None, quaternary=None):
         """
         Sets the theme in the configuration. Accepts up to 4
         hexadecimal colors.
@@ -787,25 +781,11 @@ class JBrowseConfig:
         :param str tertiary: (optional) tertiary color
         :param str quaternary: (optional) quaternary color
         """
-        palette = {
-            "primary": {
-                "main": primary
-            }
-        }
+        palette = {"primary": {"main": primary}}
         if secondary:
-            palette["secondary"] = {
-                "main": secondary
-            }
+            palette["secondary"] = {"main": secondary}
         if tertiary:
-            palette["tertiary"] = {
-                "main": tertiary
-            }
+            palette["tertiary"] = {"main": tertiary}
         if quaternary:
-            palette["quaternary"] = {
-                "main": quaternary
-            }
-        self.config["configuration"] = {
-            "theme": {
-                "palette": palette
-            }
-        }
+            palette["quaternary"] = {"main": quaternary}
+        self.config["configuration"] = {"theme": {"palette": palette}}
