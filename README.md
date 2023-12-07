@@ -104,17 +104,15 @@ $ pip install jupyter-dash
 ```
 
 ```python
-from jupyter_dash import JupyterDash
-
-from dash import html
+from dash import html, Dash, jupyter_dash
 from jbrowse_jupyter import create, create_component
 import jupyter_server_proxy
 
-JupyterDash.infer_jupyter_proxy_config()
-#JupyterDash()._server_proxy # true if the proxy works as expected
-#JupyterDash().config # gives the proxy config
+jupyter_dash.infer_jupyter_proxy_config()
+#jupyter_dash._server_proxy # true if the proxy works as expected
+#jupyter_dash.config # gives the proxy config
 
-app = JupyterDash(__name__)
+app = Dash(__name__)
 jbrowse_conf = create("LGV", genome="hg38")
 
 config = jbrowse_conf.get_config()
@@ -147,12 +145,12 @@ You can find examples in the root of this repo or in the examples folder,
 
 - `browser.py` - uses the Dash library to create a python application with the
   Dash JBrowse LinearGenomeView component
-- `browser.ipynb` - jupyter notebook using the JupyterDash library to embed a
-  Dash JBrowse LinearGenomeView component in a cell
+- `browser.ipynb` - jupyter notebook using the Dash library to embed a Dash
+  JBrowse LinearGenomeView component in a cell
 - `examples/cgv_examples.py` - uses the Dash library to create a python
   application with the Dash JBrowse CircularGenomeView component
-- `examples/cgv_examples.ipynb` - jupyter notebook using the JupyterDash library
-  to embed a Dash JBrowse CircularGenomeView component in a cell
+- `examples/cgv_examples.ipynb` - jupyter notebook using the Dash library to
+  embed a Dash JBrowse CircularGenomeView component in a cell
 - `local_support.ipynb` - jupyter notebook with tutorial on using your local
   data and passing it to JBrowse views
 

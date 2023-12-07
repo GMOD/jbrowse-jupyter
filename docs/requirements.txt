@@ -1,6 +1,5 @@
 dash==2.3.0
 dash-jbrowse>=1.0.2
-jupyter_dash>=0.4.2
 Werkzeug==2.0.3
 pandas>=1.1.5
 pytest>=6.2.5

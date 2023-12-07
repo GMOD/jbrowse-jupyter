@@ -28,11 +28,11 @@ You can find examples in the root of the directory.
 
 `browser.py` uses the Dash library to create a python application with the Dash
 JBrowse LinearGenomeView component and configured with the help of this package.
-`browser.ipynb` is jupyter notebook using the JupyterDash library to embed a
-Dash JBrowse LinearGenomeView component in a cell. `cgv_examples.py` a Dash
+`browser.ipynb` is jupyter notebook using the Dash library to embed a Dash
+JBrowse LinearGenomeView component in a cell. `cgv_examples.py` a Dash
 application using the Dash JBrowse CircularGenomeView component
-`cgv_examples.ipynb` is jupyter notebook using the JupyterDash library to embed
-a Dash JBrowse CircularGenomeView component in a cell.
+`cgv_examples.ipynb` is jupyter notebook using the Dash library to embed a Dash
+JBrowse CircularGenomeView component in a cell.
 
 To run the Python Dash application
 
