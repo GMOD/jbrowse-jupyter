@@ -6,6 +6,7 @@ import dash_jbrowse as jb
 from dash import html, Dash
 from urllib.parse import urlparse
 
+
 def is_url(filePath):
     """
     Checks whether or not the file path
@@ -15,7 +16,7 @@ def is_url(filePath):
     http:// or https://
     :rtype: boolean
     """
-    regex = re.compile(r'^https?:\/\/', re.IGNORECASE)
+    regex = re.compile(r"^https?:\/\/", re.IGNORECASE)
     return re.match(regex, filePath) is not None
 
 
@@ -32,18 +33,15 @@ def guess_file_name(data):
 
 
 def get_name(assembly_file):
-    """ Returns the name of the assembly based on the assembly data file"""
+    """Returns the name of the assembly based on the assembly data file"""
     name_end = 0
     name_start = 0
     for i in range(0, len(assembly_file)):
-        if (
-            assembly_file[len(assembly_file) - i - 1: len(assembly_file) - i]
-            == "/"
-        ):
+        if assembly_file[len(assembly_file) - i - 1 : len(assembly_file) - i] == "/":
             name_start = len(assembly_file) - i
             break
     for i in range(name_start, len(assembly_file)):
-        if assembly_file[i: i + 1] == ".":
+        if assembly_file[i : i + 1] == ".":
             name_end = i
             break
 
@@ -51,16 +49,16 @@ def get_name(assembly_file):
 
 
 def get_name_regex(assembly_file):
-    """ Returns the name of the assembly based on the assembly data file"""
-    return re.search(r'(\w+)\.(?:fa|fasta|fa\.gz)$', assembly_file).group(1)
+    """Returns the name of the assembly based on the assembly data file"""
+    return re.search(r"(\w+)\.(?:fa|fasta|fa\.gz)$", assembly_file).group(1)
 
 
 def get_default(name, view_type="LGV"):
     """Returns the configuration object given a genome name."""
-    base = pkg_resources.resource_filename("jbrowse_jupyter", "data")
-    file_name = f'{base}/{name}.json'
+    base = pkg_resources.resource_filename("jbrowse_jupyter")
+    file_name = f"{base}/{name}.json"
     if view_type == "CGV":
-        file_name = f'{base}/{name}_cgv.json'
+        file_name = f"{base}/{name}_cgv.json"
     conf = {}
     with open(file_name) as json_data:
         conf = json.load(json_data)
@@ -93,10 +91,10 @@ def create_component(conf, **kwargs):
     the_view_type = conf["defaultSession"]["view"]["type"]
     msg = "config was passed but attempting to create"
     err = "Please specify the correct dash_comp."
-    if (the_view_type == "LinearGenomeView" and dash_comp == "CGV"):
-        raise TypeError(f'LGV {msg} a CGV.{err}')
-    if (the_view_type == "CircularView" and dash_comp == "LGV"):
-        raise TypeError(f'CGV {msg} a LGV.{err}')
+    if the_view_type == "LinearGenomeView" and dash_comp == "CGV":
+        raise TypeError(f"LGV {msg} a CGV.{err}")
+    if the_view_type == "CircularView" and dash_comp == "LGV":
+        raise TypeError(f"CGV {msg} a LGV.{err}")
     if "id" in kwargs:
         comp_id = kwargs["id"]
     if dash_comp in supported:
@@ -108,7 +106,7 @@ def create_component(conf, **kwargs):
                 defaultSession=conf["defaultSession"],
                 location=conf["location"],
                 configuration=conf["configuration"],
-                aggregateTextSearchAdapters=conf["aggregateTextSearchAdapters"]
+                aggregateTextSearchAdapters=conf["aggregateTextSearchAdapters"],
             )
         # here is where we can add another view
         if dash_comp == "CGV":
@@ -120,7 +118,7 @@ def create_component(conf, **kwargs):
                 configuration=conf["configuration"],
             )
     else:
-        raise TypeError(f'The {dash_comp} component is not supported.')
+        raise TypeError(f"The {dash_comp} component is not supported.")
 
 
 def launch(conf, **kwargs):
@@ -152,15 +150,15 @@ def launch(conf, **kwargs):
     the_view_type = conf["defaultSession"]["view"]["type"]
     msg = "config was passed but attempting to launch"
     err = "Please specify the correct dash_comp."
-    if (the_view_type == "LinearGenomeView" and dash_comp == "CGV"):
-        raise TypeError(f'LGV {msg} a CGV.{err}')
-    if (the_view_type == "CircularView" and dash_comp == "LGV"):
-        raise TypeError(f'CGV {msg} a LGV.{err}')
+    if the_view_type == "LinearGenomeView" and dash_comp == "CGV":
+        raise TypeError(f"LGV {msg} a CGV.{err}")
+    if the_view_type == "CircularView" and dash_comp == "LGV":
+        raise TypeError(f"CGV {msg} a LGV.{err}")
     comp_id = "jbrowse-component"
     comp_port = 8050
-    comp_host = '127.0.0.1'
+    comp_host = "127.0.0.1"
     comp_height = 300
-    comp_mode = 'inline'
+    comp_mode = "inline"
     if "id" in kwargs:
         comp_id = kwargs["id"]
     if "port" in kwargs:
@@ -176,27 +174,38 @@ def launch(conf, **kwargs):
         if dash_comp == "LGV":
             # create jupyter dash app layout
             adapters = conf["aggregateTextSearchAdapters"]
-            app.layout = html.Div([
-                jb.LinearGenomeView(
-                    id=comp_id,
-                    assembly=conf["assembly"],
-                    tracks=conf["tracks"],
-                    defaultSession=conf["defaultSession"],
-                    aggregateTextSearchAdapters=adapters,
-                    location=conf["location"],
-                    configuration=conf["configuration"]
-                )])
+            app.layout = html.Div(
+                [
+                    jb.LinearGenomeView(
+                        id=comp_id,
+                        assembly=conf["assembly"],
+                        tracks=conf["tracks"],
+                        defaultSession=conf["defaultSession"],
+                        aggregateTextSearchAdapters=adapters,
+                        location=conf["location"],
+                        configuration=conf["configuration"],
+                    )
+                ]
+            )
         if dash_comp == "CGV":
             # create jupyter dash app layout
-            app.layout = html.Div([
-                jb.CircularGenomeView(
-                    id=comp_id,
-                    assembly=conf["assembly"],
-                    tracks=conf["tracks"],
-                    defaultSession=conf["defaultSession"],
-                    configuration=conf["configuration"]
-                )])
+            app.layout = html.Div(
+                [
+                    jb.CircularGenomeView(
+                        id=comp_id,
+                        assembly=conf["assembly"],
+                        tracks=conf["tracks"],
+                        defaultSession=conf["defaultSession"],
+                        configuration=conf["configuration"],
+                    )
+                ]
+            )
     else:
-        raise TypeError(f'The {dash_comp} component is not supported.')
-    app.run_server(port=comp_port, host=comp_host,
-                   height=comp_height, mode=comp_mode, use_reloader=False)
+        raise TypeError(f"The {dash_comp} component is not supported.")
+    app.run_server(
+        port=comp_port,
+        host=comp_host,
+        height=comp_height,
+        mode=comp_mode,
+        use_reloader=False,
+    )
