@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: |
           python3 -m pip install --upgrade pip
-          python3 -m pip install setuptools wheel twine
+          python3 -m pip install setuptools wheel twine build
           pip install -r requirements.txt
           pip install pytest
       - name: Test with pytest
@@ -28,8 +28,7 @@ jobs:
       - name: Build and publish to PyPI
         run: |
           # Install the package from setup.py
-          python3 setup.py install
-          python3 setup.py sdist bdist_wheel
+          python3 -m build
           python3 -m twine upload dist/*
         env:
           TWINE_USERNAME: __token__
