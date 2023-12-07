@@ -9,7 +9,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="jbrowse-jupyter",
-    version="1.5.1",
+    version="1.5.4",
     author="Teresa De Jesus Martinez",
     author_email="tere486martinez@gmail.com",
     maintainer="Teresa De Jesus Martinez; JBrowse Team",
