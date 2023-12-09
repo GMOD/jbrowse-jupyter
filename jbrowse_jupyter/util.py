@@ -8,6 +8,64 @@ from dash import html, Dash
 from urllib.parse import urlparse
 
 
+hg38_asm = {
+    "name": "GRCh38",
+    "sequence": {
+        "type": "ReferenceSequenceTrack",
+        "trackId": "GRCh38-ReferenceSequenceTrack",
+        "adapter": {
+            "type": "BgzipFastaAdapter",
+            "fastaLocation": {
+                "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz"
+            },
+            "faiLocation": {
+                "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz.fai"
+            },
+            "gziLocation": {
+                "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz.gzi"
+            },
+        },
+    },
+    "aliases": ["hg38"],
+    "refNameAliases": {
+        "adapter": {
+            "type": "RefNameAliasAdapter",
+            "location": {
+                "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/hg38_aliases.txt"
+            },
+        }
+    },
+}
+hg19_asm = {
+    "name": "hg19",
+    "aliases": ["GRCh37"],
+    "sequence": {
+        "type": "ReferenceSequenceTrack",
+        "trackId": "hg19-ReferenceSequenceTrack",
+        "adapter": {
+            "type": "BgzipFastaAdapter",
+            "fastaLocation": {
+                "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz"
+            },
+            "faiLocation": {
+                "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.fai"
+            },
+            "gziLocation": {
+                "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.gzi"
+            },
+        },
+    },
+    "refNameAliases": {
+        "adapter": {
+            "type": "RefNameAliasAdapter",
+            "location": {
+                "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/hg19/hg19_aliases.txt"
+            },
+        }
+    },
+}
+
+
 def is_url(filePath):
     """
     Checks whether or not the file path
