@@ -1,61 +1,264 @@
 import re
 import os
-import json
-import importlib
 
 import dash_jbrowse as jb
 from dash import html, Dash
 from urllib.parse import urlparse
 
 
-hg38_asm = {
-  "name": "GRCh38",
-  "sequence": {
-    "type": "ReferenceSequenceTrack",
-    "trackId": "GRCh38-ReferenceSequenceTrack",
-    "adapter": {
-      "type": "BgzipFastaAdapter",
-      "fastaLocation": {
-        "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz"
-      },
-      "faiLocation": {
-        "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz.fai"
-      },
-      "gziLocation": {
-        "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz.gzi"
+hg38_lgv = {
+  "assembly": {
+    "name": "GRCh38",
+    "sequence": {
+      "type": "ReferenceSequenceTrack",
+      "trackId": "GRCh38-ReferenceSequenceTrack",
+      "adapter": {
+        "type": "BgzipFastaAdapter",
+        "fastaLocation": {
+          "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz"
+        },
+        "faiLocation": {
+          "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz.fai"
+        },
+        "gziLocation": {
+          "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz.gzi"
+        },
       },
     },
+    "aliases": ["hg38"],
+    "refNameAliases": {
+      "adapter": {
+        "type": "RefNameAliasAdapter",
+        "location": {
+          "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/hg38_aliases.txt"
+        },
+      }
+    },
   },
-  "aliases": ["hg38"],
-  "refNameAliases": {
-    "adapter": {
-      "type": "RefNameAliasAdapter",
-      "location": {
-        "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/hg38_aliases.txt"
+  "tracks": [
+    {
+      "type": "FeatureTrack",
+      "trackId": "ncbi_refseq_109_hg38",
+      "name": "NCBI RefSeq (GFF3Tabix)",
+      "assemblyNames": ["GRCh38"],
+      "category": ["Annotation"],
+      "adapter": {
+        "type": "Gff3TabixAdapter",
+        "gffGzLocation": {
+          "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/ncbi_refseq/GCA_000001405.15_GRCh38_full_analysis_set.refseq_annotation.sorted.gff.gz"
+        },
+        "index": {
+          "location": {
+            "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/ncbi_refseq/GCA_000001405.15_GRCh38_full_analysis_set.refseq_annotation.sorted.gff.gz.tbi"
+          }
+        },
       },
     }
+  ],
+  "location": "10:29,838,737..29,838,819",
+  "defaultSession": {
+    "name": "My session",
+    "view": {
+      "id": "linearGenomeView",
+      "type": "LinearGenomeView",
+      "tracks": [
+        {
+          "type": "ReferenceSequenceTrack",
+          "configuration": "GRCh38-ReferenceSequenceTrack",
+          "displays": [
+            {
+              "type": "LinearReferenceSequenceDisplay",
+              "configuration": "GRCh38-ReferenceSequenceTrack-LinearReferenceSequenceDisplay",
+            }
+          ],
+        }
+      ],
+    },
   },
 }
-hg19_asm = {
-  "name": "hg19",
-  "aliases": ["GRCh37"],
-  "sequence": {
-    "type": "ReferenceSequenceTrack",
-    "trackId": "hg19-ReferenceSequenceTrack",
-    "adapter": {
-      "type": "BgzipFastaAdapter",
-      "fastaLocation": {"uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz"},
-      "faiLocation": {"uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.fai"},
-      "gziLocation": {"uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.gzi"},
+
+
+hg38_cgv = {
+  "assembly": {
+    "name": "hg38",
+    "sequence": {
+      "type": "ReferenceSequenceTrack",
+      "trackId": "GRCh38-ReferenceSequenceTrack",
+      "adapter": {
+        "type": "BgzipFastaAdapter",
+        "fastaLocation": {
+          "uri": "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz",
+          "locationType": "UriLocation",
+        },
+        "faiLocation": {
+          "uri": "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz.fai",
+          "locationType": "UriLocation",
+        },
+        "gziLocation": {
+          "uri": "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz.gzi",
+          "locationType": "UriLocation",
+        },
+      },
+    },
+    "aliases": ["GRCh38"],
+    "refNameAliases": {
+      "adapter": {
+        "type": "RefNameAliasAdapter",
+        "location": {
+          "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/hg38_aliases.txt",
+          "locationType": "UriLocation",
+        },
+      }
     },
   },
-  "refNameAliases": {
-    "adapter": {
-      "type": "RefNameAliasAdapter",
-      "location": {
-        "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/hg19/hg19_aliases.txt"
+  "defaultSession": {
+    "name": "My session",
+    "view": {
+      "id": "circularView",
+      "type": "CircularView",
+      "bpPerPx": 5000000,
+      "tracks": [],
+    },
+  },
+}
+
+hg19_lgv = {
+  "assembly": {
+    "name": "hg19",
+    "aliases": ["GRCh37"],
+    "sequence": {
+      "type": "ReferenceSequenceTrack",
+      "trackId": "hg19-ReferenceSequenceTrack",
+      "adapter": {
+        "type": "BgzipFastaAdapter",
+        "fastaLocation": {"uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz"},
+        "faiLocation": {"uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.fai"},
+        "gziLocation": {"uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.gzi"},
+      },
+    },
+    "refNameAliases": {
+      "adapter": {
+        "type": "RefNameAliasAdapter",
+        "location": {
+          "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/hg19/hg19_aliases.txt"
+        },
+      }
+    },
+  },
+  "tracks": [
+    {
+      "type": "FeatureTrack",
+      "trackId": "repeats_hg19",
+      "name": "Repeats",
+      "assemblyNames": ["hg19"],
+      "category": ["Annotation"],
+      "adapter": {
+        "type": "BigBedAdapter",
+        "bigBedLocation": {
+          "uri": "https://jbrowse.org/genomes/hg19/repeats.bb",
+          "locationType": "UriLocation",
+        },
       },
     }
+  ],
+  "defaultSession": {
+    "name": "test",
+    "view": {
+      "id": "aU9Nqje1U",
+      "type": "LinearGenomeView",
+      "tracks": [
+        {
+          "type": "ReferenceSequenceTrack",
+          "configuration": "hg19-ReferenceSequenceTrack",
+          "displays": [
+            {
+              "type": "LinearReferenceSequenceDisplay",
+              "configuration": "hg19-ReferenceSequenceTrack-LinearReferenceSequenceDisplay",
+            }
+          ],
+        }
+      ],
+    },
+  },
+  "location": "1:68654694..68654738",
+}
+
+hg19_cgv = {
+  "assembly": {
+    "name": "hg19",
+    "aliases": ["GRCh37"],
+    "sequence": {
+      "type": "ReferenceSequenceTrack",
+      "trackId": "Pd8Wh30ei9R",
+      "adapter": {
+        "type": "BgzipFastaAdapter",
+        "fastaLocation": {
+          "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz",
+          "locationType": "UriLocation",
+        },
+        "faiLocation": {
+          "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.fai",
+          "locationType": "UriLocation",
+        },
+        "gziLocation": {
+          "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.gzi",
+          "locationType": "UriLocation",
+        },
+      },
+    },
+    "refNameAliases": {
+      "adapter": {
+        "type": "RefNameAliasAdapter",
+        "location": {
+          "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/hg19/hg19_aliases.txt",
+          "locationType": "UriLocation",
+        },
+      }
+    },
+  },
+  "tracks": [
+    {
+      "type": "VariantTrack",
+      "trackId": "pacbio_sv_vcf",
+      "name": "HG002 Pacbio SV (VCF)",
+      "assemblyNames": ["hg19"],
+      "category": ["GIAB"],
+      "adapter": {
+        "type": "VcfTabixAdapter",
+        "vcfGzLocation": {
+          "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/hg19/pacbio/hs37d5.HG002-SequelII-CCS.bnd-only.sv.vcf.gz",
+          "locationType": "UriLocation",
+        },
+        "index": {
+          "location": {
+            "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/hg19/pacbio/hs37d5.HG002-SequelII-CCS.bnd-only.sv.vcf.gz.tbi",
+            "locationType": "UriLocation",
+          }
+        },
+      },
+    }
+  ],
+  "defaultSession": {
+    "name": "My session",
+    "view": {
+      "id": "circularView",
+      "type": "CircularView",
+      "bpPerPx": 5000000,
+      "tracks": [
+        {
+          "id": "uPdLKHik1",
+          "type": "VariantTrack",
+          "configuration": "pacbio_sv_vcf",
+          "displays": [
+            {
+              "id": "v9QVAR3oaB",
+              "type": "ChordVariantDisplay",
+              "configuration": "pacbio_sv_vcf-ChordVariantDisplay",
+            }
+          ],
+        }
+      ],
+    },
   },
 }
 
@@ -108,14 +311,17 @@ def get_name_regex(assembly_file):
 
 def get_default(name, view_type="LGV"):
   """Returns the configuration object given a genome name."""
-  if view_type == "CGV":
-    with importlib.resources.open_text(
-      "jbrowse_jupyter.data", f"{name}_cgv.json"
-    ) as file:
-      return json.load(file)
-  else:
-    with importlib.resources.open_text("jbrowse_jupyter.data", f"{name}.json") as file:
-      return json.load(file)
+  if name == "hg19":
+    if view_type == "CGV":
+      return hg38_cgv
+    else:
+      return hg38_lgv
+  elif name=="hg38":
+    if view_type=="CGV":
+      return hg19_cgv
+    else:
+      return hg19_lgv
+
 
 
 def create_component(conf, **kwargs):
