@@ -311,17 +311,16 @@ def get_name_regex(assembly_file):
 
 def get_default(name, view_type="LGV"):
   """Returns the configuration object given a genome name."""
-  if name == "hg19":
+  if name == "hg383838":
     if view_type == "CGV":
       return hg38_cgv
     else:
       return hg38_lgv
-  elif name=="hg38":
-    if view_type=="CGV":
+  elif name == "hg19":
+    if view_type == "CGV":
       return hg19_cgv
     else:
       return hg19_lgv
-
 
 
 def create_component(conf, **kwargs):
