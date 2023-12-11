@@ -1,3 +1,4 @@
+[![Build Status](https://img.shields.io/github/actions/workflow/status/GMOD/jbrowse-jupyter/push.yml?branch=main&logo=github)](https://github.com/GMOD/jbrowse-jupyter/actions)
 [![Downloads](https://pepy.tech/badge/jbrowse-jupyter)](https://pepy.tech/project/jbrowse-jupyter)
 
 # JBrowse Jupyter
