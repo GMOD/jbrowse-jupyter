@@ -133,3 +133,6 @@ dmypy.json
 
 GRCh37_latest_genomic.sort.gff.gz
 GRCh37_latest_genomic.sort.gff.gz.tbi
+bin
+lib64
+pyvenv.cfg
