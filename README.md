@@ -8,9 +8,9 @@ Jupyter notebooks
 ## Demos
 
 - Basic usage -
-  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/browser.ipynb)
+  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/examples/basic_usage.ipynb)
 - SKBR3 cancer cell line demo -
-  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/skbr3.ipynb)
+  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GMOD/jbrowse-jupyter/blob/main/examples/skbr3.ipynb)
 
 ## Tutorials
 
@@ -65,12 +65,10 @@ We currently support:
 - bam/cram
 - bigwig
 - bigbed
-- indexed fasta
-- bgzip indexed fasta
-- gff3 tabix
+- indexed fasta/bgzip indexed fasta
 - twobit
-- vcf
-- vcf tabix
+- gff3 tabix
+- vcf/vcf tabix
 
 ### How do I configure text searching?
 
