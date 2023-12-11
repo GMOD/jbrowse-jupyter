@@ -6,4 +6,3 @@ Reference
    
    util
    jbrowse_jupyter
-   dev_server
