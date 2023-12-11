@@ -35,10 +35,12 @@ def create(view_type="LGV", **kwargs):
   conf = kwargs.get("conf", {})
   genome = kwargs.get("genome", "empty")
   view = view_type
+
   # view type (LGV or CGV)
   # make it backwards compatible
   if view_type == "view" or view_type == "conf":
     view = "LGV"
+
   if view != "LGV" and view != "CGV":
     raise TypeError(f"Currently not supporting view_type: {view}.")
   # configuration
@@ -51,13 +53,10 @@ def create(view_type="LGV", **kwargs):
   message2 = "Choose from hg19 or hg38 or pass your own conf"
   if genome not in available_genomes and no_configuration:
     raise TypeError(f'"{genome}" {message1}.{message2}.')
-  #  genome
   if genome in available_genomes:
     conf = get_default(genome, view)
-  # start from empty JBrowseConfig
   elif not conf:
     return JBrowseConfig(view=view)
-  # get customized JBrowseConfig
   return JBrowseConfig(view=view, conf=conf)
 
 
