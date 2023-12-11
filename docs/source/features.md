@@ -21,7 +21,7 @@ the JBrowse view.
 
 - For more features of the JBrowse and JBrowse embedded components checkout
   [our documentation](https://jbrowse.org/jb2/docs/embedded_components/)
-- Igv.js [documentation](https://github.com/igvteam/igv.js/wiki/)
+- igv.js [documentation](https://github.com/igvteam/igv.js/wiki/)
 - igv-notebook [documentation](https://github.com/igvteam/igv-notebook)
 - ipyIgv [documentation](https://github.com/QuantStack/ipyigv)
 - D3GB [documentation](http://d3gb.usal.es/index.html)
