@@ -1,40 +1,41 @@
 import re
+import copy
 import os
 
 import dash_jbrowse as jb
 from dash import html, Dash
 from urllib.parse import urlparse
 
-
-hg38_lgv = {
-    "assembly": {
-        "name": "GRCh38",
-        "sequence": {
-            "type": "ReferenceSequenceTrack",
-            "trackId": "GRCh38-ReferenceSequenceTrack",
-            "adapter": {
-                "type": "BgzipFastaAdapter",
-                "fastaLocation": {
-                    "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz"
-                },
-                "faiLocation": {
-                    "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz.fai"
-                },
-                "gziLocation": {
-                    "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz.gzi"
-                },
+hg38_assembly = {
+    "name": "hg38",
+    "sequence": {
+        "type": "ReferenceSequenceTrack",
+        "trackId": "GRCh38-ReferenceSequenceTrack",
+        "adapter": {
+            "type": "BgzipFastaAdapter",
+            "fastaLocation": {
+                "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz"
+            },
+            "faiLocation": {
+                "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz.fai"
+            },
+            "gziLocation": {
+                "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz.gzi"
             },
         },
-        "aliases": ["hg38"],
-        "refNameAliases": {
-            "adapter": {
-                "type": "RefNameAliasAdapter",
-                "location": {
-                    "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/hg38_aliases.txt"
-                },
-            }
-        },
     },
+    "aliases": ["GRCh38"],
+    "refNameAliases": {
+        "adapter": {
+            "type": "RefNameAliasAdapter",
+            "location": {
+                "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/hg38_aliases.txt"
+            },
+        }
+    },
+}
+hg38_lgv = {
+    "assembly": hg38_assembly,
     "tracks": [],
     "location": "10:29,838,737..29,838,819",
     "defaultSession": {
@@ -49,38 +50,7 @@ hg38_lgv = {
 
 
 hg38_cgv = {
-    "assembly": {
-        "name": "hg38",
-        "sequence": {
-            "type": "ReferenceSequenceTrack",
-            "trackId": "GRCh38-ReferenceSequenceTrack",
-            "adapter": {
-                "type": "BgzipFastaAdapter",
-                "fastaLocation": {
-                    "uri": "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz",
-                    "locationType": "UriLocation",
-                },
-                "faiLocation": {
-                    "uri": "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz.fai",
-                    "locationType": "UriLocation",
-                },
-                "gziLocation": {
-                    "uri": "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz.gzi",
-                    "locationType": "UriLocation",
-                },
-            },
-        },
-        "aliases": ["GRCh38"],
-        "refNameAliases": {
-            "adapter": {
-                "type": "RefNameAliasAdapter",
-                "location": {
-                    "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/hg38_aliases.txt",
-                    "locationType": "UriLocation",
-                },
-            }
-        },
-    },
+    "assembly": hg38_assembly,
     "tracks": [],
     "defaultSession": {
         "name": "My session",
@@ -92,36 +62,36 @@ hg38_cgv = {
         },
     },
 }
-
-hg19_lgv = {
-    "assembly": {
-        "name": "hg19",
-        "aliases": ["GRCh37"],
-        "sequence": {
-            "type": "ReferenceSequenceTrack",
-            "trackId": "hg19-ReferenceSequenceTrack",
-            "adapter": {
-                "type": "BgzipFastaAdapter",
-                "fastaLocation": {
-                    "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz"
-                },
-                "faiLocation": {
-                    "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.fai"
-                },
-                "gziLocation": {
-                    "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.gzi"
-                },
+hg19_assembly = {
+    "name": "hg19",
+    "aliases": ["GRCh37"],
+    "sequence": {
+        "type": "ReferenceSequenceTrack",
+        "trackId": "hg19-ReferenceSequenceTrack",
+        "adapter": {
+            "type": "BgzipFastaAdapter",
+            "fastaLocation": {
+                "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz"
+            },
+            "faiLocation": {
+                "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.fai"
+            },
+            "gziLocation": {
+                "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.gzi"
             },
         },
-        "refNameAliases": {
-            "adapter": {
-                "type": "RefNameAliasAdapter",
-                "location": {
-                    "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/hg19/hg19_aliases.txt"
-                },
-            }
-        },
     },
+    "refNameAliases": {
+        "adapter": {
+            "type": "RefNameAliasAdapter",
+            "location": {
+                "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/hg19/hg19_aliases.txt"
+            },
+        }
+    },
+}
+hg19_lgv = {
+    "assembly": hg19_assembly,
     "tracks": [],
     "defaultSession": {
         "name": "test",
@@ -135,38 +105,7 @@ hg19_lgv = {
 }
 
 hg19_cgv = {
-    "assembly": {
-        "name": "hg19",
-        "aliases": ["GRCh37"],
-        "sequence": {
-            "type": "ReferenceSequenceTrack",
-            "trackId": "Pd8Wh30ei9R",
-            "adapter": {
-                "type": "BgzipFastaAdapter",
-                "fastaLocation": {
-                    "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz",
-                    "locationType": "UriLocation",
-                },
-                "faiLocation": {
-                    "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.fai",
-                    "locationType": "UriLocation",
-                },
-                "gziLocation": {
-                    "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.gzi",
-                    "locationType": "UriLocation",
-                },
-            },
-        },
-        "refNameAliases": {
-            "adapter": {
-                "type": "RefNameAliasAdapter",
-                "location": {
-                    "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/hg19/hg19_aliases.txt",
-                    "locationType": "UriLocation",
-                },
-            }
-        },
-    },
+    "assembly": hg19_assembly,
     "tracks": [],
     "defaultSession": {
         "name": "My session",
@@ -210,11 +149,11 @@ def get_name(assembly_file):
     name_end = 0
     name_start = 0
     for i in range(0, len(assembly_file)):
-        if assembly_file[len(assembly_file) - i - 1 : len(assembly_file) - i] == "/":
+        if assembly_file[len(assembly_file) - i - 1: len(assembly_file) - i] == "/":
             name_start = len(assembly_file) - i
             break
     for i in range(name_start, len(assembly_file)):
-        if assembly_file[i : i + 1] == ".":
+        if assembly_file[i: i + 1] == ".":
             name_end = i
             break
 
@@ -230,14 +169,14 @@ def get_default(name, view_type="LGV"):
     """Returns the configuration object given a genome name."""
     if name == "hg38":
         if view_type == "CGV":
-            return hg38_cgv
+            return copy.deepcopy(hg38_cgv)
         else:
-            return hg38_lgv
+            return copy.deepcopy(hg38_lgv)
     elif name == "hg19":
         if view_type == "CGV":
-            return hg19_cgv
+            return copy.deepcopy(hg19_cgv)
         else:
-            return hg19_lgv
+            return copy.deepcopy(hg19_lgv)
 
 
 def create_component(conf, **kwargs):

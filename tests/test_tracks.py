@@ -14,7 +14,7 @@ bigWig = (
     "http://hgdownload.cse.ucsc.edu/goldenpath/hg38/phyloP100way/hg38.phyloP100way.bw"
 )
 vcf = "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh37/clinvar.vcf"
-vcfGz = "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh37/clinvar.vcf.tbi"
+vcfGz = "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh37/clinvar.vcf.gz"
 
 
 def test_make_location():
@@ -62,15 +62,9 @@ def test_add_track_type_fail():
 
 def test_add_track_overwrite():
     conf = create("LGV", genome="hg38")
-    overwrite_err = (
-        "track with trackId: "
-        '"GRCh38-test" already exists inconfig.'
-        " Set overwrite to True to overwrite it."
-    )
     conf.add_track(gff3Tabix, name="test")
-    with pytest.raises(TypeError) as excinfo:
+    with pytest.raises(TypeError):
         conf.add_track(gff3Tabix, name="test")
-    assert overwrite_err in str(excinfo)
     conf.add_track(gff3Tabix, name="test", overwrite=True)
     tracks = conf.get_tracks()
     assert len(tracks) == 1

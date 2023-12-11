@@ -391,8 +391,7 @@ class JBrowseConfig:
             "adapter": adapter,
         }
         err = (
-            f'track with trackId: "{track_id}" already exists in config.',
-            "Set overwrite to True if you want to overwrite it.",
+            f'track with trackId: "{track_id}" already exists in config. Set overwrite to True if you want to overwrite it.',
         )
         if track_id in self.tracks_ids_map.keys() and not overwrite:
             raise TypeError(err)
