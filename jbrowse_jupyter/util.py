@@ -35,44 +35,14 @@ hg38_lgv = {
             }
         },
     },
-    "tracks": [
-        {
-            "type": "FeatureTrack",
-            "trackId": "ncbi_refseq_109_hg38",
-            "name": "NCBI RefSeq (GFF3Tabix)",
-            "assemblyNames": ["GRCh38"],
-            "category": ["Annotation"],
-            "adapter": {
-                "type": "Gff3TabixAdapter",
-                "gffGzLocation": {
-                    "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/ncbi_refseq/GCA_000001405.15_GRCh38_full_analysis_set.refseq_annotation.sorted.gff.gz"
-                },
-                "index": {
-                    "location": {
-                        "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/ncbi_refseq/GCA_000001405.15_GRCh38_full_analysis_set.refseq_annotation.sorted.gff.gz.tbi"
-                    }
-                },
-            },
-        }
-    ],
+    "tracks": [],
     "location": "10:29,838,737..29,838,819",
     "defaultSession": {
         "name": "My session",
         "view": {
             "id": "linearGenomeView",
             "type": "LinearGenomeView",
-            "tracks": [
-                {
-                    "type": "ReferenceSequenceTrack",
-                    "configuration": "GRCh38-ReferenceSequenceTrack",
-                    "displays": [
-                        {
-                            "type": "LinearReferenceSequenceDisplay",
-                            "configuration": "GRCh38-ReferenceSequenceTrack-LinearReferenceSequenceDisplay",
-                        }
-                    ],
-                }
-            ],
+            "tracks": [],
         },
     },
 }
@@ -152,39 +122,13 @@ hg19_lgv = {
             }
         },
     },
-    "tracks": [
-        {
-            "type": "FeatureTrack",
-            "trackId": "repeats_hg19",
-            "name": "Repeats",
-            "assemblyNames": ["hg19"],
-            "category": ["Annotation"],
-            "adapter": {
-                "type": "BigBedAdapter",
-                "bigBedLocation": {
-                    "uri": "https://jbrowse.org/genomes/hg19/repeats.bb",
-                    "locationType": "UriLocation",
-                },
-            },
-        }
-    ],
+    "tracks": [],
     "defaultSession": {
         "name": "test",
         "view": {
             "id": "aU9Nqje1U",
             "type": "LinearGenomeView",
-            "tracks": [
-                {
-                    "type": "ReferenceSequenceTrack",
-                    "configuration": "hg19-ReferenceSequenceTrack",
-                    "displays": [
-                        {
-                            "type": "LinearReferenceSequenceDisplay",
-                            "configuration": "hg19-ReferenceSequenceTrack-LinearReferenceSequenceDisplay",
-                        }
-                    ],
-                }
-            ],
+            "tracks": [],
         },
     },
     "location": "1:68654694..68654738",
@@ -284,7 +228,7 @@ def get_name_regex(assembly_file):
 
 def get_default(name, view_type="LGV"):
     """Returns the configuration object given a genome name."""
-    if name == "hg383838":
+    if name == "hg38":
         if view_type == "CGV":
             return hg38_cgv
         else:
