@@ -137,3 +137,5 @@ bin
 lib64
 pyvenv.cfg
 node_modules
+etc
+share
