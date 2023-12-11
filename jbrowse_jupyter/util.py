@@ -7,463 +7,436 @@ from urllib.parse import urlparse
 
 
 hg38_lgv = {
-  "assembly": {
-    "name": "GRCh38",
-    "sequence": {
-      "type": "ReferenceSequenceTrack",
-      "trackId": "GRCh38-ReferenceSequenceTrack",
-      "adapter": {
-        "type": "BgzipFastaAdapter",
-        "fastaLocation": {
-          "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz"
+    "assembly": {
+        "name": "GRCh38",
+        "sequence": {
+            "type": "ReferenceSequenceTrack",
+            "trackId": "GRCh38-ReferenceSequenceTrack",
+            "adapter": {
+                "type": "BgzipFastaAdapter",
+                "fastaLocation": {
+                    "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz"
+                },
+                "faiLocation": {
+                    "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz.fai"
+                },
+                "gziLocation": {
+                    "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz.gzi"
+                },
+            },
         },
-        "faiLocation": {
-          "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz.fai"
-        },
-        "gziLocation": {
-          "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz.gzi"
-        },
-      },
-    },
-    "aliases": ["hg38"],
-    "refNameAliases": {
-      "adapter": {
-        "type": "RefNameAliasAdapter",
-        "location": {
-          "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/hg38_aliases.txt"
-        },
-      }
-    },
-  },
-  "tracks": [
-    {
-      "type": "FeatureTrack",
-      "trackId": "ncbi_refseq_109_hg38",
-      "name": "NCBI RefSeq (GFF3Tabix)",
-      "assemblyNames": ["GRCh38"],
-      "category": ["Annotation"],
-      "adapter": {
-        "type": "Gff3TabixAdapter",
-        "gffGzLocation": {
-          "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/ncbi_refseq/GCA_000001405.15_GRCh38_full_analysis_set.refseq_annotation.sorted.gff.gz"
-        },
-        "index": {
-          "location": {
-            "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/ncbi_refseq/GCA_000001405.15_GRCh38_full_analysis_set.refseq_annotation.sorted.gff.gz.tbi"
-          }
-        },
-      },
-    }
-  ],
-  "location": "10:29,838,737..29,838,819",
-  "defaultSession": {
-    "name": "My session",
-    "view": {
-      "id": "linearGenomeView",
-      "type": "LinearGenomeView",
-      "tracks": [
-        {
-          "type": "ReferenceSequenceTrack",
-          "configuration": "GRCh38-ReferenceSequenceTrack",
-          "displays": [
-            {
-              "type": "LinearReferenceSequenceDisplay",
-              "configuration": "GRCh38-ReferenceSequenceTrack-LinearReferenceSequenceDisplay",
+        "aliases": ["hg38"],
+        "refNameAliases": {
+            "adapter": {
+                "type": "RefNameAliasAdapter",
+                "location": {
+                    "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/hg38_aliases.txt"
+                },
             }
-          ],
-        }
-      ],
+        },
     },
-  },
+    "tracks": [
+        {
+            "type": "FeatureTrack",
+            "trackId": "ncbi_refseq_109_hg38",
+            "name": "NCBI RefSeq (GFF3Tabix)",
+            "assemblyNames": ["GRCh38"],
+            "category": ["Annotation"],
+            "adapter": {
+                "type": "Gff3TabixAdapter",
+                "gffGzLocation": {
+                    "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/ncbi_refseq/GCA_000001405.15_GRCh38_full_analysis_set.refseq_annotation.sorted.gff.gz"
+                },
+                "index": {
+                    "location": {
+                        "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/ncbi_refseq/GCA_000001405.15_GRCh38_full_analysis_set.refseq_annotation.sorted.gff.gz.tbi"
+                    }
+                },
+            },
+        }
+    ],
+    "location": "10:29,838,737..29,838,819",
+    "defaultSession": {
+        "name": "My session",
+        "view": {
+            "id": "linearGenomeView",
+            "type": "LinearGenomeView",
+            "tracks": [
+                {
+                    "type": "ReferenceSequenceTrack",
+                    "configuration": "GRCh38-ReferenceSequenceTrack",
+                    "displays": [
+                        {
+                            "type": "LinearReferenceSequenceDisplay",
+                            "configuration": "GRCh38-ReferenceSequenceTrack-LinearReferenceSequenceDisplay",
+                        }
+                    ],
+                }
+            ],
+        },
+    },
 }
 
 
 hg38_cgv = {
-  "assembly": {
-    "name": "hg38",
-    "sequence": {
-      "type": "ReferenceSequenceTrack",
-      "trackId": "GRCh38-ReferenceSequenceTrack",
-      "adapter": {
-        "type": "BgzipFastaAdapter",
-        "fastaLocation": {
-          "uri": "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz",
-          "locationType": "UriLocation",
+    "assembly": {
+        "name": "hg38",
+        "sequence": {
+            "type": "ReferenceSequenceTrack",
+            "trackId": "GRCh38-ReferenceSequenceTrack",
+            "adapter": {
+                "type": "BgzipFastaAdapter",
+                "fastaLocation": {
+                    "uri": "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz",
+                    "locationType": "UriLocation",
+                },
+                "faiLocation": {
+                    "uri": "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz.fai",
+                    "locationType": "UriLocation",
+                },
+                "gziLocation": {
+                    "uri": "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz.gzi",
+                    "locationType": "UriLocation",
+                },
+            },
         },
-        "faiLocation": {
-          "uri": "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz.fai",
-          "locationType": "UriLocation",
+        "aliases": ["GRCh38"],
+        "refNameAliases": {
+            "adapter": {
+                "type": "RefNameAliasAdapter",
+                "location": {
+                    "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/hg38_aliases.txt",
+                    "locationType": "UriLocation",
+                },
+            }
         },
-        "gziLocation": {
-          "uri": "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz.gzi",
-          "locationType": "UriLocation",
-        },
-      },
     },
-    "aliases": ["GRCh38"],
-    "refNameAliases": {
-      "adapter": {
-        "type": "RefNameAliasAdapter",
-        "location": {
-          "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/hg38_aliases.txt",
-          "locationType": "UriLocation",
+    "tracks": [],
+    "defaultSession": {
+        "name": "My session",
+        "view": {
+            "id": "circularView",
+            "type": "CircularView",
+            "bpPerPx": 5000000,
+            "tracks": [],
         },
-      }
     },
-  },
-  "defaultSession": {
-    "name": "My session",
-    "view": {
-      "id": "circularView",
-      "type": "CircularView",
-      "bpPerPx": 5000000,
-      "tracks": [],
-    },
-  },
 }
 
 hg19_lgv = {
-  "assembly": {
-    "name": "hg19",
-    "aliases": ["GRCh37"],
-    "sequence": {
-      "type": "ReferenceSequenceTrack",
-      "trackId": "hg19-ReferenceSequenceTrack",
-      "adapter": {
-        "type": "BgzipFastaAdapter",
-        "fastaLocation": {"uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz"},
-        "faiLocation": {"uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.fai"},
-        "gziLocation": {"uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.gzi"},
-      },
-    },
-    "refNameAliases": {
-      "adapter": {
-        "type": "RefNameAliasAdapter",
-        "location": {
-          "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/hg19/hg19_aliases.txt"
+    "assembly": {
+        "name": "hg19",
+        "aliases": ["GRCh37"],
+        "sequence": {
+            "type": "ReferenceSequenceTrack",
+            "trackId": "hg19-ReferenceSequenceTrack",
+            "adapter": {
+                "type": "BgzipFastaAdapter",
+                "fastaLocation": {
+                    "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz"
+                },
+                "faiLocation": {
+                    "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.fai"
+                },
+                "gziLocation": {
+                    "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.gzi"
+                },
+            },
         },
-      }
-    },
-  },
-  "tracks": [
-    {
-      "type": "FeatureTrack",
-      "trackId": "repeats_hg19",
-      "name": "Repeats",
-      "assemblyNames": ["hg19"],
-      "category": ["Annotation"],
-      "adapter": {
-        "type": "BigBedAdapter",
-        "bigBedLocation": {
-          "uri": "https://jbrowse.org/genomes/hg19/repeats.bb",
-          "locationType": "UriLocation",
-        },
-      },
-    }
-  ],
-  "defaultSession": {
-    "name": "test",
-    "view": {
-      "id": "aU9Nqje1U",
-      "type": "LinearGenomeView",
-      "tracks": [
-        {
-          "type": "ReferenceSequenceTrack",
-          "configuration": "hg19-ReferenceSequenceTrack",
-          "displays": [
-            {
-              "type": "LinearReferenceSequenceDisplay",
-              "configuration": "hg19-ReferenceSequenceTrack-LinearReferenceSequenceDisplay",
+        "refNameAliases": {
+            "adapter": {
+                "type": "RefNameAliasAdapter",
+                "location": {
+                    "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/hg19/hg19_aliases.txt"
+                },
             }
-          ],
-        }
-      ],
+        },
     },
-  },
-  "location": "1:68654694..68654738",
+    "tracks": [
+        {
+            "type": "FeatureTrack",
+            "trackId": "repeats_hg19",
+            "name": "Repeats",
+            "assemblyNames": ["hg19"],
+            "category": ["Annotation"],
+            "adapter": {
+                "type": "BigBedAdapter",
+                "bigBedLocation": {
+                    "uri": "https://jbrowse.org/genomes/hg19/repeats.bb",
+                    "locationType": "UriLocation",
+                },
+            },
+        }
+    ],
+    "defaultSession": {
+        "name": "test",
+        "view": {
+            "id": "aU9Nqje1U",
+            "type": "LinearGenomeView",
+            "tracks": [
+                {
+                    "type": "ReferenceSequenceTrack",
+                    "configuration": "hg19-ReferenceSequenceTrack",
+                    "displays": [
+                        {
+                            "type": "LinearReferenceSequenceDisplay",
+                            "configuration": "hg19-ReferenceSequenceTrack-LinearReferenceSequenceDisplay",
+                        }
+                    ],
+                }
+            ],
+        },
+    },
+    "location": "1:68654694..68654738",
 }
 
 hg19_cgv = {
-  "assembly": {
-    "name": "hg19",
-    "aliases": ["GRCh37"],
-    "sequence": {
-      "type": "ReferenceSequenceTrack",
-      "trackId": "Pd8Wh30ei9R",
-      "adapter": {
-        "type": "BgzipFastaAdapter",
-        "fastaLocation": {
-          "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz",
-          "locationType": "UriLocation",
+    "assembly": {
+        "name": "hg19",
+        "aliases": ["GRCh37"],
+        "sequence": {
+            "type": "ReferenceSequenceTrack",
+            "trackId": "Pd8Wh30ei9R",
+            "adapter": {
+                "type": "BgzipFastaAdapter",
+                "fastaLocation": {
+                    "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz",
+                    "locationType": "UriLocation",
+                },
+                "faiLocation": {
+                    "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.fai",
+                    "locationType": "UriLocation",
+                },
+                "gziLocation": {
+                    "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.gzi",
+                    "locationType": "UriLocation",
+                },
+            },
         },
-        "faiLocation": {
-          "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.fai",
-          "locationType": "UriLocation",
-        },
-        "gziLocation": {
-          "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.gzi",
-          "locationType": "UriLocation",
-        },
-      },
-    },
-    "refNameAliases": {
-      "adapter": {
-        "type": "RefNameAliasAdapter",
-        "location": {
-          "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/hg19/hg19_aliases.txt",
-          "locationType": "UriLocation",
-        },
-      }
-    },
-  },
-  "tracks": [
-    {
-      "type": "VariantTrack",
-      "trackId": "pacbio_sv_vcf",
-      "name": "HG002 Pacbio SV (VCF)",
-      "assemblyNames": ["hg19"],
-      "category": ["GIAB"],
-      "adapter": {
-        "type": "VcfTabixAdapter",
-        "vcfGzLocation": {
-          "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/hg19/pacbio/hs37d5.HG002-SequelII-CCS.bnd-only.sv.vcf.gz",
-          "locationType": "UriLocation",
-        },
-        "index": {
-          "location": {
-            "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/hg19/pacbio/hs37d5.HG002-SequelII-CCS.bnd-only.sv.vcf.gz.tbi",
-            "locationType": "UriLocation",
-          }
-        },
-      },
-    }
-  ],
-  "defaultSession": {
-    "name": "My session",
-    "view": {
-      "id": "circularView",
-      "type": "CircularView",
-      "bpPerPx": 5000000,
-      "tracks": [
-        {
-          "id": "uPdLKHik1",
-          "type": "VariantTrack",
-          "configuration": "pacbio_sv_vcf",
-          "displays": [
-            {
-              "id": "v9QVAR3oaB",
-              "type": "ChordVariantDisplay",
-              "configuration": "pacbio_sv_vcf-ChordVariantDisplay",
+        "refNameAliases": {
+            "adapter": {
+                "type": "RefNameAliasAdapter",
+                "location": {
+                    "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/hg19/hg19_aliases.txt",
+                    "locationType": "UriLocation",
+                },
             }
-          ],
-        }
-      ],
+        },
     },
-  },
+    "tracks": [],
+    "defaultSession": {
+        "name": "My session",
+        "view": {
+            "id": "circularView",
+            "type": "CircularView",
+            "bpPerPx": 5000000,
+            "tracks": [],
+        },
+    },
 }
 
 
 def is_url(filePath):
-  """
-  Checks whether or not the file path
-  is a valid url.
-  :param str filePath: file path/url
-  :return: returns true if path matches pattern starting with
-  http:// or https://
-  :rtype: boolean
-  """
-  regex = re.compile(r"^https?:\/\/", re.IGNORECASE)
-  return re.match(regex, filePath) is not None
+    """
+    Checks whether or not the file path
+    is a valid url.
+    :param str filePath: file path/url
+    :return: returns true if path matches pattern starting with
+    http:// or https://
+    :rtype: boolean
+    """
+    regex = re.compile(r"^https?:\/\/", re.IGNORECASE)
+    return re.match(regex, filePath) is not None
 
 
 def guess_file_name(data):
-  """
-  Guess the file name given a path.
+    """
+    Guess the file name given a path.
 
-  :param str data: file path
-  :return: the predicted file name
-  :rtype: str
-  """
-  url = urlparse(data)
-  return os.path.basename(url.path)
+    :param str data: file path
+    :return: the predicted file name
+    :rtype: str
+    """
+    url = urlparse(data)
+    return os.path.basename(url.path)
 
 
 def get_name(assembly_file):
-  """Returns the name of the assembly based on the assembly data file"""
-  name_end = 0
-  name_start = 0
-  for i in range(0, len(assembly_file)):
-    if assembly_file[len(assembly_file) - i - 1 : len(assembly_file) - i] == "/":
-      name_start = len(assembly_file) - i
-      break
-  for i in range(name_start, len(assembly_file)):
-    if assembly_file[i : i + 1] == ".":
-      name_end = i
-      break
+    """Returns the name of the assembly based on the assembly data file"""
+    name_end = 0
+    name_start = 0
+    for i in range(0, len(assembly_file)):
+        if assembly_file[len(assembly_file) - i - 1 : len(assembly_file) - i] == "/":
+            name_start = len(assembly_file) - i
+            break
+    for i in range(name_start, len(assembly_file)):
+        if assembly_file[i : i + 1] == ".":
+            name_end = i
+            break
 
-  return assembly_file[name_start:name_end]
+    return assembly_file[name_start:name_end]
 
 
 def get_name_regex(assembly_file):
-  """Returns the name of the assembly based on the assembly data file"""
-  return re.search(r"(\w+)\.(?:fa|fasta|fa\.gz)$", assembly_file).group(1)
+    """Returns the name of the assembly based on the assembly data file"""
+    return re.search(r"(\w+)\.(?:fa|fasta|fa\.gz)$", assembly_file).group(1)
 
 
 def get_default(name, view_type="LGV"):
-  """Returns the configuration object given a genome name."""
-  if name == "hg383838":
-    if view_type == "CGV":
-      return hg38_cgv
-    else:
-      return hg38_lgv
-  elif name == "hg19":
-    if view_type == "CGV":
-      return hg19_cgv
-    else:
-      return hg19_lgv
+    """Returns the configuration object given a genome name."""
+    if name == "hg383838":
+        if view_type == "CGV":
+            return hg38_cgv
+        else:
+            return hg38_lgv
+    elif name == "hg19":
+        if view_type == "CGV":
+            return hg19_cgv
+        else:
+            return hg19_lgv
 
 
 def create_component(conf, **kwargs):
-  """
-  Creates a Dash JBrowse LinearGenomeView component
-  given a configuration object and optionally an id.
+    """
+    Creates a Dash JBrowse LinearGenomeView component
+    given a configuration object and optionally an id.
 
-  e.g:
+    e.g:
 
-  conf = hg38.get_config()
-  create_component(conf,id="hg38-test", dash_comp="CGV")
-  where hg38 is an instance of JBrowseConfig
+    conf = hg38.get_config()
+    create_component(conf,id="hg38-test", dash_comp="CGV")
+    where hg38 is an instance of JBrowseConfig
 
-  :param obj conf: configuration object from JBrowseConfig
-      instance
-  :param str id: id to use in Dash component
-  :param str dash_comp: (optional) dash component type to
-      create. Currently supporting LGV and CGV.
-      defaults to `LGV` when no dash_comp= is specified
-  :return: Dash JBrowse View given dash_comp type
-  :rtype: Dash JBrowse component
-  """
-  supported = set({"LGV", "CGV"})
-  comp_id = "jbrowse-component"
-  dash_comp = kwargs.get("dash_comp", "LGV")
-  the_view_type = conf["defaultSession"]["view"]["type"]
-  msg = "config was passed but attempting to create"
-  err = "Please specify the correct dash_comp."
-  if the_view_type == "LinearGenomeView" and dash_comp == "CGV":
-    raise TypeError(f"LGV {msg} a CGV.{err}")
-  if the_view_type == "CircularView" and dash_comp == "LGV":
-    raise TypeError(f"CGV {msg} a LGV.{err}")
-  if "id" in kwargs:
-    comp_id = kwargs["id"]
-  if dash_comp in supported:
-    if dash_comp == "LGV":
-      return jb.LinearGenomeView(
-        id=comp_id,
-        assembly=conf["assembly"],
-        tracks=conf["tracks"],
-        defaultSession=conf["defaultSession"],
-        location=conf["location"],
-        configuration=conf["configuration"],
-        aggregateTextSearchAdapters=conf["aggregateTextSearchAdapters"],
-      )
-    # here is where we can add another view
-    if dash_comp == "CGV":
-      return jb.CircularGenomeView(
-        id=comp_id,
-        assembly=conf["assembly"],
-        tracks=conf["tracks"],
-        defaultSession=conf["defaultSession"],
-        configuration=conf["configuration"],
-      )
-  else:
-    raise TypeError(f"The {dash_comp} component is not supported.")
+    :param obj conf: configuration object from JBrowseConfig
+        instance
+    :param str id: id to use in Dash component
+    :param str dash_comp: (optional) dash component type to
+        create. Currently supporting LGV and CGV.
+        defaults to `LGV` when no dash_comp= is specified
+    :return: Dash JBrowse View given dash_comp type
+    :rtype: Dash JBrowse component
+    """
+    supported = set({"LGV", "CGV"})
+    comp_id = "jbrowse-component"
+    dash_comp = kwargs.get("dash_comp", "LGV")
+    the_view_type = conf["defaultSession"]["view"]["type"]
+    msg = "config was passed but attempting to create"
+    err = "Please specify the correct dash_comp."
+    if the_view_type == "LinearGenomeView" and dash_comp == "CGV":
+        raise TypeError(f"LGV {msg} a CGV.{err}")
+    if the_view_type == "CircularView" and dash_comp == "LGV":
+        raise TypeError(f"CGV {msg} a LGV.{err}")
+    if "id" in kwargs:
+        comp_id = kwargs["id"]
+    if dash_comp in supported:
+        if dash_comp == "LGV":
+            return jb.LinearGenomeView(
+                id=comp_id,
+                assembly=conf["assembly"],
+                tracks=conf["tracks"],
+                defaultSession=conf["defaultSession"],
+                location=conf["location"],
+                configuration=conf["configuration"],
+                aggregateTextSearchAdapters=conf["aggregateTextSearchAdapters"],
+            )
+        # here is where we can add another view
+        if dash_comp == "CGV":
+            return jb.CircularGenomeView(
+                id=comp_id,
+                assembly=conf["assembly"],
+                tracks=conf["tracks"],
+                defaultSession=conf["defaultSession"],
+                configuration=conf["configuration"],
+            )
+    else:
+        raise TypeError(f"The {dash_comp} component is not supported.")
 
 
 def launch(conf, **kwargs):
-  """
-  Launches a LinearGenomeView Dash JBrowse component in a
-  server.
+    """
+    Launches a LinearGenomeView Dash JBrowse component in a
+    server.
 
-  e.g
-  launch(conf, dash_comp="CGV",height=400, port=8002)
+    e.g
+    launch(conf, dash_comp="CGV",height=400, port=8002)
 
-  :param obj conf: JBrowseConfiguration object to pass to
-      the Dash JBrowse component
-  :param str id: (optional) id to use for the Dash JBrowse
-      component defaults to `jbrowse-component`
-  :param str dash_comp: (optional) dash component type to
-      launch. Currently supporting LGV and CGV.
-      defaults to `LGV` when no dash_comp= is specified
-  :param int port: (optional) port to utilize when running
-      the Dash app
-  :param int height: (optional) the height to utilize for
-      the Dash app
-  """
-  app = Dash(__name__)
-  # could add other JBrowse view types e.g Circular, Dotplot
-  supported = set({"LGV", "CGV"})
-  dash_comp = kwargs.get("dash_comp", "LGV")
+    :param obj conf: JBrowseConfiguration object to pass to
+        the Dash JBrowse component
+    :param str id: (optional) id to use for the Dash JBrowse
+        component defaults to `jbrowse-component`
+    :param str dash_comp: (optional) dash component type to
+        launch. Currently supporting LGV and CGV.
+        defaults to `LGV` when no dash_comp= is specified
+    :param int port: (optional) port to utilize when running
+        the Dash app
+    :param int height: (optional) the height to utilize for
+        the Dash app
+    """
+    app = Dash(__name__)
+    # could add other JBrowse view types e.g Circular, Dotplot
+    supported = set({"LGV", "CGV"})
+    dash_comp = kwargs.get("dash_comp", "LGV")
 
-  # error for mismatching config and launch type
-  the_view_type = conf["defaultSession"]["view"]["type"]
-  msg = "config was passed but attempting to launch"
-  err = "Please specify the correct dash_comp."
-  if the_view_type == "LinearGenomeView" and dash_comp == "CGV":
-    raise TypeError(f"LGV {msg} a CGV.{err}")
-  if the_view_type == "CircularView" and dash_comp == "LGV":
-    raise TypeError(f"CGV {msg} a LGV.{err}")
-  comp_id = "jbrowse-component"
-  comp_port = 8050
-  comp_host = "127.0.0.1"
-  comp_height = 300
-  comp_mode = "inline"
-  if "id" in kwargs:
-    comp_id = kwargs["id"]
-  if "port" in kwargs:
-    comp_port = kwargs["port"]
-  if "host" in kwargs:
-    comp_host = kwargs["host"]
-  if "height" in kwargs:
-    comp_height = kwargs["height"]
-  if "mode" in kwargs:
-    comp_mode = kwargs["mode"]
+    # error for mismatching config and launch type
+    the_view_type = conf["defaultSession"]["view"]["type"]
+    msg = "config was passed but attempting to launch"
+    err = "Please specify the correct dash_comp."
+    if the_view_type == "LinearGenomeView" and dash_comp == "CGV":
+        raise TypeError(f"LGV {msg} a CGV.{err}")
+    if the_view_type == "CircularView" and dash_comp == "LGV":
+        raise TypeError(f"CGV {msg} a LGV.{err}")
+    comp_id = "jbrowse-component"
+    comp_port = 8050
+    comp_host = "127.0.0.1"
+    comp_height = 300
+    comp_mode = "inline"
+    if "id" in kwargs:
+        comp_id = kwargs["id"]
+    if "port" in kwargs:
+        comp_port = kwargs["port"]
+    if "host" in kwargs:
+        comp_host = kwargs["host"]
+    if "height" in kwargs:
+        comp_height = kwargs["height"]
+    if "mode" in kwargs:
+        comp_mode = kwargs["mode"]
 
-  if dash_comp in supported:
-    if dash_comp == "LGV":
-      # create jupyter dash app layout
-      adapters = conf["aggregateTextSearchAdapters"]
-      app.layout = html.Div(
-        [
-          jb.LinearGenomeView(
-            id=comp_id,
-            assembly=conf["assembly"],
-            tracks=conf["tracks"],
-            defaultSession=conf["defaultSession"],
-            aggregateTextSearchAdapters=adapters,
-            location=conf["location"],
-            configuration=conf["configuration"],
-          )
-        ]
-      )
-    if dash_comp == "CGV":
-      # create jupyter dash app layout
-      app.layout = html.Div(
-        [
-          jb.CircularGenomeView(
-            id=comp_id,
-            assembly=conf["assembly"],
-            tracks=conf["tracks"],
-            defaultSession=conf["defaultSession"],
-            configuration=conf["configuration"],
-          )
-        ]
-      )
-  else:
-    raise TypeError(f"The {dash_comp} component is not supported.")
-  app.run_server(
-    port=comp_port,
-    host=comp_host,
-    height=comp_height,
-    mode=comp_mode,
-    use_reloader=False,
-  )
+    if dash_comp in supported:
+        if dash_comp == "LGV":
+            # create jupyter dash app layout
+            adapters = conf["aggregateTextSearchAdapters"]
+            app.layout = html.Div(
+                [
+                    jb.LinearGenomeView(
+                        id=comp_id,
+                        assembly=conf["assembly"],
+                        tracks=conf["tracks"],
+                        defaultSession=conf["defaultSession"],
+                        aggregateTextSearchAdapters=adapters,
+                        location=conf["location"],
+                        configuration=conf["configuration"],
+                    )
+                ]
+            )
+        if dash_comp == "CGV":
+            # create jupyter dash app layout
+            app.layout = html.Div(
+                [
+                    jb.CircularGenomeView(
+                        id=comp_id,
+                        assembly=conf["assembly"],
+                        tracks=conf["tracks"],
+                        defaultSession=conf["defaultSession"],
+                        configuration=conf["configuration"],
+                    )
+                ]
+            )
+    else:
+        raise TypeError(f"The {dash_comp} component is not supported.")
+    app.run_server(
+        port=comp_port,
+        host=comp_host,
+        height=comp_height,
+        mode=comp_mode,
+        use_reloader=False,
+    )

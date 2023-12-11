@@ -22,14 +22,16 @@ assembly_data = "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz"
 ix = "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/trix/hg38.ix"
 ixx = "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/trix/hg38.ixx"
 meta = "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/trix/meta.json"
-jbrowse_conf.set_assembly(assembly_data,
-                          aliases=aliases,
-                          refname_aliases=ref_name_aliases)
+jbrowse_conf.set_assembly(
+    assembly_data, aliases=aliases, refname_aliases=ref_name_aliases
+)
 
 # add a track
-track_data = "https://s3.amazonaws.com/jbrowse.org/genomes/" \
-              "GRCh38/ncbi_refseq/GCA_000001405.15_GRCh38_full" \
-              "_analysis_set.refseq_annotation.sorted.gff.gz"
+track_data = (
+    "https://s3.amazonaws.com/jbrowse.org/genomes/"
+    "GRCh38/ncbi_refseq/GCA_000001405.15_GRCh38_full"
+    "_analysis_set.refseq_annotation.sorted.gff.gz"
+)
 jbrowse_conf.add_track(track_data, name="test-demo", track_id="test-track")
 # deleting a track
 jbrowse_conf.add_track(track_data, name="delete", track_id="test-delete-track")
@@ -50,10 +52,7 @@ jbrowse_conf.set_default_session(["test-track"])
 component = create_component(config)
 
 # launch the component
-app.layout = html.Div(
-    [component],
-    id='test'
-)
+app.layout = html.Div([component], id="test")
 
 if __name__ == "__main__":
     app.run_server(port=3001, debug=True)
