@@ -1,5 +1,4 @@
 dash>=2.11.1
 dash-jbrowse>=1.2.0
-Werkzeug==2.0.3
 pandas>=1.1.5
 IPython>=7.0.0

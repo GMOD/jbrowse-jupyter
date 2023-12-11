@@ -41,9 +41,7 @@ def test_set_assembly():
         conf.get_assembly_name()
     assert myError in str(excinfo)
     # raises an error if you try to add a track before an assembly is set
-    data = "https://s3.amazonaws.com/jbrowse.org/genomes/" \
-        "GRCh38/ncbi_refseq/GCA_000001405.15_GRCh38_full_" \
-        "analysis_set.refseq_annotation.sorted.gff.gz"
+    data = "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/ncbi_refseq/GCA_000001405.15_GRCh38_full_analysis_set.refseq_annotation.sorted.gff.gz"
     with pytest.raises(Exception) as excinfo:
         conf.add_track(
             data,
@@ -53,15 +51,16 @@ def test_set_assembly():
     # raises an error, there is no local path support in non jupyter envs
     with pytest.raises(TypeError) as excinfo:
         conf.set_assembly("/hi/there")
-    err = (f'Path {"/hi/there"} for assembly data is used'
-           ' in an unsupported environment.'
-           'Paths are supported in Jupyter notebooks and Jupyter lab.'
-           'Please use a url for your assembly data. You can check out '
-           'our local file support docs for more information')
+    err = (
+        f'Path {"/hi/there"} for assembly data is used'
+        ' in an unsupported environment.'
+        'Paths are supported in Jupyter notebooks and Jupyter lab.'
+        'Please use a url for your assembly data. You can check out '
+        'our local file support docs for more information'
+    )
     assert err == excinfo.value.args[0]
     aliases = ["hg38"]
-    uri = "https://s3.amazonaws.com/jbrowse.org/genomes/" \
-        "GRCh38/hg38_aliases.txt"
+    uri = "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/hg38_aliases.txt"
     ref_name_aliases = {
         "adapter": {
             "type": "RefNameAliasAdapter",
@@ -84,39 +83,34 @@ def test_set_assembly():
         )
     assert err in str(excinfo)
     assert conf.get_assembly_name() == "hg38"
-    track_data = "https://s3.amazonaws.com/jbrowse.org/" \
-        "genomes/GRCh38/ncbi_refseq/GCA_000001405.15_" \
+    track_data = (
+        "https://s3.amazonaws.com/jbrowse.org/"
+        "genomes/GRCh38/ncbi_refseq/GCA_000001405.15_"
         "GRCh38_full_analysis_set.refseq_annotation.sorted.gff.gz"
+    )
     conf.add_track(
         track_data,
         name="test-demo",
     )
     assert len(conf.get_tracks()) == 1
 
-    alias_uri = "https://s3.amazonaws.com/jbrowse.org/genomes" \
-        "/hg19/hg19_aliases.txt"
+    alias_uri = "https://s3.amazonaws.com/jbrowse.org/genomes/hg19/hg19_aliases.txt"
     ref_name = {
-        "adapter": {
-            "type": "RefNameAliasAdapter",
-            "location": {
-                "uri": alias_uri
-            }
-        }
+        "adapter": {"type": "RefNameAliasAdapter", "location": {"uri": alias_uri}}
     }
-    aliases = [
-        "GRCh37"
-    ]
+    aliases = ["GRCh37"]
 
     a_data = "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz"
-    conf.set_assembly(a_data, aliases=aliases,
-                      refname_aliases=ref_name, overwrite=True)
-    assert conf.get_assembly_name() == 'hg19'
+    conf.set_assembly(a_data, aliases=aliases, refname_aliases=ref_name, overwrite=True)
+    assert conf.get_assembly_name() == "hg19"
 
 
 def test_create_view():
     "tests creating a view from one of the provided genomes"
-    genome_error = '"volvox" is not a valid default genome to view.' \
-        'Choose from hg19 or hg38 or pass your own conf.'
+    genome_error = (
+        '"volvox" is not a valid default genome to view.'
+        "Choose from hg19 or hg38 or pass your own conf."
+    )
     with pytest.raises(TypeError) as excinfo:
         create("LGV", genome="volvox")
     assert genome_error in str(excinfo)
@@ -124,10 +118,10 @@ def test_create_view():
     hg19 = create("LGV", genome="hg19")
     hg38 = create("LGV", genome="hg38")
     assert hg19.get_assembly_name() == "hg19"
-    assert len(hg19.get_tracks()) > 0
+    assert len(hg19.get_tracks()) == 0
     assert hg19.get_default_session()
-    assert hg38.get_assembly_name() == "GRCh38"
-    assert len(hg38.get_tracks()) > 0
+    assert hg38.get_assembly_name() == "hg38"
+    assert len(hg38.get_tracks()) == 0
     assert hg38.get_default_session()
 
 
@@ -169,23 +163,15 @@ def test_create_view_from_conf():
                 "trackId": "hg19-ReferenceSequenceTrack",
                 "adapter": {
                     "type": "BgzipFastaAdapter",
-                    "fastaLocation": {
-                        "uri": fasta_loc
-                    },
-                    "faiLocation": {
-                        "uri": fai_loc
-                    },
-                    "gziLocation": {
-                        "uri": gz_loc
-                    },
+                    "fastaLocation": {"uri": fasta_loc},
+                    "faiLocation": {"uri": fai_loc},
+                    "gziLocation": {"uri": gz_loc},
                 },
             },
             "refNameAliases": {
                 "adapter": {
                     "type": "RefNameAliasAdapter",
-                    "location": {
-                        "uri": rloc
-                    },
+                    "location": {"uri": rloc},
                 }
             },
         },
@@ -195,7 +181,7 @@ def test_create_view_from_conf():
     # can add track
     assert len(hg19_from_config.get_tracks()) == 0
     bigwig = "https://jbrowse.org/genomes/hg19/COLO829/colo_normal.bw"
-    hg19_from_config.add_track(bigwig, name="example", track_id='delete-test')
+    hg19_from_config.add_track(bigwig, name="example", track_id="delete-test")
     assert len(hg19_from_config.get_tracks()) == 1
     # can set default session
     hg19_from_config.set_default_session(["example"])
@@ -208,8 +194,10 @@ def test_create_view_from_conf():
     adapter_list = hg19_from_config.get_text_search_adapters()
     assert len(adapter_list) == 1
 
-    same_adapter = "Adapter already exists for given adapterId: " \
+    same_adapter = (
+        "Adapter already exists for given adapterId: "
         "hg19-hg19.ix-index.Provide a different adapter_id"
+    )
     with pytest.raises(Exception) as excinfo:
         hg19_from_config.add_text_search_adapter(ix, ixx, meta)
     assert same_adapter in str(excinfo)
@@ -222,8 +210,9 @@ def test_empty_config_lgv():
     # === empty config ===
     empty_conf = create("LGV")
     assert empty_conf.get_config()
-    assembly_error = "Can not get assembly name. " \
-        "Please configure the assembly first."
+    assembly_error = (
+        "Can not get assembly name. " "Please configure the assembly first."
+    )
     with pytest.raises(Exception) as excinfo:
         empty_conf.get_assembly_name()
     assert assembly_error in str(excinfo)
@@ -236,8 +225,9 @@ def test_empty_cgv():
     # === empty config ===
     empty_conf = create("CGV")
     assert empty_conf.get_config()
-    assembly_error = "Can not get assembly name. " \
-        "Please configure the assembly first."
+    assembly_error = (
+        "Can not get assembly name. " "Please configure the assembly first."
+    )
     with pytest.raises(Exception) as excinfo:
         empty_conf.get_assembly_name()
     assert assembly_error in str(excinfo)
@@ -245,8 +235,10 @@ def test_empty_cgv():
 
 def test_create_view_cgv():
     "tests creating a view from one of the provided genomes"
-    genome_error = '"volvox" is not a valid default genome to view.' \
-        'Choose from hg19 or hg38 or pass your own conf.'
+    genome_error = (
+        '"volvox" is not a valid default genome to view.'
+        "Choose from hg19 or hg38 or pass your own conf."
+    )
     with pytest.raises(TypeError) as excinfo:
         create("CGV", genome="volvox")
     assert genome_error in str(excinfo)
@@ -256,7 +248,7 @@ def test_create_view_cgv():
     in_colab = hg19.colab
     assert not in_colab
     assert hg19.get_assembly_name() == "hg19"
-    assert len(hg19.get_tracks()) > 0
+    assert len(hg19.get_tracks()) == 0
     assert hg19.get_default_session()
     assert hg38.get_assembly_name() == "hg38"
     # hg38 for cgv does not have tracks

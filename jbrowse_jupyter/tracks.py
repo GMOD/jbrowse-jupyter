@@ -74,7 +74,8 @@ def guess_display_type(track_type, view="LGV"):
     else:
         if view == "CGV":
             return "ChordVariantDisplay"
-        return "LinearBasicDisplay"
+        else:
+            return "LinearBasicDisplay"
 
 
 def guess_track_type(adapter_type):

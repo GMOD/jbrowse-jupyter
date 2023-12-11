@@ -1,11 +1,122 @@
 import re
+import copy
 import os
-import json
-import importlib
 
 import dash_jbrowse as jb
 from dash import html, Dash
 from urllib.parse import urlparse
+
+hg38_assembly = {
+    "name": "hg38",
+    "sequence": {
+        "type": "ReferenceSequenceTrack",
+        "trackId": "GRCh38-ReferenceSequenceTrack",
+        "adapter": {
+            "type": "BgzipFastaAdapter",
+            "fastaLocation": {
+                "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz"
+            },
+            "faiLocation": {
+                "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz.fai"
+            },
+            "gziLocation": {
+                "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz.gzi"
+            },
+        },
+    },
+    "aliases": ["GRCh38"],
+    "refNameAliases": {
+        "adapter": {
+            "type": "RefNameAliasAdapter",
+            "location": {
+                "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/hg38_aliases.txt"
+            },
+        }
+    },
+}
+hg38_lgv = {
+    "assembly": hg38_assembly,
+    "tracks": [],
+    "location": "10:29,838,737..29,838,819",
+    "defaultSession": {
+        "name": "My session",
+        "view": {
+            "id": "linearGenomeView",
+            "type": "LinearGenomeView",
+            "tracks": [],
+        },
+    },
+}
+
+
+hg38_cgv = {
+    "assembly": hg38_assembly,
+    "tracks": [],
+    "defaultSession": {
+        "name": "My session",
+        "view": {
+            "id": "circularView",
+            "type": "CircularView",
+            "bpPerPx": 5000000,
+            "tracks": [],
+        },
+    },
+}
+hg19_assembly = {
+    "name": "hg19",
+    "aliases": ["GRCh37"],
+    "sequence": {
+        "type": "ReferenceSequenceTrack",
+        "trackId": "hg19-ReferenceSequenceTrack",
+        "adapter": {
+            "type": "BgzipFastaAdapter",
+            "fastaLocation": {
+                "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz"
+            },
+            "faiLocation": {
+                "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.fai"
+            },
+            "gziLocation": {
+                "uri": "https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.gzi"
+            },
+        },
+    },
+    "refNameAliases": {
+        "adapter": {
+            "type": "RefNameAliasAdapter",
+            "location": {
+                "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/hg19/hg19_aliases.txt"
+            },
+        }
+    },
+}
+hg19_lgv = {
+    "assembly": hg19_assembly,
+    "tracks": [],
+    "defaultSession": {
+        "name": "test",
+        "view": {
+            "id": "aU9Nqje1U",
+            "type": "LinearGenomeView",
+            "tracks": [],
+        },
+    },
+    "location": "1:68654694..68654738",
+}
+
+hg19_cgv = {
+    "assembly": hg19_assembly,
+    "tracks": [],
+    "defaultSession": {
+        "name": "My session",
+        "view": {
+            "id": "circularView",
+            "type": "CircularView",
+            "bpPerPx": 5000000,
+            "tracks": [],
+        },
+    },
+}
 
 
 def is_url(filePath):
@@ -38,11 +149,11 @@ def get_name(assembly_file):
     name_end = 0
     name_start = 0
     for i in range(0, len(assembly_file)):
-        if assembly_file[len(assembly_file) - i - 1 : len(assembly_file) - i] == "/":
+        if assembly_file[len(assembly_file) - i - 1: len(assembly_file) - i] == "/":
             name_start = len(assembly_file) - i
             break
     for i in range(name_start, len(assembly_file)):
-        if assembly_file[i : i + 1] == ".":
+        if assembly_file[i: i + 1] == ".":
             name_end = i
             break
 
@@ -56,16 +167,16 @@ def get_name_regex(assembly_file):
 
 def get_default(name, view_type="LGV"):
     """Returns the configuration object given a genome name."""
-    if view_type == "CGV":
-        with importlib.resources.open_text(
-            "jbrowse_jupyter.data", f"{name}_cgv.json"
-        ) as file:
-            return json.load(file)
-    else:
-        with importlib.resources.open_text(
-            "jbrowse_jupyter.data", f"{name}.json"
-        ) as file:
-            return json.load(file)
+    if name == "hg38":
+        if view_type == "CGV":
+            return copy.deepcopy(hg38_cgv)
+        else:
+            return copy.deepcopy(hg38_lgv)
+    elif name == "hg19":
+        if view_type == "CGV":
+            return copy.deepcopy(hg19_cgv)
+        else:
+            return copy.deepcopy(hg19_lgv)
 
 
 def create_component(conf, **kwargs):
