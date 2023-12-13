@@ -491,7 +491,7 @@ def check_columns(df):
         "value": "score"
     }
     # assigns arbitrary name to name column if it doesn't exist for a feature track from df
-    if not 'name' in df:
+    if 'name' not in df:
         df['name'] = 'feature' + df.index.astype(str)
     df.rename(mapper=mapper, axis=1, inplace=True)
     return all(col in df for col in required)
