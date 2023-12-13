@@ -1,6 +1,8 @@
 import re
 import uuid
 import pandas as pd
+import numpy as np
+import numbers
 
 
 def make_location(location, protocol, **kwargs):
@@ -459,16 +461,17 @@ def check_track_data(df):
         raise TypeError("DataFrame must not be empty.")
 
     if not check_columns(df):
-        raise TypeError("DataFrame must contain all required columns.")
+        raise TypeError("DataFrame must contain all required columns (refName, start, end, name).")
 
     ref_names = df.dtypes["refName"]
     names = df.dtypes["name"]
     start = df.dtypes["start"]
     end = df.dtypes["end"]
     correct_string = ref_names == object and names == object
-    correct_numbers = start == int and end == int
+    # allows uints and ints
+    correct_numbers = np.issubdtype(start, np.integer) and np.issubdtype(end, np.integer)
     if not (correct_numbers and correct_string):
-        col_err = "One or more columns do not have the correct data type."
+        col_err = "One or more columns do not have the correct data type (int)."
         raise TypeError(col_err)
 
 
@@ -482,6 +485,15 @@ def check_columns(df):
     :rtype: boolean
     """
     required = ["refName", "start", "end", "name"]
+    # accomodates for a dataframe created from a bigwig file without requiring the user to mutate their columns
+    mapper = {
+        "chrom": "refName",
+        "value": "score"
+    }
+    # assigns arbitrary name to name column if it doesn't exist for a feature track from df
+    if not 'name' in df:
+        df['name'] = 'feature' + df.index.astype(str)
+    df.rename(mapper=mapper, axis=1, inplace=True)
     return all(col in df for col in required)
 
 
@@ -517,8 +529,9 @@ def get_track_data(df):
     df["additional"] = ""
     if "score" in df:
         required.append("score")
-        if df.dtypes["score"] != int:
-            raise TypeError("Score column must be an integer")
+        # if df.dtypes["score"] != int:
+        if isinstance(df.dtypes["score"], numbers.Number):
+            raise TypeError("Score column must be a number.")
     filtered = df[required]
     rows = filtered.to_dict("records")
     features = []
