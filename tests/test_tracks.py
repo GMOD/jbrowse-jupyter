@@ -133,7 +133,7 @@ def test_check_track_data():
 
 
 def test_check_columns():
-    column_error = "DataFrame must contain all required columns."
+    column_error = "DataFrame must contain all required columns (refName, start, end, name)."
     invalid_df = {
         "refName": ["1", "1"],
         "end": [780, 101112],
