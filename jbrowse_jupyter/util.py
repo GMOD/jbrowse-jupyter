@@ -316,7 +316,7 @@ def launch(conf, **kwargs):
             )
     else:
         raise TypeError(f"The {dash_comp} component is not supported.")
-    app.run_server(
+    app.run(
         port=comp_port,
         host=comp_host,
         height=comp_height,
