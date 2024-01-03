@@ -1,0 +1,38 @@
+release:
+  title-prefix: 'v'
+  title-postfix: ''
+  body-title: ''
+  body-when-empty-changes: 'No changes'
+  initial-version: '1.5.9'
+  tag-prefix: 'v'
+  tag-postfix: ''
+branch:
+  base-branch: 'main'
+  version-branch-prefix: 'v'
+  version-branch-postfix: ''
+  create-major-version-branch: false
+  create-minor-version-branch: true
+  bump-version-commit-prefix: 'v'
+  bump-version-commit-postfix: ''
+categories:
+  - title: ''
+    commits:
+      - 'Upgrading JBrowse version'
+    changes-prefix: 'Automatic JBrowse dependency upgrade: '
+bump:
+  default: 'minor'
+  major:
+    labels:
+      - 'major'
+    commits:
+      - 'major:'
+  minor:
+    labels:
+      - 'minor'
+    commits:
+      - 'minor: JBrowse version bump'
+  patch:
+    labels:
+      - 'patch'
+    commits:
+      - 'patch:'

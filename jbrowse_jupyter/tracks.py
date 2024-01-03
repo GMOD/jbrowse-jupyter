@@ -529,7 +529,6 @@ def get_track_data(df):
     df["additional"] = ""
     if "score" in df:
         required.append("score")
-        # if df.dtypes["score"] != int:
         if isinstance(df.dtypes["score"], numbers.Number):
             raise TypeError("Score column must be a number.")
     filtered = df[required]
