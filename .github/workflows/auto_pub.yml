@@ -1,0 +1,30 @@
+name: Receive dispatch (publish)
+
+on:
+  repository_dispatch:
+    types:
+      - auto_publish
+
+jobs:
+  upgrade: # upgrades package files with new JBrowse version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Upgrade dash_jbrowse version
+        uses: actions/checkout@v4
+      - run: |
+          sed -i 's|.*dash-jbrowse.*|    "dash-jbrowse>=${{github.event.client_payload.version}}",|' requirements.txt
+      - name: Commit and push changes
+        run : |
+          git config --global user.name "cmdcolin"
+          git config --global user.email "colin.diesh@gmail.com"
+          git add -A
+          git commit -m "Upgrading dash_jbrowse version"
+          git push
+      - name: Bump version
+        uses: MeilCli/bump-release-action@v1
+        with:
+          config_path: '.github/bump.yml'
+          bump: 'patch'
+  release:
+    needs: upgrade
+    uses: ./.github/workflows/release.yml
