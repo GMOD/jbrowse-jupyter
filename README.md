@@ -1,3 +1,16 @@
+> [!IMPORTANT]
+> **This project is deprecated and no longer maintained. Use
+> [jbrowse-anywidget](https://github.com/GMOD/jbrowse-anywidget) instead.**
+>
+> `jbrowse-anywidget` replaces the Dash-based stack here (and
+> [dash_jbrowse](https://github.com/GMOD/dash_jbrowse)) with an
+> [anywidget](https://anywidget.dev): no Dash server to run, one bundle that
+> renders in Jupyter, JupyterLab, VS Code, Colab, and marimo, and two-way sync
+> of the visible region between Python and the view.
+>
+> This repo stays online read-only so the links in
+> [the paper](https://doi.org/10.1093/bioinformatics/btad032) keep resolving.
+
 [![Build Status](https://img.shields.io/github/actions/workflow/status/GMOD/jbrowse-jupyter/push.yml?branch=main&logo=github)](https://github.com/GMOD/jbrowse-jupyter/actions)
 [![Downloads](https://pepy.tech/badge/jbrowse-jupyter)](https://pepy.tech/project/jbrowse-jupyter)
 
